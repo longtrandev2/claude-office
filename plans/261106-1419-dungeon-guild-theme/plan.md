@@ -64,3 +64,9 @@ Upstream weaknesses: mixed AI-generated sprites (inconsistent style/palette), ca
 - Proper walls: 0x72 high/low autotiles, floor variation, room composed in zones (war table center, class stations, quest board wall, portal).
 - UI chrome: parchment/stone 9-slice panels for bubbles, sidebar, modals in dungeon theme.
 - **Gate**: P4 starts with a static mockup scene (screenshot) approved by user before mass implementation.
+
+## Anti-slop rules (user requirement 2026-11-06 — MUST follow)
+- Every visual/animation/monster maps to a real event signal or clear purpose; nothing random/decorative-only.
+- Single art family (0x72 + compatible CC0 packs), one palette; AI-generated fill only as last resort, palette-snapped + reviewed.
+- In-canvas icons = pack pixel sprites, never emoji. No gradient/glow overload, no filler flavor text.
+- Hard caps: ≤1 monster per agent, ≤6 monsters per room, particles pooled + capped; reduced-motion respected.
