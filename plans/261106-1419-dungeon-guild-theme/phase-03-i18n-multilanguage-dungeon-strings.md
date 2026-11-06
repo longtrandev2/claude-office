@@ -4,7 +4,7 @@
 - [plan.md](plan.md) · `frontend/src/i18n/{index,en,es,pt-BR}.ts` · `frontend/src/constants/quotes.ts` · `backend/app/core/quotes.py`
 
 ## Overview
-- Priority: P1 · Status: pending
+- Priority: P1 · Status: done 2026-11-06
 - Add `vi` locale (full UI). Add dungeon-theme string set (class names, titles, prop labels, quest board, quotes) in **en, es, pt-BR, vi**.
 
 ## Key Insights
@@ -32,11 +32,12 @@
 5. Add vi to language selector.
 
 ## Todo List
-- [ ] Quote source traced
-- [ ] vi.ts full parity
-- [ ] Dungeon strings × 4 locales
-- [ ] Themed quotes × 4 locales
-- [ ] Selector updated, typecheck green
+- [x] Quote source traced (frontend `constants/quotes.ts` + boss lines in `agentMachineCommon.ts`; backend `quotes.py` on STOP)
+- [x] vi.ts full parity (typed `Record<TranslationKey,string>`)
+- [x] Dungeon wording in existing keys × 4 locales (35 keys: boss→Guild Master, floors→levels, elevator→portal, desk→station…)
+- [x] Quotes × 4 locales in `src/i18n/quotes/*` (14 accept, 14 complete, 10 farewell, 3+3 Guild Master lines); ~300 office lines cut
+- [x] Selector shows Tiếng Việt automatically; typecheck/lint green, 161 tests
+- Known gap: backend STOP line + AI summaries stay English (backend not locale-aware).
 
 ## Success Criteria
 - Switching language × theme (4×2) shows no raw keys; typecheck enforces parity.

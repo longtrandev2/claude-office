@@ -2,8 +2,8 @@ import type { TranslationKey } from "./en";
 
 const es: Record<TranslationKey, string> = {
   // App
-  "app.title": "Visualizador de Oficina",
-  "app.initializingSystems": "Inicializando sistemas...",
+  "app.title": "AgentDungeon",
+  "app.initializingSystems": "Encendiendo las antorchas...",
 
   // Header Controls
   "header.simulate": "SIMULAR",
@@ -26,20 +26,20 @@ const es: Record<TranslationKey, string> = {
   "help.tour": "Hacer el tour",
 
   // Command Center
-  "commandCenter.title": "Centro de Mando",
+  "commandCenter.title": "Sala del Gremio",
   "commandCenter.zone.needsYou": "Te necesita",
   "commandCenter.zone.working": "Trabajando",
   "commandCenter.zone.done": "Hecho",
   "commandCenter.zone.ended": "Finalizado",
   "commandCenter.moreCount": "+{count} más",
   "commandCenter.popup.todos": "Tareas",
-  "commandCenter.popup.employees": "Empleados",
+  "commandCenter.popup.employees": "Aventureros",
   "commandCenter.popup.terminal": "Terminal",
   "commandCenter.popup.drillIn": "Abrir",
-  "commandCenter.initializing": "Inicializando Centro de Mando...",
+  "commandCenter.initializing": "Abriendo la Sala del Gremio...",
   "commandCenter.board.allSessions": "TODAS LAS SESIONES",
   "commandCenter.board.terminals": "Terminales",
-  "commandCenter.board.employees": "Empleados",
+  "commandCenter.board.employees": "Aventureros",
   "commandCenter.board.todos": "Tareas",
 
   // Modals
@@ -73,17 +73,16 @@ const es: Record<TranslationKey, string> = {
   "settings.autoFollow": "Seguir nuevas sesiones automáticamente",
   "settings.autoFollowDesc":
     "Cambiar automáticamente a nuevas sesiones en el proyecto actual",
-  "settings.clockTip":
-    "Consejo: Haz clic en el reloj de la oficina para alternar rápidamente entre modos.",
+  "settings.clockTip": "Consejo: haz clic en el reloj de la sala para cambiar de modo rápidamente.",
   "settings.language": "Idioma",
   "settings.tabs.general": "General",
-  "settings.tabs.building": "Edificio",
-  "settings.building.name": "Nombre del Edificio",
-  "settings.building.namePlaceholder": "Mi Empresa",
-  "settings.building.floors": "Pisos",
-  "settings.building.addFloor": "Agregar Piso",
-  "settings.building.floorName": "Nombre del Piso",
-  "settings.building.floorNumber": "Piso",
+  "settings.tabs.building": "Mazmorra",
+  "settings.building.name": "Nombre de la mazmorra",
+  "settings.building.namePlaceholder": "Las Salas Profundas",
+  "settings.building.floors": "Niveles",
+  "settings.building.addFloor": "Añadir nivel",
+  "settings.building.floorName": "Nombre del nivel",
+  "settings.building.floorNumber": "Nivel",
   "settings.building.accentColor": "Color",
   "settings.building.icon": "Icono",
   "settings.building.repos": "Carpetas de proyectos",
@@ -92,11 +91,9 @@ const es: Record<TranslationKey, string> = {
   "settings.building.saving": "Guardando...",
   "settings.building.saved": "¡Guardado!",
   "settings.building.deleteFloor": "Eliminar",
-  "settings.building.noFloors": "No hay pisos configurados",
-  "settings.building.enableHint":
-    "Agrega pisos y mapea nombres de carpetas de proyectos para habilitar la vista de edificio",
-  "settings.building.unsavedWarning":
-    "Tienes cambios sin guardar en el edificio. ¿Descartarlos?",
+  "settings.building.noFloors": "No hay niveles configurados",
+  "settings.building.enableHint": "Añade niveles y asigna nombres de carpetas de proyecto para activar el mapa de la mazmorra",
+  "settings.building.unsavedWarning": "Tienes cambios de la mazmorra sin guardar. ¿Descartarlos?",
   "settings.building.saveFailed": "Error al guardar: {status} {statusText}",
   "settings.building.saveUnreachable":
     "No se puede conectar con el servidor — ¿está en ejecución?",
@@ -126,13 +123,13 @@ const es: Record<TranslationKey, string> = {
   "eventLog.waiting": "Esperando eventos...",
 
   // Agent Status
-  "agentStatus.title": "Estado del agente",
+  "agentStatus.title": "Grupo",
   "agentStatus.agents": "agentes",
   "agentStatus.agents_one": "{count} agente",
   "agentStatus.agents_other": "{count} agentes",
   "agentStatus.noAgents": "Sin agentes",
   "agentStatus.agent": "Agente",
-  "agentStatus.desk": "Escritorio",
+  "agentStatus.desk": "Puesto",
   "agentStatus.noTaskSummary": "Sin resumen de tarea",
   "agentStatus.noRecentToolCall": "Sin llamada de herramienta reciente",
   "agentStatus.inQueue": "En cola de {queueType} (posición {position})",
@@ -186,7 +183,7 @@ const es: Record<TranslationKey, string> = {
     "No hay detalles adicionales disponibles para este evento.",
 
   // Loading Screen
-  "loading.office": "Cargando oficina...",
+  "loading.office": "Entrando en la mazmorra...",
 
   // Zoom Controls
   "zoom.in": "Acercar",
@@ -196,7 +193,7 @@ const es: Record<TranslationKey, string> = {
   // Mobile
   "mobile.menu": "Menú",
   "mobile.agentActivity": "Actividad de agentes",
-  "mobile.boss": "JEFE",
+  "mobile.boss": "MAESTRO",
   "mobile.noActiveAgents": "No hay agentes activos",
 
   // Status Messages
@@ -221,32 +218,26 @@ const es: Record<TranslationKey, string> = {
   "status.autoFollowed": "Siguiendo nueva sesión: {sessionName}",
 
   // Navigation
-  "navigation.building": "Edificio",
+  "navigation.building": "Mazmorra",
 
   // Tour
   "tour.steps.welcome.title": "Bienvenido",
-  "tour.steps.welcome.description":
-    "Este es tu centro de comando. Haz clic en un piso para explorar.",
-  "tour.steps.singleWelcome.title": "Bienvenido a Claude Office",
-  "tour.steps.singleWelcome.description":
-    "Esta oficina en pixel art muestra tus sesiones de Claude Code en tiempo real. Hagamos un recorrido rápido.",
+  "tour.steps.welcome.description": "Esta es la Sala del Gremio. Haz clic en un nivel para explorar.",
+  "tour.steps.singleWelcome.title": "Bienvenido a AgentDungeon",
+  "tour.steps.singleWelcome.description": "Esta mazmorra pixelada muestra tus sesiones de Claude Code en tiempo real. Echemos un vistazo.",
   "tour.steps.simulate.title": "Iniciar Simulación",
-  "tour.steps.simulate.description":
-    "Haz clic en Simular para dar vida a la oficina.",
-  "tour.steps.agentsArrive.title": "Llegan los Agentes",
-  "tour.steps.agentsArrive.description":
-    "Los agentes llegan por el ascensor, caminan a sus escritorios y empiezan a trabajar.",
+  "tour.steps.simulate.description": "Haz clic en Simular para dar vida al gremio.",
+  "tour.steps.agentsArrive.title": "Llegan los aventureros",
+  "tour.steps.agentsArrive.description": "Los aventureros cruzan el portal, caminan a sus puestos y empiezan sus misiones.",
   "tour.steps.inspectAgent.title": "Inspeccionar un Agente",
   "tour.steps.inspectAgent.description":
     "Haz clic en cualquier personaje para inspeccionarlo.",
   "tour.steps.focusPopup.title": "Popup de Enfoque",
-  "tour.steps.focusPopup.description":
-    "Desde aquí puedes copiar un mensaje al portapapeles e ir a tu terminal. La oficina se actualiza en tiempo real mientras Claude trabaja.",
+  "tour.steps.focusPopup.description": "Desde aquí puedes copiar un mensaje al portapapeles y saltar a tu terminal. La mazmorra se actualiza en tiempo real mientras Claude trabaja.",
   "tour.steps.zoomOut.title": "Alejar",
   "tour.steps.zoomOut.description": "Intenta alejar para ver la vista general.",
-  "tour.steps.settings.title": "Configurar Pisos",
-  "tour.steps.settings.description":
-    "Abre Configuración para agregar pisos y mapear carpetas de proyectos para una vista de edificio multi-piso.",
+  "tour.steps.settings.title": "Configurar niveles",
+  "tour.steps.settings.description": "Abre Ajustes para añadir niveles y asignar carpetas de proyecto en una vista de mazmorra de varios niveles.",
   "tour.skip": "Saltar tour",
   "tour.next": "Siguiente",
 
@@ -254,12 +245,12 @@ const es: Record<TranslationKey, string> = {
   "attention.toast.permissionRequest": "{agentName} necesita permiso",
   "attention.toast.error": "{agentName} encontró un error",
   "attention.toast.taskCompleted": "{agentName} completó una tarea",
-  "attention.toast.agentArrived": "{agentName} se unió a la oficina",
+  "attention.toast.agentArrived": "{agentName} entró al gremio",
   "attention.toast.stop": "{agentName} se detuvo",
   "attention.toast.backgroundTask": "{agentName}: {taskDescription}",
   "attention.commandBar.placeholder": "Escribe un comando...",
   "attention.commandBar.focusAgent": "Enfocar Agente: {name}",
-  "attention.commandBar.focusBoss": "Enfocar Terminal del Jefe",
+  "attention.commandBar.focusBoss": "Enfocar terminal del Maestro del Gremio",
   "attention.commandBar.showAttention": "Mostrar Cola de Atención",
   "attention.commandBar.dismissAll": "Descartar Todas las Notificaciones",
   "attention.commandBar.toggleDebug": "Alternar Vista de Depuración",
@@ -273,8 +264,8 @@ const es: Record<TranslationKey, string> = {
   "attention.popup.state": "Estado",
   "attention.popup.task": "Tarea",
   "attention.popup.type": "Tipo",
-  "attention.popup.desk": "Escritorio",
-  "attention.popup.boss": "Jefe",
+  "attention.popup.desk": "Puesto",
+  "attention.popup.boss": "Maestro del Gremio",
   "attention.popup.agent": "Agente",
   "settings.commandBar": "Barra de Comandos (⌘K)",
   "settings.clickToFocus": "Clic para Enfocar",

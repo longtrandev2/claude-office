@@ -14,10 +14,10 @@
 import { createActor } from "xstate";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createAgentMachine } from "@/machines/agentMachine";
+import { getRandomFarewell } from "@/constants/quotes";
 import {
   buildSharedActions,
   defaultAgentContext,
-  getRandomFarewell,
   sharedDelays,
   sharedGuards,
   type AgentMachineActions,
@@ -206,7 +206,7 @@ describe("buildSharedActions", () => {
 
     expect(rec.calls[0]).toMatchObject({
       method: "onShowBossBubble",
-      args: ["Here's your task, Alice!", "clipboard"],
+      args: [expect.stringContaining("Alice"), "clipboard"],
     });
     expect(rec.calls[1]).toMatchObject({
       method: "onShowAgentBubble",
@@ -224,7 +224,7 @@ describe("buildSharedActions", () => {
 
     expect(rec.calls[0]).toMatchObject({
       method: "onShowBossBubble",
-      args: ["Good work, Bob. I'll take that.", "check"],
+      args: [expect.stringContaining("Bob"), "check"],
     });
     expect(rec.calls[1]).toMatchObject({
       method: "onShowAgentBubble",

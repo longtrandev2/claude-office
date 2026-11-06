@@ -1,7 +1,7 @@
 const en = {
   // App
-  "app.title": "Office Visualizer",
-  "app.initializingSystems": "Initializing Systems...",
+  "app.title": "AgentDungeon",
+  "app.initializingSystems": "Lighting the torches...",
 
   // Header Controls
   "header.simulate": "SIMULATE",
@@ -24,20 +24,20 @@ const en = {
   "help.tour": "Take the Tour",
 
   // Command Center
-  "commandCenter.title": "Command Center",
+  "commandCenter.title": "Guild Hall",
   "commandCenter.zone.needsYou": "Needs you",
   "commandCenter.zone.working": "Working",
   "commandCenter.zone.done": "Done",
   "commandCenter.zone.ended": "Ended",
   "commandCenter.moreCount": "+{count} more",
   "commandCenter.popup.todos": "Todos",
-  "commandCenter.popup.employees": "Employees",
+  "commandCenter.popup.employees": "Adventurers",
   "commandCenter.popup.terminal": "Terminal",
   "commandCenter.popup.drillIn": "Open",
-  "commandCenter.initializing": "Initializing Command Center...",
+  "commandCenter.initializing": "Opening the Guild Hall...",
   "commandCenter.board.allSessions": "ALL SESSIONS",
   "commandCenter.board.terminals": "Terminals",
-  "commandCenter.board.employees": "Employees",
+  "commandCenter.board.employees": "Adventurers",
   "commandCenter.board.todos": "Todos",
 
   // Modals
@@ -71,17 +71,16 @@ const en = {
   "settings.autoFollow": "Auto-follow new sessions",
   "settings.autoFollowDesc":
     "Automatically switch to new sessions in the current project",
-  "settings.clockTip":
-    "Tip: Click the clock in the office to quickly cycle between modes.",
+  "settings.clockTip": "Tip: Click the clock in the hall to quickly cycle between modes.",
   "settings.language": "Language",
   "settings.tabs.general": "General",
-  "settings.tabs.building": "Building",
-  "settings.building.name": "Building Name",
-  "settings.building.namePlaceholder": "My Company",
-  "settings.building.floors": "Floors",
-  "settings.building.addFloor": "Add Floor",
-  "settings.building.floorName": "Floor Name",
-  "settings.building.floorNumber": "Floor",
+  "settings.tabs.building": "Dungeon",
+  "settings.building.name": "Dungeon Name",
+  "settings.building.namePlaceholder": "The Deep Halls",
+  "settings.building.floors": "Levels",
+  "settings.building.addFloor": "Add Level",
+  "settings.building.floorName": "Level Name",
+  "settings.building.floorNumber": "Level",
   "settings.building.accentColor": "Accent",
   "settings.building.icon": "Icon",
   "settings.building.repos": "Project folders",
@@ -90,11 +89,9 @@ const en = {
   "settings.building.saving": "Saving...",
   "settings.building.saved": "Saved!",
   "settings.building.deleteFloor": "Remove",
-  "settings.building.noFloors": "No floors configured",
-  "settings.building.enableHint":
-    "Add floors and map project folder names to enable building navigation view",
-  "settings.building.unsavedWarning":
-    "You have unsaved building changes. Discard them?",
+  "settings.building.noFloors": "No levels configured",
+  "settings.building.enableHint": "Add levels and map project folder names to enable the dungeon map view",
+  "settings.building.unsavedWarning": "You have unsaved dungeon changes. Discard them?",
   "settings.building.saveFailed": "Save failed: {status} {statusText}",
   "settings.building.saveUnreachable":
     "Cannot reach backend — is the server running?",
@@ -124,13 +121,13 @@ const en = {
   "eventLog.waiting": "Waiting for events...",
 
   // Agent Status
-  "agentStatus.title": "Agent State",
+  "agentStatus.title": "Party",
   "agentStatus.agents": "agents",
   "agentStatus.agents_one": "{count} agent",
   "agentStatus.agents_other": "{count} agents",
   "agentStatus.noAgents": "No agents",
   "agentStatus.agent": "Agent",
-  "agentStatus.desk": "Desk",
+  "agentStatus.desk": "Station",
   "agentStatus.noTaskSummary": "No task summary",
   "agentStatus.noRecentToolCall": "No recent tool call",
   "agentStatus.inQueue": "In {queueType} queue (position {position})",
@@ -183,7 +180,7 @@ const en = {
   "eventDetail.noDetail": "No additional detail available for this event.",
 
   // Loading Screen
-  "loading.office": "Loading office...",
+  "loading.office": "Entering the dungeon...",
 
   // Zoom Controls
   "zoom.in": "Zoom in",
@@ -193,7 +190,7 @@ const en = {
   // Mobile
   "mobile.menu": "Menu",
   "mobile.agentActivity": "Agent Activity",
-  "mobile.boss": "BOSS",
+  "mobile.boss": "GUILD MASTER",
   "mobile.noActiveAgents": "No active agents",
 
   // Status Messages
@@ -218,33 +215,27 @@ const en = {
   "status.autoFollowed": "Auto-followed new session: {sessionName}",
 
   // Navigation
-  "navigation.building": "Building",
+  "navigation.building": "Dungeon",
 
   // Tour
   "tour.steps.welcome.title": "Welcome",
-  "tour.steps.welcome.description":
-    "This is your command center. Click a floor to explore.",
-  "tour.steps.singleWelcome.title": "Welcome to Claude Office",
-  "tour.steps.singleWelcome.description":
-    "This pixel art office shows your Claude Code sessions in real time. Let's take a quick look around.",
+  "tour.steps.welcome.description": "This is the Guild Hall. Click a level to explore.",
+  "tour.steps.singleWelcome.title": "Welcome to AgentDungeon",
+  "tour.steps.singleWelcome.description": "This pixel dungeon shows your Claude Code sessions in real time. Let's take a quick look around.",
   "tour.steps.simulate.title": "Start Simulation",
-  "tour.steps.simulate.description":
-    "Click Simulate to bring the office to life.",
-  "tour.steps.agentsArrive.title": "Agents Arrive",
-  "tour.steps.agentsArrive.description":
-    "Agents arrive through the elevator, walk to their desks, and start working.",
+  "tour.steps.simulate.description": "Click Simulate to bring the guild to life.",
+  "tour.steps.agentsArrive.title": "Adventurers Arrive",
+  "tour.steps.agentsArrive.description": "Adventurers step through the portal, walk to their stations, and start their quests.",
   "tour.steps.inspectAgent.title": "Inspect an Agent",
   "tour.steps.inspectAgent.description":
     "Click on any character to inspect them.",
   "tour.steps.focusPopup.title": "Focus Popup",
-  "tour.steps.focusPopup.description":
-    "From here you can copy a message to clipboard and jump to your terminal. The office updates in real time as Claude works.",
+  "tour.steps.focusPopup.description": "From here you can copy a message to clipboard and jump to your terminal. The dungeon updates in real time as Claude works.",
   "tour.steps.zoomOut.title": "Zoom Out",
   "tour.steps.zoomOut.description":
     "Try zooming back out to see the big picture.",
-  "tour.steps.settings.title": "Configure Floors",
-  "tour.steps.settings.description":
-    "Open Settings to add floors and map project folders for a multi-floor building view.",
+  "tour.steps.settings.title": "Configure Levels",
+  "tour.steps.settings.description": "Open Settings to add levels and map project folders for a multi-level dungeon view.",
   "tour.skip": "Skip tour",
   "tour.next": "Next",
 
@@ -252,12 +243,12 @@ const en = {
   "attention.toast.permissionRequest": "{agentName} needs permission",
   "attention.toast.error": "{agentName} encountered an error",
   "attention.toast.taskCompleted": "{agentName} completed a task",
-  "attention.toast.agentArrived": "{agentName} joined the office",
+  "attention.toast.agentArrived": "{agentName} entered the guild",
   "attention.toast.stop": "{agentName} stopped",
   "attention.toast.backgroundTask": "{agentName}: {taskDescription}",
   "attention.commandBar.placeholder": "Type a command...",
   "attention.commandBar.focusAgent": "Focus Agent: {name}",
-  "attention.commandBar.focusBoss": "Focus Boss Terminal",
+  "attention.commandBar.focusBoss": "Focus Guild Master Terminal",
   "attention.commandBar.showAttention": "Show Attention Queue",
   "attention.commandBar.dismissAll": "Dismiss All Toasts",
   "attention.commandBar.toggleDebug": "Toggle Debug View",
@@ -271,8 +262,8 @@ const en = {
   "attention.popup.state": "State",
   "attention.popup.task": "Task",
   "attention.popup.type": "Type",
-  "attention.popup.desk": "Desk",
-  "attention.popup.boss": "Boss",
+  "attention.popup.desk": "Station",
+  "attention.popup.boss": "Guild Master",
   "attention.popup.agent": "Agent",
   "settings.commandBar": "Command Bar (⌘K)",
   "settings.clickToFocus": "Click to Focus",

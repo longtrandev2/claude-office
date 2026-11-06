@@ -24,7 +24,7 @@ Multi-language (en/es/pt-BR/vi). Control features (hook two-way "A", Agent SDK "
 |---|---|---|---|
 | 1 | [Dev env + asset sourcing & atlas pipeline](phase-01-dev-env-and-asset-pipeline.md) | M | done |
 | 2 | [Theme system foundation](phase-02-theme-system-foundation.md) | M | superseded — reverted, dungeon is the only look |
-| 3 | [i18n: vi + dungeon strings all languages](phase-03-i18n-multilanguage-dungeon-strings.md) | S | pending |
+| 3 | [i18n: vi + dungeon strings all languages](phase-03-i18n-multilanguage-dungeon-strings.md) | S | done |
 | 4 | [Dungeon environment](phase-04-dungeon-environment.md) | M | pending |
 | 5 | [Animated characters & classes](phase-05-animated-characters-and-classes.md) | L | pending |
 | 6 | [Interactions & FX](phase-06-interactions-and-fx.md) | L | pending |
@@ -47,6 +47,7 @@ P1 → (P3 ∥ P4 ∥ P5) → P6 → P7; P8 interleaved. P2 dropped.
 - Supplement packs for furniture — user downloads (itch.io blocks automation); candidates in phase-01.
 
 ## Decisions
+- 2026-11-06: app renamed **AgentDungeon** (header wordmark "Agent" orange + "Dungeon", page title, i18n `app.title`).
 - 2026-11-06: 0x72 license confirmed CC0 by user (itch page text "use this tileset for whatever you like (CC-0)"). Raw zip stays in gitignored `assets-src/`; generated atlas committed.
 - 2026-11-06: local backend on port 8765 (8000 taken by another app) — see `docs/guides/windows-dev-setup.md`.
 

@@ -1,5 +1,5 @@
 /**
- * Claude Office Visualizer - Main Page
+ * AgentDungeon - Main Page
  *
  * Uses the unified Zustand store, XState machines, and OfficeGame component.
  * Layout and logic are delegated to extracted components and custom hooks.
@@ -419,8 +419,10 @@ export default function V2TestPage(): React.ReactNode {
               isMobile ? "text-lg" : "text-2xl"
             }`}
           >
-            <span className="text-orange-500">Claude</span>{" "}
-            {!isMobile && t("app.title")}
+            {/* Product wordmark: brand name, not translated. */}
+            <span>
+              <span className="text-orange-500">Agent</span>Dungeon
+            </span>
             {!isMobile && (
               <span className="text-xs font-mono font-normal px-2 py-0.5 bg-slate-800 rounded text-slate-400 border border-slate-700">
                 v0.25.1
