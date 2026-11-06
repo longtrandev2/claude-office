@@ -44,12 +44,13 @@ Supplement priority: (1) other CC0 packs with matching 16px top-down style (e.g.
 6. Write atlas build script (sharp or pure node PNG lib; no ImageMagick dependency).
 7. Document Windows setup.
 
-## Supplement pack candidates (verify license + contents on download)
-1. [DungeonTileset II Extended (Niji)](https://nijikokun.itch.io/dungeontileset-ii-extended) — CC0, built on 0x72 → best style match; adds doors, carpets, items. Furniture unconfirmed.
-2. [Dungeon Tileset V1 (jojomod)](https://jojomod.itch.io/dungeon-tileset-v1) — 16px; shelves, table, stool, weapon racks, throne, animated torches. License unconfirmed.
-3. [Interior (Faultbox)](https://faultbox.itch.io/interior) — 16px top-down, 50+ furniture (shelves, cauldrons, tables). License unconfirmed.
-4. Fallback: [Moonlight Dungeon 16x16](https://aleovera.itch.io/moonlight-dungeon) — CC0, torch + stairs.
-Still uncovered likely: anvil, owl, quest board, portal → code-drawn or AI-generated.
+## Supplement packs (downloaded 2026-11-06 into gitignored `assets-src/dungeon/`)
+1. [DungeonTileset II Extended v1.1 (Niji)](https://nijikokun.itch.io/dungeontileset-ii-extended) — CC0 (per itch page). Single 1024×1024 sheet + .ase + palette, **no tile list** → slice by grid/manual coords in P4. Contents to inspect.
+2. [Dungeon Tileset V1 (jojomod)](https://jojomod.itch.io/dungeon-tileset-v1) — **license NOT in zip, user to confirm on page**. Individual PNGs (~16px). Useful: `blacksmith` (anvil station), `table/monk_desk_*` (desks), animated `candle_holder`, `candleabra_vertical`, `candle_wall_vertical`, `Globe` (Cartographer), `ink_feather` (Scribe), chests (red/bulby/truth, open anims), barrel/crate (idle + explode anims → error FX), doors, jail cell, pots, flowers. Ignore `Weapon/` (modern guns — off-theme).
+3. ~~Faultbox Interior~~ — not free, skipped.
+- Fallback if needed: [Moonlight Dungeon 16x16](https://aleovera.itch.io/moonlight-dungeon) — CC0, torch + stairs.
+- Still uncovered: owl, quest board, portal, bookshelf, cauldron → code-drawn (Pixi Graphics) or AI-generated + palette-snapped.
+- Atlas script currently handles 0x72 tile-list format only; extend in P4 for folder-of-PNGs (jojomod) and grid sheet (Niji).
 
 ## Todo List
 - [x] Backend + frontend run on Windows (backend :8765, frontend :3000)
