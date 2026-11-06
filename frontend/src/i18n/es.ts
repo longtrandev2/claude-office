@@ -275,6 +275,10 @@ const es: Record<TranslationKey, string> = {
   "settings.filterError": "Errores y paradas",
   "settings.filterTaskComplete": "Tareas completadas",
   "settings.filterArrival": "Llegadas de agentes",
+
+  // Hall tally board (tool uses since compaction)
+  "hall.tally.title": "Hechizos lanzados",
+  "hall.tally.subtitle": "desde el último descanso",
 };
 
 export default es;

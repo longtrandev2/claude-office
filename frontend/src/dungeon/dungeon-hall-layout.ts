@@ -39,7 +39,7 @@ export interface HallDecor {
   y: number;
 }
 
-/** Wall-mounted decoration. Free wall zones: 300–570, 975–1115, 1200–1280. */
+/** Wall-mounted decoration. Free wall zones: 180–570, 975–1115, 1200–1280. */
 export const HALL_WALL_DECOR: HallDecor[] = [
   // Zone A (old city window): column · banner · fountain · banner · column
   { sprite: "column_wall", x: 300, y: HALL_WALL_HEIGHT - 3 * HALL_TILE },
@@ -53,6 +53,9 @@ export const HALL_WALL_DECOR: HallDecor[] = [
   { sprite: "prop:wall-candle-f0", x: 990, y: 120 },
   { sprite: "wall_banner_blue", x: 1022, y: 106 },
   { sprite: "prop:wall-candle-f0", x: 1086, y: 120 },
+  // Where the office "employee of the month" frame hung: guild colours.
+  { sprite: "wall_banner_yellow", x: 196, y: 106 },
+  { sprite: "wall_banner_green", x: 250, y: 106 },
   // Candles beside the portal and the clock
   { sprite: "prop:wall-candle-f0", x: 150, y: 120 },
   { sprite: "prop:wall-candle-f0", x: 1240, y: 150 },

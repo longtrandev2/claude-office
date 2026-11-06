@@ -284,6 +284,10 @@ const vi: Record<TranslationKey, string> = {
   "settings.filterError": "Lỗi và dừng",
   "settings.filterTaskComplete": "Hoàn thành nhiệm vụ",
   "settings.filterArrival": "Agent đến",
+
+  // Hall tally board (tool uses since compaction)
+  "hall.tally.title": "Phép đã dùng",
+  "hall.tally.subtitle": "từ lần nghỉ trước",
 };
 
 export default vi;

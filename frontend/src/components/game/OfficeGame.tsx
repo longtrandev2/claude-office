@@ -53,7 +53,6 @@ import {
   BACKGROUND_COLOR,
 } from "@/constants/canvas";
 import {
-  EMPLOYEE_OF_MONTH_POSITION,
   SAFETY_SIGN_POSITION,
   WALL_CLOCK_POSITION,
   WHITEBOARD_POSITION,
@@ -75,7 +74,6 @@ import { TreasureChestContextMeter } from "./TreasureChestContextMeter";
 import { WallClock } from "./WallClock";
 import { Whiteboard } from "./Whiteboard";
 import { SafetySign } from "./SafetySign";
-import { EmployeeOfTheMonth } from "./EmployeeOfTheMonth";
 import { Elevator, isAgentInElevator } from "./Elevator";
 import { PrinterStation } from "./PrinterStation";
 import { DebugOverlays } from "./DebugOverlays";
@@ -347,12 +345,6 @@ export function OfficeGame(): ReactNode {
                   <DungeonHallBackground />
 
                   {/* Wall decorations */}
-                  <pixiContainer
-                    x={EMPLOYEE_OF_MONTH_POSITION.x}
-                    y={EMPLOYEE_OF_MONTH_POSITION.y}
-                  >
-                    <EmployeeOfTheMonth />
-                  </pixiContainer>
                   <pixiContainer
                     x={SAFETY_SIGN_POSITION.x}
                     y={SAFETY_SIGN_POSITION.y}

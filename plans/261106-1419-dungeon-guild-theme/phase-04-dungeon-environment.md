@@ -43,7 +43,7 @@
 - [x] **User review of static hall screenshot** (gate) — approved 2026-11-06
 - [x] Torches + lighting (baked ambient darkness + stepped lit zones + edge vignette; `DungeonHallAmbience.tsx`: candle/fountain frame cycling, flickering additive light pools; standing candles flank the Guild Master; heroes not darkened for readability; reduced-motion = still)
 - [x] Portal/stairs (Elevator.tsx → stone door-frame arch + arcane veil: opaque pulsing when closed, thin shimmer when open; rune gem teal/red; teal light pool; engine API unchanged)
-- [ ] Window, clock, decor
+- [~] Window, clock, decor: safety sign → tavern tally board ("spells cast since last rest", i18n, no emoji); employee-of-month frame removed from hall (decorative only) → guild banners; clock + whiteboard (→ quest board, P7) + printer (→ owl, P6) remain
 - [ ] Depth naming
 
 ## Success Criteria

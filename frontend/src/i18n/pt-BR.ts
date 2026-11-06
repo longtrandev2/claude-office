@@ -275,6 +275,10 @@ const ptBR: Record<TranslationKey, string> = {
   "settings.filterError": "Erros e paradas",
   "settings.filterTaskComplete": "Tarefas concluídas",
   "settings.filterArrival": "Chegadas de agentes",
+
+  // Hall tally board (tool uses since compaction)
+  "hall.tally.title": "Feitiços lançados",
+  "hall.tally.subtitle": "desde o último descanso",
 };
 
 export default ptBR;

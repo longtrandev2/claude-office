@@ -273,6 +273,10 @@ const en = {
   "settings.filterError": "Errors and stops",
   "settings.filterTaskComplete": "Task completions",
   "settings.filterArrival": "Agent arrivals",
+
+  // Hall tally board (tool uses since compaction)
+  "hall.tally.title": "Spells cast",
+  "hall.tally.subtitle": "since last rest",
 } as const;
 
 export type TranslationKey = keyof typeof en;

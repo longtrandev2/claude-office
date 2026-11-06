@@ -1,101 +1,74 @@
+/**
+ * SafetySign → Tavern tally board
+ *
+ * A wooden plank on the hall wall counting tool uses ("spells cast") since the
+ * last context compaction ("the last rest"). Same data as the original office
+ * safety sign; dungeon look, localized, no emoji.
+ */
+
 "use client";
 
-import { Graphics } from "pixi.js";
 import { useCallback, type ReactNode } from "react";
-import {
-  useGameStore,
-  selectToolUsesSinceCompaction,
-} from "@/stores/gameStore";
+import type { Graphics } from "pixi.js";
+import { useGameStore, selectToolUsesSinceCompaction } from "@/stores/gameStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
-/**
- * SafetySign - Office safety sign showing tool uses since compaction
- *
- * Displays a green safety sign with a counter showing the number of
- * tool uses since the last context compaction.
- */
+const W = 140;
+const H = 100;
+const WOOD = 0x5a3a22;
+const WOOD_DARK = 0x3d2616;
+const WOOD_LIGHT = 0x7a5233;
+const NAIL = 0xb8b0a0;
+const PLANK_H = 25;
+
 export function SafetySign(): ReactNode {
+  const { t } = useTranslation();
   const toolUsesSinceCompaction = useGameStore(selectToolUsesSinceCompaction);
 
-  const drawSign = useCallback((g: Graphics) => {
+  const drawBoard = useCallback((g: Graphics) => {
     g.clear();
-
-    // Shadow
-    g.roundRect(4, 4, 140, 100, 6);
-    g.fill({ color: 0x000000, alpha: 0.3 });
-
-    // Main sign background - safety green
-    g.roundRect(0, 0, 140, 100, 6);
-    g.fill(0x1a5f1a);
-    g.stroke({ width: 3, color: 0x0d3d0d });
-
-    // White inner border
-    g.roundRect(6, 6, 128, 88, 4);
-    g.stroke({ width: 2, color: 0xffffff });
-
-    // Red accent bar at top
-    g.rect(10, 10, 120, 20);
-    g.fill(0xcc2222);
+    // Four horizontal planks with dark seams and a lit top edge.
+    for (let i = 0; i < H / PLANK_H; i++) {
+      const y = i * PLANK_H;
+      g.rect(0, y, W, PLANK_H);
+      g.fill(WOOD);
+      g.rect(0, y, W, 3);
+      g.fill(WOOD_LIGHT);
+      g.rect(0, y + PLANK_H - 3, W, 3);
+      g.fill(WOOD_DARK);
+    }
+    // Frame and corner nails.
+    g.rect(0, 0, W, H);
+    g.stroke({ width: 3, color: WOOD_DARK });
+    for (const [x, y] of [[6, 6], [W - 9, 6], [6, H - 9], [W - 9, H - 9]]) {
+      g.rect(x, y, 3, 3);
+      g.fill(NAIL);
+    }
   }, []);
+
+  const text = (value: string, y: number, size: number, fill: string) => (
+    <pixiContainer x={W / 2} y={y} scale={0.5}>
+      <pixiText
+        text={value}
+        anchor={0.5}
+        style={{
+          fontFamily: '"Courier New", monospace',
+          fontSize: size,
+          fontWeight: "bold",
+          fill,
+          stroke: { width: 4, color: "#1f130a" },
+        }}
+        resolution={2}
+      />
+    </pixiContainer>
+  );
 
   return (
     <pixiContainer>
-      <pixiGraphics draw={drawSign} />
-      {/* All text rendered at 2x and scaled down for sharpness */}
-      {/* Header text */}
-      <pixiContainer x={70} y={20} scale={0.5}>
-        <pixiText
-          text="⚠️ SAFETY"
-          anchor={0.5}
-          style={{
-            fontFamily: '"Arial Black", Arial, sans-serif',
-            fontSize: 22,
-            fontWeight: "bold",
-            fill: "#ffffff",
-          }}
-          resolution={2}
-        />
-      </pixiContainer>
-      {/* Big number - dynamic counter */}
-      <pixiContainer x={70} y={52} scale={0.5}>
-        <pixiText
-          text={String(toolUsesSinceCompaction)}
-          anchor={0.5}
-          style={{
-            fontFamily: '"Arial Black", Arial, sans-serif',
-            fontSize: 56,
-            fontWeight: "bold",
-            fill: "#ffffff",
-          }}
-          resolution={2}
-        />
-      </pixiContainer>
-      {/* Label text */}
-      <pixiContainer x={70} y={72} scale={0.5}>
-        <pixiText
-          text="TOOL USES"
-          anchor={0.5}
-          style={{
-            fontFamily: '"Courier New", monospace',
-            fontSize: 18,
-            fontWeight: "bold",
-            fill: "#ffcc00",
-          }}
-          resolution={2}
-        />
-      </pixiContainer>
-      <pixiContainer x={70} y={84} scale={0.5}>
-        <pixiText
-          text="SINCE COMPACTION"
-          anchor={0.5}
-          style={{
-            fontFamily: '"Courier New", monospace',
-            fontSize: 18,
-            fontWeight: "bold",
-            fill: "#ffcc00",
-          }}
-          resolution={2}
-        />
-      </pixiContainer>
+      <pixiGraphics draw={drawBoard} />
+      {text(t("hall.tally.title"), 18, 20, "#f1e3c2")}
+      {text(String(toolUsesSinceCompaction), 50, 56, "#f2b442")}
+      {text(t("hall.tally.subtitle"), 82, 17, "#d9c9a3")}
     </pixiContainer>
   );
 }
