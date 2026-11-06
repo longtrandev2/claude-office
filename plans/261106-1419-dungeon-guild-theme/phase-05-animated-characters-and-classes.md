@@ -53,7 +53,8 @@
 - [x] AnimatedHeroSprite (`HeroSprite.tsx`: idle/run 4f from atlas, faces travel direction, shadow, ticker-driven, reduced-motion still)
 - [x] State wiring idle/run (movement-detected); work loop → P6
 - [x] Class registry + mapping (`hero-class-registry.ts`; backend now stores `agent_type` on Agent → `agentType` in frontend state; verified with 6 typed demo subagents)
-- [ ] Weapons/props
+- [x] Stations: `DungeonStations.tsx` replaces office desks/keyboards/monitors/desk toys/chairs (wooden table + one dungeon item each, task marquee kept); Guild Master war table (globe + candle)
+- [ ] Weapons/props held by heroes (→ P6 work loops)
 - [x] MVP 4 classes + Novice → all 11 classes + Novice done; Guild Master = knight_m (seated + walking)
 - [x] Remaining classes
 - [ ] Variety (variants, names, levels)

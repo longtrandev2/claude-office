@@ -79,11 +79,7 @@ import { EmployeeOfTheMonth } from "./EmployeeOfTheMonth";
 import { Elevator, isAgentInElevator } from "./Elevator";
 import { PrinterStation } from "./PrinterStation";
 import { DebugOverlays } from "./DebugOverlays";
-import {
-  DeskSurfacesBase,
-  DeskSurfacesTop,
-  useDeskPositions,
-} from "./DeskGrid";
+import { DungeonStations } from "./DungeonStations";
 import { ZoomControls } from "./ZoomControls";
 import { LoadingScreen } from "./LoadingScreen";
 import { DungeonHallBackground } from "./DungeonHallBackground";
@@ -264,9 +260,6 @@ export function OfficeGame(): ReactNode {
     );
   }, [agents.size]);
 
-  // Desk positions for Y-sorted rendering
-  const deskPositions = useDeskPositions(deskCount, occupiedDesks);
-
   // Keyboard shortcuts for debug
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -406,31 +399,8 @@ export function OfficeGame(): ReactNode {
                     />
                   )}
 
-                  {/* Y-sorted layer: chairs and agents sorted by Y position (higher Y = in front) */}
+                  {/* Y-sorted layer: agents sorted by Y position (higher Y = in front) */}
                   <pixiContainer sortableChildren={true}>
-                    {/* Desk chairs - zIndex based on chair seat back */}
-                    {deskPositions.map((desk, i) => {
-                      const chairZIndex = desk.y + 20;
-                      return (
-                        <pixiContainer
-                          key={`chair-${i}`}
-                          x={desk.x}
-                          y={desk.y}
-                          zIndex={chairZIndex}
-                        >
-                          {textures.chair && (
-                            <pixiSprite
-                              texture={textures.chair}
-                              anchor={0.5}
-                              x={0}
-                              y={30}
-                              scale={0.1386}
-                            />
-                          )}
-                        </pixiContainer>
-                      );
-                    })}
-
                     {/* Agents outside elevator - zIndex based on feet Y position */}
                     {Array.from(agents.values())
                       .filter(
@@ -464,28 +434,11 @@ export function OfficeGame(): ReactNode {
                       ))}
                   </pixiContainer>
 
-                  {/* Desk surfaces and keyboards (behind agent arms) */}
-                  <DeskSurfacesBase
-                    deskCount={deskCount}
-                    occupiedDesks={occupiedDesks}
-                    deskTexture={textures.desk}
-                    keyboardTexture={textures.keyboard}
-                  />
-
-                  {/* Monitors and decorations (in front of agent arms) */}
-                  <DeskSurfacesTop
+                  {/* Adventurer stations (tables + one item each, task marquee) */}
+                  <DungeonStations
                     deskCount={deskCount}
                     occupiedDesks={occupiedDesks}
                     deskTasks={deskTasks}
-                    monitorTexture={textures.monitor}
-                    coffeeMugTexture={textures.coffeeMug}
-                    staplerTexture={textures.stapler}
-                    deskLampTexture={textures.deskLamp}
-                    penHolderTexture={textures.penHolder}
-                    magic8BallTexture={textures.magic8Ball}
-                    rubiksCubeTexture={textures.rubiksCube}
-                    rubberDuckTexture={textures.rubberDuck}
-                    thermosTexture={textures.thermos}
                   />
 
                   {/* Boss */}

@@ -8,7 +8,7 @@
 "use client";
 
 import { memo, useMemo, type ReactNode } from "react";
-import { Graphics, TextStyle, Texture } from "pixi.js";
+import { TextStyle, Texture } from "pixi.js";
 import type { BossState, BubbleContent, Position } from "@/types";
 import { MarqueeText } from "./MarqueeText";
 import { ICON_MAP } from "./shared/iconMap";
@@ -16,6 +16,7 @@ import { drawBubble, drawIconBadge } from "./shared/drawBubble";
 import { useTranslation } from "@/hooks/useTranslation";
 import { HERO_CLASSES } from "@/dungeon/hero-class-registry";
 import { HeroSprite } from "./HeroSprite";
+import { GuildWarTable } from "./DungeonStations";
 import { truncateBubbleText } from "@/utils/bubbleText";
 
 // ============================================================================
@@ -60,20 +61,6 @@ const LABEL_STYLE = {
 // ============================================================================
 // DRAWING FUNCTIONS
 // ============================================================================
-
-function drawFallbackChair(g: Graphics): void {
-  g.clear();
-  g.circle(0, 15, 25);
-  g.fill(0x4a5568);
-  g.stroke({ width: 2, color: 0x2d3748 });
-}
-
-function drawFallbackDesk(g: Graphics): void {
-  g.clear();
-  g.rect(-70, 15, 140, 80);
-  g.fill(0x5d3a1e);
-  g.stroke({ width: 4, color: 0x3d2a1e });
-}
 
 // ============================================================================
 // BUBBLE COMPONENT
@@ -173,10 +160,10 @@ function BossSpriteComponent({
   bubble,
   inUseBy: _inUseBy,
   currentTask,
-  chairTexture,
-  deskTexture,
-  keyboardTexture,
-  monitorTexture,
+  chairTexture: _chairTexture,
+  deskTexture: _deskTexture,
+  keyboardTexture: _keyboardTexture,
+  monitorTexture: _monitorTexture,
   phoneTexture: _phoneTexture,
   headsetTexture: _headsetTexture,
   sunglassesTexture: _sunglassesTexture,
@@ -189,34 +176,13 @@ function BossSpriteComponent({
 
   return (
     <pixiContainer x={position.x} y={position.y}>
-      {/* Chair - behind everything */}
-      {chairTexture ? (
-        <pixiSprite texture={chairTexture} anchor={0.5} x={5} y={30} scale={0.1386} />
-      ) : (
-        <pixiGraphics draw={drawFallbackChair} />
-      )}
-
       {/* Guild Master - hidden when away from the table */}
       {!isAway && (
         <HeroSprite base={GUILD_MASTER_BASE} position={position} feetY={SEATED_FEET_Y} seed="guild-master" />
       )}
 
-      {/* Desk surface - in front of the Guild Master */}
-      {deskTexture ? (
-        <pixiSprite texture={deskTexture} anchor={{ x: 0.5, y: 0 }} y={30} scale={0.105} />
-      ) : (
-        <pixiGraphics draw={drawFallbackDesk} />
-      )}
-
-      {/* Keyboard - on desk surface */}
-      {keyboardTexture && (
-        <pixiSprite texture={keyboardTexture} anchor={0.5} x={0} y={42} scale={0.04} />
-      )}
-
-      {/* Monitor - left side of desk */}
-      {monitorTexture && (
-        <pixiSprite texture={monitorTexture} anchor={0.5} x={-45} y={27} scale={0.08} />
-      )}
+      {/* War table - in front of the Guild Master */}
+      <GuildWarTable />
 
       {/* Title label - hidden when away from the table */}
       {!isAway && (
