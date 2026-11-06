@@ -71,7 +71,7 @@ import { BossSprite, BossBubble, MobileBoss } from "./BossSprite";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { LOBBY_FLOOR_ID } from "@/types/navigation";
 import { ELEVATOR_POSITION, isInElevatorZone } from "@/systems/queuePositions";
-import { TrashCanSprite } from "./TrashCanSprite";
+import { TreasureChestContextMeter } from "./TreasureChestContextMeter";
 import { WallClock } from "./WallClock";
 import { Whiteboard } from "./Whiteboard";
 import { SafetySign } from "./SafetySign";
@@ -471,8 +471,8 @@ export function OfficeGame(): ReactNode {
                     />
                   )}
 
-                  {/* Trash Can (Context Utilization Indicator) - right of boss desk */}
-                  <TrashCanSprite
+                  {/* Guild chest (context utilization meter) - right of the war table */}
+                  <TreasureChestContextMeter
                     x={boss.position.x + TRASH_CAN_OFFSET.x}
                     y={boss.position.y + TRASH_CAN_OFFSET.y}
                     contextUtilization={
