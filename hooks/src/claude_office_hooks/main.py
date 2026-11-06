@@ -160,7 +160,16 @@ try:
                 and hasattr(real_stdin, "isatty")
                 and not real_stdin.isatty()
             ):
-                raw_input = real_stdin.read()
+                # Claude Code writes UTF-8 JSON. Text-mode stdin uses the locale
+                # codec (cp1252 on Windows), which mangles non-ASCII prompts
+                # (e.g. Vietnamese) into lone surrogates that later crash the
+                # backend's WebSocket broadcast — so decode the raw bytes as UTF-8.
+                buffer = getattr(real_stdin, "buffer", None)
+                raw_input = (
+                    buffer.read().decode("utf-8", errors="replace")
+                    if buffer is not None
+                    else real_stdin.read()
+                )
                 if raw_input.strip():
                     raw_data = cast(dict[str, Any], json.loads(raw_input))
         except Exception as exc:

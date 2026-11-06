@@ -39,7 +39,8 @@
 5. Floor/depth naming in building view (strings from P3).
 
 ## Todo List
-- [ ] Floor + walls
+- [x] Floor + walls (static hall baked to one nearest-sampled texture: `frontend/src/dungeon/compose-dungeon-hall-canvas.ts`, layout data in `dungeon-hall-layout.ts`, `DungeonHallBackground.tsx`; crimson centre carpet, stepped wall darkness, columns, banners, fountain, candles, corner clutter; office decor removed: city window, outlet, cooler, coffee, plant, rug)
+- [ ] **User review of static hall screenshot** (gate)
 - [ ] Torches + lighting
 - [ ] Portal/stairs
 - [ ] Window, clock, decor
