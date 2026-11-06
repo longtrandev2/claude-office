@@ -19,6 +19,8 @@ import { drawBubble, drawIconBadge } from "./shared/drawBubble";
 import { truncateBubbleText } from "@/utils/bubbleText";
 import { heroBaseForAgent, heroClassForAgentType } from "@/dungeon/hero-class-registry";
 import { HeroSprite } from "./HeroSprite";
+import { HeroActivityIndicator } from "./HeroActivityIndicator";
+import { toolCategoryFromBubbleIcon } from "@/dungeon/tool-activity";
 
 // ============================================================================
 // TYPES
@@ -152,7 +154,7 @@ function AgentSpriteComponent({
   sunglassesTexture: _sunglassesTexture,
   renderBubble = true,
   renderLabel = true,
-  isTyping: _isTyping = false,
+  isTyping = false,
   agentType = null,
 }: AgentSpriteProps): ReactNode {
   const clickToFocusEnabled = usePreferencesStore((s) => s.clickToFocusEnabled);
@@ -188,6 +190,16 @@ function AgentSpriteComponent({
     >
       {/* Guild hero (animated, faces direction of travel) */}
       <HeroSprite base={heroBase} position={position} feetY={HERO_FEET_Y} seed={id} />
+
+      {/* Current tool (pixel icon) + work sparks at the table while busy */}
+      {!isInElevatorZone(position) && (
+        <HeroActivityIndicator
+          category={toolCategoryFromBubbleIcon(bubble?.icon)}
+          working={isTyping}
+          iconY={-88}
+          sparkY={30}
+        />
+      )}
 
       {/* Agent name if present - hide when in elevator or when renderLabel is false */}
       {renderLabel && name && !isInElevatorZone(position) && (

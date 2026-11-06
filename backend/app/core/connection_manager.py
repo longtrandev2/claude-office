@@ -12,6 +12,7 @@ handshake validators) stay in ``app/api/websocket.py``.
 """
 
 import asyncio
+import json
 import logging
 from typing import Any
 
@@ -19,6 +20,19 @@ from fastapi import WebSocket
 from starlette.websockets import WebSocketState
 
 logger = logging.getLogger(__name__)
+
+
+
+async def send_json_ascii(websocket: "WebSocket", message: Any) -> None:
+    """Send JSON with every non-ASCII character escaped.
+
+    Starlette's ``send_json`` encodes with ``ensure_ascii=False`` and then
+    UTF-8; a single lone surrogate in stored text (e.g. a prompt mangled by a
+    Windows code page before it reached us) raises ``UnicodeEncodeError`` and
+    the whole session stops updating. ASCII-escaped JSON always encodes and
+    browsers decode it identically.
+    """
+    await websocket.send_text(json.dumps(message, separators=(",", ":"), ensure_ascii=True))
 
 
 class ConnectionManager:
@@ -59,7 +73,7 @@ class ConnectionManager:
         for connection in connections:
             try:
                 if connection.client_state == WebSocketState.CONNECTED:
-                    await connection.send_json(message)
+                    await send_json_ascii(connection, message)
             except Exception as e:
                 logger.warning("Failed to send to WebSocket (%s): %s", label, e)
                 failed.append(connection)
@@ -109,7 +123,7 @@ class ConnectionManager:
         """Send a message to a specific WebSocket connection."""
         try:
             if websocket.client_state == WebSocketState.CONNECTED:
-                await websocket.send_json(message)
+                await send_json_ascii(websocket, message)
         except Exception as e:
             logger.warning("Failed to send personal message: %s", e)
 

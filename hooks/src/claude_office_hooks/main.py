@@ -21,6 +21,25 @@ sys.stderr = io.StringIO()
 # it never writes to stdout/stderr.
 from claude_office_hooks.debug_logger import log_error  # noqa: E402
 
+
+def _decode_hook_stdin(raw: bytes) -> str:
+    """Decode the hook's JSON input bytes.
+
+    Claude Code normally writes UTF-8. On Windows the input has been observed
+    in the ANSI code page instead (Latin-1-range letters such as "a-acute" as
+    single bytes, other characters escaped by JSON), which strict UTF-8 cannot
+    read. Try UTF-8 first, then the system code page; JSON escapes carry
+    everything the code page cannot represent, so nothing is lost.
+    """
+    import locale
+
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        fallback = locale.getpreferredencoding(False) or "cp1252"
+        return raw.decode(fallback, errors="replace")
+
+
 # Wrap ALL remaining logic in try/except to guarantee exit 0
 try:
     import argparse
@@ -166,9 +185,7 @@ try:
                 # backend's WebSocket broadcast — so decode the raw bytes as UTF-8.
                 buffer = getattr(real_stdin, "buffer", None)
                 raw_input = (
-                    buffer.read().decode("utf-8", errors="replace")
-                    if buffer is not None
-                    else real_stdin.read()
+                    _decode_hook_stdin(buffer.read()) if buffer is not None else real_stdin.read()
                 )
                 if raw_input.strip():
                     raw_data = cast(dict[str, Any], json.loads(raw_input))

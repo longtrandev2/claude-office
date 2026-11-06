@@ -14,6 +14,7 @@ import logging
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from app.api.websocket import get_manager
+from app.core.connection_manager import send_json_ascii
 from app.core.event_processor import get_event_processor
 from app.services.git_service import git_service
 
@@ -57,12 +58,13 @@ async def websocket_overview(websocket: WebSocket) -> None:
         # consistent registry snapshot and can't race a concurrent event handler
         # resizing ``sessions`` mid-iteration.
         overview = await get_event_processor().build_overview_snapshot()
-        await websocket.send_json(
+        await send_json_ascii(
+            websocket,
             {
                 "type": "state_update",
                 "timestamp": overview.last_updated.isoformat(),
                 "state": overview.model_dump(mode="json", by_alias=True),
-            }
+            },
         )
         # Keep alive -- discard incoming messages
         while True:
@@ -145,12 +147,13 @@ async def websocket_room(websocket: WebSocket, room_id: str) -> None:
         if orch:
             state = orch.merge()
             if state:
-                await websocket.send_json(
+                await send_json_ascii(
+                    websocket,
                     {
                         "type": "state_update",
                         "timestamp": state.last_updated.isoformat(),
                         "state": state.model_dump(mode="json", by_alias=True),
-                    }
+                    },
                 )
         # Keep alive -- discard incoming messages
         while True:

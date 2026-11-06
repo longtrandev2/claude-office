@@ -1,6 +1,7 @@
 # backend/tests/test_websocket_room.py
 """Tests for room-level WebSocket connection management."""
 
+import json
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -36,7 +37,8 @@ class TestRoomConnections:
         ws.client_state = WebSocketState.CONNECTED
         await mgr.connect_room(ws, "room-1")
         await mgr.broadcast_room({"type": "test"}, "room-1")
-        ws.send_json.assert_called_once_with({"type": "test"})
+        ws.send_text.assert_called_once()
+        assert json.loads(ws.send_text.call_args[0][0]) == {"type": "test"}
 
     @pytest.mark.asyncio
     async def test_broadcast_room_noop_when_no_connections(self) -> None:
@@ -72,7 +74,8 @@ class TestOverviewConnections:
         ws.client_state = WebSocketState.CONNECTED
         await mgr.connect_overview(ws, max_connections=16)
         await mgr.broadcast_overview({"type": "test"})
-        ws.send_json.assert_called_once_with({"type": "test"})
+        ws.send_text.assert_called_once()
+        assert json.loads(ws.send_text.call_args[0][0]) == {"type": "test"}
 
     @pytest.mark.asyncio
     async def test_broadcast_overview_noop_when_no_connections(self) -> None:
@@ -144,11 +147,26 @@ class TestBroadcastOverviewState:
             sm.boss_state = BossState.WAITING_PERMISSION
             await broadcast_overview_state({"sess-1": sm})
 
-            ws.send_json.assert_called_once()
-            payload = ws.send_json.call_args[0][0]
+            ws.send_text.assert_called_once()
+            payload = json.loads(ws.send_text.call_args[0][0])
             assert payload["type"] == "state_update"
             entries = payload["state"]["entries"]
             assert entries[0]["sessionId"] == "sess-1"
             assert entries[0]["bucket"] == "needs_you"
         finally:
             await ws_module.manager.disconnect_overview(ws)
+
+
+class TestAsciiSafeSend:
+    """Lone surrogates in stored text must not break WebSocket sends."""
+
+    async def test_lone_surrogate_is_escaped_not_raised(self) -> None:
+        from unittest.mock import AsyncMock
+
+        from app.core.connection_manager import send_json_ascii
+
+        ws = AsyncMock()
+        await send_json_ascii(ws, {"task": "t\udc9di"})
+        sent = ws.send_text.call_args[0][0]
+        sent.encode("utf-8")  # must not raise
+        assert json.loads(sent) == {"task": "t\udc9di"}

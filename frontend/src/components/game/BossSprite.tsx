@@ -16,6 +16,8 @@ import { drawBubble, drawIconBadge } from "./shared/drawBubble";
 import { useTranslation } from "@/hooks/useTranslation";
 import { HERO_CLASSES } from "@/dungeon/hero-class-registry";
 import { HeroSprite } from "./HeroSprite";
+import { HeroActivityIndicator } from "./HeroActivityIndicator";
+import { toolCategoryFromBubbleIcon } from "@/dungeon/tool-activity";
 import { GuildWarTable } from "./DungeonStations";
 import { truncateBubbleText } from "@/utils/bubbleText";
 
@@ -168,7 +170,7 @@ function BossSpriteComponent({
   headsetTexture: _headsetTexture,
   sunglassesTexture: _sunglassesTexture,
   renderBubble = true,
-  isTyping: _isTyping = false,
+  isTyping = false,
   isAway = false,
 }: BossSpriteProps): ReactNode {
   const { t } = useTranslation();
@@ -179,6 +181,16 @@ function BossSpriteComponent({
       {/* Guild Master - hidden when away from the table */}
       {!isAway && (
         <HeroSprite base={GUILD_MASTER_BASE} position={position} feetY={SEATED_FEET_Y} seed="guild-master" />
+      )}
+
+      {/* Current tool + work sparks on the war table */}
+      {!isAway && (
+        <HeroActivityIndicator
+          category={toolCategoryFromBubbleIcon(bubble?.icon)}
+          working={isTyping}
+          iconY={-72}
+          sparkY={30}
+        />
       )}
 
       {/* War table - in front of the Guild Master */}
