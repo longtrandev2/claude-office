@@ -29,6 +29,7 @@ Multi-language (en/es/pt-BR/vi). Control features (hook two-way "A", Agent SDK "
 | 5 | [Animated characters & classes](phase-05-animated-characters-and-classes.md) | L | pending |
 | 6 | [Interactions & FX](phase-06-interactions-and-fx.md) | L | pending |
 | 7 | [Quest board, extras, test & polish](phase-07-quest-board-extras-test-polish.md) | M | pending |
+| 8 | [UX & liveliness (engine extensions)](phase-08-ux-and-liveliness.md) | L | pending — interleaved with P4–P7 |
 
 **MVP cut** (if token budget tight): P1 → P2 → P3 → P4 (floor/walls only) → P5 (Guild Master + 3 classes + Novice fallback).
 
