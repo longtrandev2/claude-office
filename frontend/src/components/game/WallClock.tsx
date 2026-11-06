@@ -31,17 +31,17 @@ export function WallClock(): ReactNode {
       g.clear();
       // Outer black ring
       g.circle(0, 0, 44);
-      g.fill(0x000000);
+      g.fill(0x8a6a2a); // brass rim
       // Face
       g.circle(0, 0, 40);
-      g.fill(0xffffff);
-      g.stroke({ width: 4, color: 0x2d3748 });
+      g.fill(0xe8d5a6); // aged parchment face
+      g.stroke({ width: 4, color: 0x5a3a22 });
 
       // Numbers (simple dots)
       for (let i = 0; i < 12; i++) {
         const angle = i * 30 * (Math.PI / 180);
         g.circle(Math.sin(angle) * 32, -Math.cos(angle) * 32, 2);
-        g.fill(0x2d3748);
+        g.fill(0x3b2a1a);
       }
 
       // Hands
@@ -53,19 +53,19 @@ export function WallClock(): ReactNode {
       const hAngle = (hours * 30 + mins * 0.5) * (Math.PI / 180);
       g.moveTo(0, 0);
       g.lineTo(Math.sin(hAngle) * 20, -Math.cos(hAngle) * 20);
-      g.stroke({ width: 4, color: 0x2d3748 });
+      g.stroke({ width: 4, color: 0x3b2a1a });
 
       // Minute hand
       const mAngle = mins * 6 * (Math.PI / 180);
       g.moveTo(0, 0);
       g.lineTo(Math.sin(mAngle) * 30, -Math.cos(mAngle) * 30);
-      g.stroke({ width: 3, color: 0x2d3748 });
+      g.stroke({ width: 3, color: 0x3b2a1a });
 
       // Second hand
       const sAngle = secs * 6 * (Math.PI / 180);
       g.moveTo(0, 0);
       g.lineTo(Math.sin(sAngle) * 35, -Math.cos(sAngle) * 35);
-      g.stroke({ width: 1, color: 0xef4444 });
+      g.stroke({ width: 1, color: 0x9b2c2c });
     },
     [time],
   );
