@@ -52,3 +52,14 @@ P1 → P2 → (P3 ∥ P4 ∥ P5) → P6 → P7. P3 independent once theme string
 ## Decisions
 - 2026-11-06: theme is user-selectable in Settings (office ↔ dungeon); assumed default = dungeon in this fork (confirm with user).
 - 2026-11-06: uv required on host even with Docker — hooks install via `uv tool install` (`hooks/install.sh:118`).
+
+## Visual quality bar (user goal 2026-11-06: clearly prettier than upstream)
+Upstream weaknesses: mixed AI-generated sprites (inconsistent style/palette), capsule agents, flat lighting.
+- One palette: snap all assets (incl. supplements/AI fills) to 0x72 palette.
+- Pixel-perfect: integer scale, nearest sampling, rounded positions, crisp pixel UI font (OFL/CC0).
+- Lighting: dark ambient overlay + additive radial torch/candle lights with flicker, vignette.
+- Depth: y-sorting (heroes pass behind/in front of furniture), soft ellipse shadows under characters.
+- Life: animated candles/fountains/banners, dust motes, spawn squash-stretch, eased movement.
+- Proper walls: 0x72 high/low autotiles, floor variation, room composed in zones (war table center, class stations, quest board wall, portal).
+- UI chrome: parchment/stone 9-slice panels for bubbles, sidebar, modals in dungeon theme.
+- **Gate**: P4 starts with a static mockup scene (screenshot) approved by user before mass implementation.
