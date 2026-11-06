@@ -4,7 +4,7 @@
 - [plan.md](plan.md) · [phase-08](phase-08-ux-and-liveliness.md) (pixel camera, HTML text overlay) · hook tool inputs carry file paths (`hooks/.../event_mapper.py`) · `backend/app/core/{state_machine,floor_config}.py` · `frontend/src/dungeon/*`
 
 ## Overview
-- Priority: P1 (next after P6) · Status: M1 done 2026-11-06; M2 next · Size: XL (3 milestones)
+- Priority: P1 (next after P6) · Status: M1 done; M2 first cut done 2026-11-06 · Size: XL (3 milestones)
 - The Guild Hall is the surface (orchestration). Below it, the dungeon IS the repo: heroes go down to the folder of the file they are reading/editing; rooms appear only once explored.
 
 ## Decisions (user, 2026-11-06)
@@ -32,6 +32,7 @@
 
 ## Todo List
 - [x] M1 explored-map data + tests (`backend/app/core/explored_map.py`, `models/explored_map.py`, GameState.exploredMap, TS types; verified live: `.claude` level with `rules`/`skills` rooms from real Read/Grep)
-- [ ] M2 cross-section view + camera + HTML text overlay
+- [~] M2 cross-section view: first cut done — `DungeonDescent.tsx` under the hall in a scrollable centre panel (scroll down = descend): level strips (parchment B-plaque, darker per depth), chambers with atlas stone floor, pixel tool icons + counts, recent files, torch outline when active <60s, "+N deeper tunnels"; all HTML so text is crisp; fed by `exploredMapStore` from WS state.
+- [ ] M2 remaining: stairs linking hall ↔ B1, corridors between levels, fog visuals for unexplored, pixel camera (integer zoom) for the hall part
 - [ ] M3 descent behaviour, ghost marker, loot
 - [ ] Monsters (blocked on error signal)

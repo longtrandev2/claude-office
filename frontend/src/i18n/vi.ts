@@ -292,6 +292,11 @@ const vi: Record<TranslationKey, string> = {
   // Scene-only mode toggle
   "header.sceneOnly": "CHỈ CẢNH",
   "header.showPanels": "HIỆN BẢNG",
+
+  // Phase 9: descent into the codebase
+  "descent.title": "Xuống tầng code",
+  "descent.empty": "Chưa khám phá phòng nào. Dungeon sẽ hiện dần khi agent đọc và sửa file.",
+  "descent.hiddenRooms": "+{count} đường hầm sâu hơn",
 };
 
 export default vi;

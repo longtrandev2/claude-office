@@ -283,6 +283,11 @@ const ptBR: Record<TranslationKey, string> = {
   // Scene-only mode toggle
   "header.sceneOnly": "SÓ CENA",
   "header.showPanels": "MOSTRAR PAINÉIS",
+
+  // Phase 9: descent into the codebase
+  "descent.title": "Para dentro do código",
+  "descent.empty": "Nenhuma sala explorada ainda. A masmorra se revela conforme os agentes leem e editam arquivos.",
+  "descent.hiddenRooms": "+{count} túneis mais profundos",
 };
 
 export default ptBR;

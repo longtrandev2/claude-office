@@ -15,6 +15,7 @@
 "use client";
 
 import { WS_BASE } from "@/utils/api";
+import { useExploredMapStore } from "@/stores/exploredMapStore";
 import { useCallback, useEffect, useRef } from "react";
 import { useGameStore } from "@/stores/gameStore";
 import { useAttentionStore } from "@/stores/attentionStore";
@@ -102,6 +103,9 @@ export function useWebSocketEvents({
         switch (message.type) {
           case "state_update":
             if (message.state) {
+              useExploredMapStore
+                .getState()
+                .setLevels(message.state.exploredMap ?? []);
               reconcileState(message.state, {
                 currentSessionId: currentSessionIdRef.current,
                 processedAgents: processedAgentsRef.current,
