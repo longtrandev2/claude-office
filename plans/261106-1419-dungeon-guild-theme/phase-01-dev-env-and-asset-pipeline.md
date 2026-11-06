@@ -44,14 +44,21 @@ Supplement priority: (1) other CC0 packs with matching 16px top-down style (e.g.
 6. Write atlas build script (sharp or pure node PNG lib; no ImageMagick dependency).
 7. Document Windows setup.
 
+## Supplement pack candidates (verify license + contents on download)
+1. [DungeonTileset II Extended (Niji)](https://nijikokun.itch.io/dungeontileset-ii-extended) — CC0, built on 0x72 → best style match; adds doors, carpets, items. Furniture unconfirmed.
+2. [Dungeon Tileset V1 (jojomod)](https://jojomod.itch.io/dungeon-tileset-v1) — 16px; shelves, table, stool, weapon racks, throne, animated torches. License unconfirmed.
+3. [Interior (Faultbox)](https://faultbox.itch.io/interior) — 16px top-down, 50+ furniture (shelves, cauldrons, tables). License unconfirmed.
+4. Fallback: [Moonlight Dungeon 16x16](https://aleovera.itch.io/moonlight-dungeon) — CC0, torch + stairs.
+Still uncovered likely: anvil, owl, quest board, portal → code-drawn or AI-generated.
+
 ## Todo List
-- [ ] Backend + frontend run on Windows
-- [ ] Hooks firing from Claude Code
-- [ ] Simulation scenario renders
-- [ ] 0x72 downloaded, license verified
-- [ ] Gap inventory + supplement packs chosen & licensed
-- [ ] Atlas build script + generated atlas
-- [ ] CREDITS.md + windows-dev-setup.md
+- [x] Backend + frontend run on Windows (backend :8765, frontend :3000)
+- [x] Hooks firing from Claude Code (live ClaudeKit session visible in `/api/v1/sessions`)
+- [x] Simulation scenario sends events (session `sim_session_123` created)
+- [x] 0x72 downloaded, license verified (CC0)
+- [ ] Supplement packs downloaded & licensed (user)
+- [x] Atlas build script + generated atlas (370 frames, 67 animations)
+- [x] CREDITS.md + windows-dev-setup.md
 
 ## Success Criteria
 - `localhost:3000` shows live office driven by a real Claude Code session on this machine.

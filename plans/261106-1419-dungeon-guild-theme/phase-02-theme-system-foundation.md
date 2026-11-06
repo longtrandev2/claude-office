@@ -14,7 +14,8 @@
 
 ## Requirements
 - Theme manifest: id, texture map, atlas path, role→class map, prop overrides (component slot → themed component), palette, string namespace.
-- Settings UI: theme selector in General Settings; live switch without reload if cheap, else reload.
+- **Entry menu theme picker** (user decision 2026-11-06): on opening the app, a start menu/title screen lets the user pick theme (office / dungeon) with preview thumbnails; choice remembered, menu reachable again from header.
+- Settings UI: same selector in General Settings; live switch without reload if cheap, else reload.
 - Office theme behavior unchanged (existing tests pass).
 
 ## Architecture

@@ -22,7 +22,7 @@ Multi-language (en/es/pt-BR/vi). Control features (hook two-way "A", Agent SDK "
 ## Phases
 | # | Phase | Size | Status |
 |---|---|---|---|
-| 1 | [Dev env + asset sourcing & atlas pipeline](phase-01-dev-env-and-asset-pipeline.md) | M | pending |
+| 1 | [Dev env + asset sourcing & atlas pipeline](phase-01-dev-env-and-asset-pipeline.md) | M | in progress (supplement packs pending) |
 | 2 | [Theme system foundation](phase-02-theme-system-foundation.md) | M | pending |
 | 3 | [i18n: vi + dungeon strings all languages](phase-03-i18n-multilanguage-dungeon-strings.md) | S | pending |
 | 4 | [Dungeon environment](phase-04-dungeon-environment.md) | M | pending |
@@ -42,8 +42,12 @@ P1 → P2 → (P3 ∥ P4 ∥ P5) → P6 → P7. P3 independent once theme string
 - Every asset: license verified + listed in `frontend/public/themes/dungeon/CREDITS.md`.
 
 ## Unresolved questions
-- 0x72 contents verified (see phase-01); **license not in zip** — user to confirm on itch page. Until then `assets-src/` is gitignored.
-- Supplement packs for furniture (tables, bookshelf, anvil, torches, quest board, portal, owl) — user downloads (itch.io blocks automation).
+- Supplement packs for furniture — user downloads (itch.io blocks automation); candidates in phase-01.
+
+## Decisions
+- 2026-11-06: 0x72 license confirmed CC0 by user (itch page text "use this tileset for whatever you like (CC-0)"). Raw zip stays in gitignored `assets-src/`; generated atlas committed.
+- 2026-11-06: theme picked from an entry menu on app open (+ Settings).
+- 2026-11-06: local backend on port 8765 (8000 taken by another app) — see `docs/guides/windows-dev-setup.md`.
 
 ## Decisions
 - 2026-11-06: theme is user-selectable in Settings (office ↔ dungeon); assumed default = dungeon in this fork (confirm with user).
