@@ -169,6 +169,7 @@ export function Elevator({ isOpen, agents, headsetTexture, sunglassesTexture }: 
           sunglassesTexture={sunglassesTexture}
           renderBubble={false}
           isTyping={agent.isTyping}
+          agentType={agent.agentType}
         />
       ))}
 

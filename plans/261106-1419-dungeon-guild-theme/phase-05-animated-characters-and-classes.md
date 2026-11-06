@@ -4,7 +4,7 @@
 - [plan.md](plan.md) · `frontend/src/components/game/{AgentSprite,BossSprite,AgentStatus}.tsx` · `frontend/src/systems/` (animation, pathfinding) · `backend/app/core/summary_service.py:44` (subagent_type name map)
 
 ## Overview
-- Priority: P1 (core of the theme) · Status: pending
+- Priority: P1 (core of the theme) · Status: in progress — heroes live; next: class stations replacing office desks, fantasy names/levels
 - Replace capsule agents with animated pixel characters; map ClaudeKit `agent_type` → class; add variety (gender/palette/names/level).
 
 ## Key Insights
@@ -50,12 +50,12 @@
 6. Variety: variants, names, level badge.
 
 ## Todo List
-- [ ] AnimatedHeroSprite
-- [ ] State wiring (idle/run/work)
-- [ ] Class registry + mapping
+- [x] AnimatedHeroSprite (`HeroSprite.tsx`: idle/run 4f from atlas, faces travel direction, shadow, ticker-driven, reduced-motion still)
+- [x] State wiring idle/run (movement-detected); work loop → P6
+- [x] Class registry + mapping (`hero-class-registry.ts`; backend now stores `agent_type` on Agent → `agentType` in frontend state; verified with 6 typed demo subagents)
 - [ ] Weapons/props
-- [ ] MVP 4 classes + Novice
-- [ ] Remaining classes
+- [x] MVP 4 classes + Novice → all 11 classes + Novice done; Guild Master = knight_m (seated + walking)
+- [x] Remaining classes
 - [ ] Variety (variants, names, levels)
 
 ## Success Criteria

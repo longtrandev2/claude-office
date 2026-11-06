@@ -1,20 +1,21 @@
 /**
  * BossSprite Component
  *
- * Renders the boss character at their desk with state-based coloring.
- * Uses sprites for desk, chair, keyboard, monitor, and phone like agent desks.
+ * Renders the Guild Master (main agent) at the war table as an animated hero,
+ * plus the walking Guild Master used during context compaction.
  */
 
 "use client";
 
-import { memo, useMemo, useState, useCallback, type ReactNode } from "react";
-import { useTick } from "@pixi/react";
+import { memo, useMemo, type ReactNode } from "react";
 import { Graphics, TextStyle, Texture } from "pixi.js";
 import type { BossState, BubbleContent, Position } from "@/types";
 import { MarqueeText } from "./MarqueeText";
 import { ICON_MAP } from "./shared/iconMap";
 import { drawBubble, drawIconBadge } from "./shared/drawBubble";
-import { drawRightArm, drawLeftArm } from "./shared/drawArm";
+import { useTranslation } from "@/hooks/useTranslation";
+import { HERO_CLASSES } from "@/dungeon/hero-class-registry";
+import { HeroSprite } from "./HeroSprite";
 import { truncateBubbleText } from "@/utils/bubbleText";
 
 // ============================================================================
@@ -43,44 +44,22 @@ export interface BossSpriteProps {
 // CONSTANTS
 // ============================================================================
 
-const BOSS_WIDTH = 48; // 1.5 blocks × 32px
-const BOSS_HEIGHT = 80; // 2.5 blocks × 32px
-const STROKE_WIDTH = 4;
-
-// State colors for the boss (kept for reference, not currently used)
-const _STATE_COLORS: Record<BossState, number> = {
-  idle: 0x2d3748, // Gray
-  phone_ringing: 0xfbbf24, // Yellow
-  on_phone: 0xfbbf24, // Yellow
-  receiving: 0x06b6d4, // Cyan - receiving user input
-  working: 0xef4444, // Red - active
-  delegating: 0x8b5cf6, // Purple - spawning agents
-  waiting_permission: 0xf97316, // Orange - waiting for permission
-  reviewing: 0x3b82f6, // Blue - reviewing agent work
-  completing: 0x22c55e, // Green - finishing up
+/** The Guild Master always wears the first guild-master sprite. */
+const GUILD_MASTER_BASE = HERO_CLASSES["guild-master"].bases[0];
+/** Feet offset below the boss origin (old capsule bottom: 6 + 38). */
+const SEATED_FEET_Y = 44;
+const WALKING_FEET_Y = 38;
+const LABEL_STYLE = {
+  fontFamily: "monospace",
+  fontSize: 24,
+  fill: 0xffffff,
+  fontWeight: "bold" as const,
+  stroke: { width: 4, color: 0x000000 },
 };
 
 // ============================================================================
 // DRAWING FUNCTIONS
 // ============================================================================
-
-function drawBossBody(g: Graphics, _state: BossState): void {
-  g.clear();
-  // Boss body (black capsule - state color changes were distracting)
-  // Inset by half stroke width so total size matches BOSS_WIDTH × BOSS_HEIGHT
-  const innerWidth = BOSS_WIDTH - STROKE_WIDTH;
-  const innerHeight = BOSS_HEIGHT - STROKE_WIDTH;
-  const bossRadius = innerWidth / 2;
-  g.roundRect(
-    -innerWidth / 2,
-    -innerHeight / 2,
-    innerWidth,
-    innerHeight,
-    bossRadius,
-  );
-  g.fill(0x1f2937); // Always dark gray
-  g.stroke({ width: STROKE_WIDTH, color: 0xffffff });
-}
 
 function drawFallbackChair(g: Graphics): void {
   g.clear();
@@ -190,7 +169,7 @@ function Bubble({ content, yOffset }: BubbleProps): ReactNode {
 
 function BossSpriteComponent({
   position,
-  state,
+  state: _state,
   bubble,
   inUseBy: _inUseBy,
   currentTask,
@@ -199,165 +178,50 @@ function BossSpriteComponent({
   keyboardTexture,
   monitorTexture,
   phoneTexture: _phoneTexture,
-  headsetTexture,
-  sunglassesTexture,
+  headsetTexture: _headsetTexture,
+  sunglassesTexture: _sunglassesTexture,
   renderBubble = true,
-  isTyping = false,
+  isTyping: _isTyping = false,
   isAway = false,
 }: BossSpriteProps): ReactNode {
-  // Animation state for typing
-  const [typingTime, setTypingTime] = useState(0);
-
-  // Animate typing - oscillate hands up/down
-  useTick((ticker) => {
-    if (isTyping) {
-      setTypingTime((t) => t + ticker.deltaTime * 0.15);
-    } else if (typingTime !== 0) {
-      setTypingTime(0);
-    }
-  });
-
-  // Calculate arm animation offsets (subtle, out of phase for natural look)
-  const rightArmOffset = isTyping ? Math.sin(typingTime * 8) * 2 : 0;
-  const leftArmOffset = isTyping
-    ? Math.sin(typingTime * 8 + Math.PI * 0.7) * 2
-    : 0;
-
-  // Memoize draw callbacks
-  const drawBossCallback = useMemo(
-    () => (g: Graphics) => drawBossBody(g, state),
-    [state],
-  );
-
-  // Boss arm params: body half-width 22px, shoulder at y=0, keyboard at y=32
-  const bossArmParams = useMemo(
-    () => ({
-      bodyHalfWidth: (BOSS_WIDTH - STROKE_WIDTH) / 2,
-      startY: 0,
-      endY: 32,
-      handColor: 0x1f2937,
-    }),
-    [],
-  );
-
-  // Arm draw callbacks need to be recreated when animation changes
-  const drawRightArmCallback = useCallback(
-    (g: Graphics) =>
-      drawRightArm(g, { ...bossArmParams, animOffset: rightArmOffset }),
-    [bossArmParams, rightArmOffset],
-  );
-
-  const drawLeftArmCallback = useCallback(
-    (g: Graphics) =>
-      drawLeftArm(g, { ...bossArmParams, animOffset: leftArmOffset }),
-    [bossArmParams, leftArmOffset],
-  );
-
+  const { t } = useTranslation();
   const bubbleOffset = -80;
 
   return (
     <pixiContainer x={position.x} y={position.y}>
       {/* Chair - behind everything */}
       {chairTexture ? (
-        <pixiSprite
-          texture={chairTexture}
-          anchor={0.5}
-          x={5}
-          y={30}
-          scale={0.1386}
-        />
+        <pixiSprite texture={chairTexture} anchor={0.5} x={5} y={30} scale={0.1386} />
       ) : (
         <pixiGraphics draw={drawFallbackChair} />
       )}
 
-      {/* Boss character (body + accessories) - hidden when away from desk */}
+      {/* Guild Master - hidden when away from the table */}
       {!isAway && (
-        <pixiContainer y={6}>
-          {/* Boss body - in front of chair, behind desk */}
-          <pixiGraphics draw={drawBossCallback} />
-
-          {/* Sunglasses - boss always looks cool (drawn before arms) */}
-          {sunglassesTexture && (
-            <pixiSprite
-              texture={sunglassesTexture}
-              anchor={0.5}
-              x={0}
-              y={-19}
-              scale={{ x: 0.036, y: 0.04 }}
-              tint={0x000000}
-            />
-          )}
-        </pixiContainer>
+        <HeroSprite base={GUILD_MASTER_BASE} position={position} feetY={SEATED_FEET_Y} seed="guild-master" />
       )}
 
-      {/* Desk surface - in front of boss */}
+      {/* Desk surface - in front of the Guild Master */}
       {deskTexture ? (
-        <pixiSprite
-          texture={deskTexture}
-          anchor={{ x: 0.5, y: 0 }}
-          y={30}
-          scale={0.105}
-        />
+        <pixiSprite texture={deskTexture} anchor={{ x: 0.5, y: 0 }} y={30} scale={0.105} />
       ) : (
         <pixiGraphics draw={drawFallbackDesk} />
       )}
 
       {/* Keyboard - on desk surface */}
       {keyboardTexture && (
-        <pixiSprite
-          texture={keyboardTexture}
-          anchor={0.5}
-          x={0}
-          y={42}
-          scale={0.04}
-        />
-      )}
-
-      {/* Arms - hidden when away from desk */}
-      {!isAway && (
-        <pixiContainer y={6}>
-          <pixiGraphics draw={drawRightArmCallback} />
-          <pixiGraphics draw={drawLeftArmCallback} />
-        </pixiContainer>
-      )}
-
-      {/* Headset - hidden when away from desk */}
-      {!isAway && headsetTexture && (
-        <pixiSprite
-          texture={headsetTexture}
-          anchor={0.5}
-          x={0}
-          y={6 - 20}
-          scale={{ x: 0.66825, y: 0.675 }}
-        />
+        <pixiSprite texture={keyboardTexture} anchor={0.5} x={0} y={42} scale={0.04} />
       )}
 
       {/* Monitor - left side of desk */}
       {monitorTexture && (
-        <pixiSprite
-          texture={monitorTexture}
-          anchor={0.5}
-          x={-45}
-          y={27}
-          scale={0.08}
-        />
+        <pixiSprite texture={monitorTexture} anchor={0.5} x={-45} y={27} scale={0.08} />
       )}
 
-      {/* Boss label - hidden when away from desk */}
+      {/* Title label - hidden when away from the table */}
       {!isAway && (
-        <pixiContainer y={-63} scale={0.5}>
-          <pixiText
-            text="Claude"
-            anchor={0.5}
-            style={{
-              fontFamily: "monospace",
-              fontSize: 24,
-              fill: 0xffffff,
-              fontWeight: "bold",
-              stroke: { width: 4, color: 0x000000 },
-            }}
-            resolution={2}
-          />
+        <pixiContainer y={-52} scale={0.5}>
+          <pixiText text={t("attention.popup.boss")} anchor={0.5} style={LABEL_STYLE} resolution={2} />
         </pixiContainer>
       )}
 
@@ -369,9 +233,7 @@ function BossSpriteComponent({
       )}
 
       {/* Bubble - only render if renderBubble is true and boss is at desk */}
-      {renderBubble && bubble && !isAway && (
-        <Bubble content={bubble} yOffset={bubbleOffset} />
-      )}
+      {renderBubble && bubble && !isAway && <Bubble content={bubble} yOffset={bubbleOffset} />}
     </pixiContainer>
   );
 }
@@ -397,56 +259,15 @@ function MobileBossComponent({
   position,
   jumpOffset = 0,
   scale = 1.0,
-  sunglassesTexture,
-  headsetTexture,
+  sunglassesTexture: _sunglassesTexture,
+  headsetTexture: _headsetTexture,
 }: MobileBossProps): ReactNode {
-  const drawBossCallback = useMemo(
-    () => (g: Graphics) => drawBossBody(g, "working"),
-    [],
-  );
-
+  const { t } = useTranslation();
   return (
     <pixiContainer x={position.x} y={position.y + jumpOffset} scale={scale}>
-      {/* Boss body */}
-      <pixiGraphics draw={drawBossCallback} />
-
-      {/* Sunglasses */}
-      {sunglassesTexture && (
-        <pixiSprite
-          texture={sunglassesTexture}
-          anchor={0.5}
-          x={0}
-          y={-19}
-          scale={{ x: 0.036, y: 0.04 }}
-          tint={0x000000}
-        />
-      )}
-
-      {/* Headset */}
-      {headsetTexture && (
-        <pixiSprite
-          texture={headsetTexture}
-          anchor={0.5}
-          x={0}
-          y={-20}
-          scale={{ x: 0.66825, y: 0.675 }}
-        />
-      )}
-
-      {/* Boss label */}
-      <pixiContainer y={-63} scale={0.5}>
-        <pixiText
-          text="Claude"
-          anchor={0.5}
-          style={{
-            fontFamily: "monospace",
-            fontSize: 24,
-            fill: 0xffffff,
-            fontWeight: "bold",
-            stroke: { width: 4, color: 0x000000 },
-          }}
-          resolution={2}
-        />
+      <HeroSprite base={GUILD_MASTER_BASE} position={position} feetY={WALKING_FEET_Y} seed="guild-master" />
+      <pixiContainer y={-58} scale={0.5}>
+        <pixiText text={t("attention.popup.boss")} anchor={0.5} style={LABEL_STYLE} resolution={2} />
       </pixiContainer>
     </pixiContainer>
   );

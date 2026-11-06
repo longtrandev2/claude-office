@@ -1,15 +1,14 @@
 /**
  * AgentSprite Component
  *
- * Renders a single agent character as a colored capsule with optional bubble.
- * Supports headset and sunglasses accessories.
+ * Renders a single agent as an animated guild hero (class from its
+ * Claude Code / ClaudeKit agent type) with optional name label and bubble.
  */
 
 "use client";
 
-import { memo, useMemo, useState, useCallback, type ReactNode } from "react";
-import { useTick } from "@pixi/react";
-import { Graphics, TextStyle, Texture } from "pixi.js";
+import { memo, useMemo, useCallback, type ReactNode } from "react";
+import { TextStyle, Texture } from "pixi.js";
 import type { Position, BubbleContent } from "@/types";
 import type { AgentPhase } from "@/stores/gameStore";
 import { useAttentionStore } from "@/stores/attentionStore";
@@ -17,8 +16,9 @@ import { usePreferencesStore } from "@/stores/preferencesStore";
 import { isInElevatorZone } from "@/systems/queuePositions";
 import { ICON_MAP } from "./shared/iconMap";
 import { drawBubble, drawIconBadge } from "./shared/drawBubble";
-import { drawRightArm, drawLeftArm } from "./shared/drawArm";
 import { truncateBubbleText } from "@/utils/bubbleText";
+import { heroBaseForAgent, heroClassForAgentType } from "@/dungeon/hero-class-registry";
+import { HeroSprite } from "./HeroSprite";
 
 // ============================================================================
 // TYPES
@@ -37,42 +37,16 @@ export interface AgentSpriteProps {
   renderBubble?: boolean; // Whether to render bubble (default true)
   renderLabel?: boolean; // Whether to render name label (default true)
   isTyping?: boolean; // Whether agent is typing (animates arms)
+  agentType?: string | null; // Subagent type → hero class (e.g. "planner")
 }
 
 // ============================================================================
 // CONSTANTS
 // ============================================================================
 
-const AGENT_WIDTH = 48; // 1.5 blocks × 32px (matches boss)
-const AGENT_HEIGHT = 80; // 2.5 blocks × 32px (matches boss)
-const STROKE_WIDTH = 4;
 
-// ============================================================================
-// DRAWING FUNCTIONS
-// ============================================================================
-
-function drawAgent(g: Graphics, color: string): void {
-  g.clear();
-
-  // Convert hex color string to number
-  const colorNum = parseInt(color.replace("#", ""), 16) || 0xff6b6b;
-
-  // Agent body (colored capsule with white border)
-  // Position is at CENTER OF BOTTOM CIRCLE, so capsule extends from -54 to +22
-  // Inset by half stroke width so total size matches AGENT_WIDTH × AGENT_HEIGHT
-  const innerWidth = AGENT_WIDTH - STROKE_WIDTH;
-  const innerHeight = AGENT_HEIGHT - STROKE_WIDTH;
-  const agentRadius = innerWidth / 2; // 22px - radius of top/bottom circles
-  g.roundRect(
-    -innerWidth / 2,
-    -innerHeight + agentRadius, // Bottom circle center at y=0
-    innerWidth,
-    innerHeight,
-    agentRadius,
-  );
-  g.fill(colorNum);
-  g.stroke({ width: STROKE_WIDTH, color: 0xffffff });
-}
+/** Feet sit this far below the engine's agent origin (old capsule bottom). */
+const HERO_FEET_Y = 22;
 
 // ============================================================================
 // BUBBLE COMPONENT
@@ -169,24 +143,25 @@ function Bubble({ content, yOffset }: BubbleProps): ReactNode {
 function AgentSpriteComponent({
   id,
   name,
-  color,
+  color: _color,
   number: _number,
   position,
   phase: _phase,
   bubble,
   headsetTexture: _headsetTexture,
-  sunglassesTexture,
+  sunglassesTexture: _sunglassesTexture,
   renderBubble = true,
   renderLabel = true,
   isTyping: _isTyping = false,
+  agentType = null,
 }: AgentSpriteProps): ReactNode {
   const clickToFocusEnabled = usePreferencesStore((s) => s.clickToFocusEnabled);
   const openFocusPopup = useAttentionStore((s) => s.openFocusPopup);
 
-  // Memoize draw callback
-  const drawCallback = useMemo(
-    () => (g: Graphics) => drawAgent(g, color),
-    [color],
+  // Class and look are fixed per agent (type + id never change).
+  const heroBase = useMemo(
+    () => heroBaseForAgent(id, heroClassForAgentType(agentType)),
+    [id, agentType],
   );
 
   // Click handler for focus popup
@@ -211,19 +186,8 @@ function AgentSpriteComponent({
       onPointerTap={handlePointerTap}
       interactive={clickToFocusEnabled}
     >
-      {/* Agent capsule body */}
-      <pixiGraphics draw={drawCallback} />
-
-      {/* Sunglasses */}
-      {sunglassesTexture && (
-        <pixiSprite
-          texture={sunglassesTexture}
-          anchor={0.5}
-          x={0}
-          y={-37}
-          scale={{ x: 0.036, y: 0.04 }}
-        />
-      )}
+      {/* Guild hero (animated, faces direction of travel) */}
+      <HeroSprite base={heroBase} position={position} feetY={HERO_FEET_Y} seed={id} />
 
       {/* Agent name if present - hide when in elevator or when renderLabel is false */}
       {renderLabel && name && !isInElevatorZone(position) && (
@@ -250,94 +214,6 @@ function AgentSpriteComponent({
     </pixiContainer>
   );
 }
-
-// ============================================================================
-// AGENT ARMS COMPONENT (rendered separately after desk surfaces)
-// ============================================================================
-
-export interface AgentArmsProps {
-  position: Position;
-  isTyping: boolean;
-}
-
-function AgentArmsComponent({ position, isTyping }: AgentArmsProps): ReactNode {
-  // Animation state for typing
-  const [typingTime, setTypingTime] = useState(0);
-
-  // Animate typing - oscillate hands up/down
-  useTick((ticker) => {
-    if (isTyping) {
-      setTypingTime((t) => t + ticker.deltaTime * 0.15);
-    } else if (typingTime !== 0) {
-      setTypingTime(0);
-    }
-  });
-
-  // Calculate arm animation offsets (subtle, out of phase for natural look)
-  const rightArmOffset = isTyping ? Math.sin(typingTime * 8) * 2 : 0;
-  const leftArmOffset = isTyping
-    ? Math.sin(typingTime * 8 + Math.PI * 0.7) * 2
-    : 0;
-
-  // Agent arm params: body half-width 22px, shoulder at y=-16, keyboard at y=16
-  const agentArmParams = useMemo(
-    () => ({
-      bodyHalfWidth: (AGENT_WIDTH - STROKE_WIDTH) / 2,
-      startY: -16,
-      endY: 16,
-      handColor: 0x1f2937,
-    }),
-    [],
-  );
-
-  // Arm draw callbacks
-  const drawRightArmCallback = useCallback(
-    (g: Graphics) =>
-      drawRightArm(g, { ...agentArmParams, animOffset: rightArmOffset }),
-    [agentArmParams, rightArmOffset],
-  );
-
-  const drawLeftArmCallback = useCallback(
-    (g: Graphics) =>
-      drawLeftArm(g, { ...agentArmParams, animOffset: leftArmOffset }),
-    [agentArmParams, leftArmOffset],
-  );
-
-  return (
-    <pixiContainer x={position.x} y={position.y}>
-      <pixiGraphics draw={drawRightArmCallback} />
-      <pixiGraphics draw={drawLeftArmCallback} />
-    </pixiContainer>
-  );
-}
-
-export const AgentArms = memo(AgentArmsComponent);
-
-// ============================================================================
-// AGENT HEADSET COMPONENT (rendered after arms for correct z-order)
-// ============================================================================
-
-export interface AgentHeadsetProps {
-  position: Position;
-  headsetTexture: Texture;
-}
-
-function AgentHeadsetComponent({
-  position,
-  headsetTexture,
-}: AgentHeadsetProps): ReactNode {
-  return (
-    <pixiSprite
-      texture={headsetTexture}
-      anchor={0.5}
-      x={position.x}
-      y={position.y - 38}
-      scale={{ x: 0.66825, y: 0.675 }}
-    />
-  );
-}
-
-export const AgentHeadset = memo(AgentHeadsetComponent);
 
 // ============================================================================
 // AGENT LABEL COMPONENT (rendered separately for z-ordering)

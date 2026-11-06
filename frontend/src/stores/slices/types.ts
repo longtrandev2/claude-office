@@ -65,6 +65,8 @@ export interface AgentAnimationState {
   backendState: BackendAgentState;
   currentTask: string | null;
   characterType: string | null;
+  /** ClaudeKit/Claude Code subagent type ("planner", "tester"…), drives the hero class. */
+  agentType: string | null;
   parentSessionId: string | null;
   parentId: string | null;
 

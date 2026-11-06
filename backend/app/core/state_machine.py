@@ -324,6 +324,17 @@ def _handle_post_tool_use(sm: "StateMachine", event: AnyEvent) -> None:
     sm.whiteboard.track_tool_use(event)
 
 
+_AGENT_TYPE_MAX_LEN = 64
+
+
+def _normalize_agent_type(raw: str | None) -> str | None:
+    """Lowercase, trim and cap the subagent type; None when empty."""
+    if not raw:
+        return None
+    value = raw.strip().lower()[:_AGENT_TYPE_MAX_LEN]
+    return value or None
+
+
 def _handle_subagent_start(sm: "StateMachine", event: AnyEvent) -> None:
     """Handle SUBAGENT_START: create a new agent and add to arrival queue."""
     assert isinstance(event, AgentEvent)
@@ -836,4 +847,5 @@ class StateMachine:
             desk=count,
             bubble=None,
             current_task=task,
+            agent_type=_normalize_agent_type(data.agent_type),
         )

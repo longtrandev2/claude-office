@@ -496,6 +496,7 @@ export interface Agent {
   characterType?: Charactertype;
   parentSessionId?: Parentsessionid;
   parentId?: Parentid;
+  agentType?: string | null;
   [k: string]: unknown;
 }
 /**

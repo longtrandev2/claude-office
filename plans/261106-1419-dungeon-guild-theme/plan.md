@@ -26,10 +26,11 @@ Multi-language (en/es/pt-BR/vi). Control features (hook two-way "A", Agent SDK "
 | 2 | [Theme system foundation](phase-02-theme-system-foundation.md) | M | superseded — reverted, dungeon is the only look |
 | 3 | [i18n: vi + dungeon strings all languages](phase-03-i18n-multilanguage-dungeon-strings.md) | S | done |
 | 4 | [Dungeon environment](phase-04-dungeon-environment.md) | M | in progress — static hall done, awaiting user review |
-| 5 | [Animated characters & classes](phase-05-animated-characters-and-classes.md) | L | pending |
+| 5 | [Animated characters & classes](phase-05-animated-characters-and-classes.md) | L | in progress — heroes + classes live |
 | 6 | [Interactions & FX](phase-06-interactions-and-fx.md) | L | pending |
 | 7 | [Quest board, extras, test & polish](phase-07-quest-board-extras-test-polish.md) | M | pending |
 | 8 | [UX & liveliness (engine extensions)](phase-08-ux-and-liveliness.md) | L | pending — interleaved with P4–P7 |
+| 9 | [World map & the descent](phase-09-world-map-and-descent.md) | XL | pending — after P5/P6 |
 
 **MVP cut** (if token budget tight): P1 → P3 → P4 (floor/walls only) → P5 (Guild Master + 3 classes + Novice fallback).
 
@@ -48,6 +49,9 @@ P1 → (P3 ∥ P4 ∥ P5) → P6 → P7; P8 interleaved. P2 dropped.
 
 ## Known bugs
 - **Vietnamese/non-ASCII text corrupted on Windows (pre-existing upstream bug).** (1) Hook read stdin with cp1252 → FIXED 2026-11-06 (`hooks/.../main.py` decodes UTF-8; verified hook POST body correct). (2) Backend still stores mojibake (e.g. "làm" → "lÃ m") although the POSTed JSON is correct — root cause not found yet (not request parsing). Repro: pipe `{"session_id":"x","prompt":"làm tiếp"}` (UTF-8) into `claude-office-hook user_prompt_submit`, then GET `/api/v1/sessions/x/replay`. Also causes `UnicodeEncodeError` on WS broadcast for older corrupted events. Fix before P7.
+
+- **AI summaries fail on Windows** (`NotImplementedError` from asyncio subprocess under uvicorn `--reload` selector loop) — pre-existing; header still shows "AI ON". Fix with a Proactor loop or running the CLI via a thread.
+- Pending discussion (2026-11-06): "Dungeon = Codebase" concept (descending levels built from repo folders, heroes go to the file they touch, monsters spawn where errors occur) — to discuss with user before writing phase 9.
 
 ## Decisions
 - 2026-11-06: user — UI/UX may diverge freely from upstream; be creative, lively, on-vibe; use FE/UI-UX skills (ui-ux-pro-max, design-taste-frontend). App chrome redesign belongs to P8.

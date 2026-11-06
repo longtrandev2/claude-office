@@ -66,6 +66,9 @@ class Agent(BaseModel):
     character_type: str | None = None  # "lead" | "teammate" | "subagent"
     parent_session_id: str | None = None  # session that owns this character
     parent_id: str | None = None  # for subagents: parent lead/teammate id
+    # Subagent type from the Agent/Task tool (e.g. "planner", "tester").
+    # Untrusted hook input: normalized, length-capped, used only as a lookup key.
+    agent_type: str | None = None
 
 
 class Boss(BaseModel):

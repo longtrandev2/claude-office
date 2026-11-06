@@ -64,8 +64,6 @@ import {
 } from "@/constants/positions";
 import {
   AgentSprite,
-  AgentArms,
-  AgentHeadset,
   AgentLabel,
   Bubble as AgentBubble,
 } from "./AgentSprite";
@@ -460,6 +458,7 @@ export function OfficeGame(): ReactNode {
                             renderBubble={false}
                             renderLabel={false}
                             isTyping={agent.isTyping}
+                            agentType={agent.agentType}
                           />
                         </pixiContainer>
                       ))}
@@ -472,29 +471,6 @@ export function OfficeGame(): ReactNode {
                     deskTexture={textures.desk}
                     keyboardTexture={textures.keyboard}
                   />
-
-                  {/* Agent arms - rendered after desk/keyboard, before headsets */}
-                  {Array.from(agents.values())
-                    .filter((agent) => agent.phase === "idle")
-                    .map((agent) => (
-                      <AgentArms
-                        key={`arms-${agent.id}`}
-                        position={agent.currentPosition}
-                        isTyping={agent.isTyping}
-                      />
-                    ))}
-
-                  {/* Agent headsets - rendered after arms so they appear on top */}
-                  {textures.headset &&
-                    Array.from(agents.values())
-                      .filter((agent) => agent.phase === "idle")
-                      .map((agent) => (
-                        <AgentHeadset
-                          key={`headset-${agent.id}`}
-                          position={agent.currentPosition}
-                          headsetTexture={textures.headset!}
-                        />
-                      ))}
 
                   {/* Monitors and decorations (in front of agent arms) */}
                   <DeskSurfacesTop
