@@ -48,46 +48,44 @@ interface WhiteboardFrameProps {
   mode: WhiteboardMode;
 }
 
-/** Marker colors drawn in the whiteboard tray (red, green, blue). */
-const MARKER_COLORS = [0xef4444, 0x22c55e, 0x3b82f6];
 
 function WhiteboardFrame({
   children,
   onPointerDown,
   mode,
 }: WhiteboardFrameProps): ReactNode {
+  // Quest board: a parchment sheet pinned onto a wooden board (dungeon reskin
+  // of the office whiteboard; content modes are unchanged).
   const drawWhiteboard = useCallback((g: Graphics) => {
     g.clear();
 
-    // Board shadow
-    g.roundRect(4, 4, 330, 205, 8);
-    g.fill({ color: 0x000000, alpha: 0.2 });
+    // Wooden backing board: planks with lit top edges and dark seams.
+    for (let y = 0; y < 205; y += 41) {
+      g.rect(0, y, 330, 41);
+      g.fill(0x5a3a22);
+      g.rect(0, y, 330, 3);
+      g.fill(0x7a5233);
+      g.rect(0, y + 38, 330, 3);
+      g.fill(0x3d2616);
+    }
+    g.rect(0, 0, 330, 205);
+    g.stroke({ width: 4, color: 0x2a1a0e });
 
-    // Board background
-    g.roundRect(0, 0, 330, 205, 8);
-    g.fill(0xffffff);
-    g.stroke({ width: 4, color: 0x5d4037 });
+    // Parchment sheet.
+    g.rect(8, 8, 314, 189);
+    g.fill(0xe8d5a6);
+    g.rect(8, 8, 314, 189);
+    g.stroke({ width: 3, color: 0xb89a5e });
 
-    // Inner border (silver frame effect)
-    g.roundRect(6, 6, 318, 193, 4);
-    g.stroke({ width: 2, color: 0x9e9e9e });
-
-    // Header bar
+    // Leather title band.
     g.rect(10, 10, 310, 24);
-    g.fill(0x2d3748);
-    g.roundRect(10, 10, 310, 24, 3);
-    g.fill(0x2d3748);
+    g.fill(0x3d2616);
 
-    // Marker tray
-    g.rect(115, 203, 100, 8);
-    g.fill(0x9e9e9e);
-    g.stroke({ width: 1, color: 0x757575 });
-
-    // Markers
-    MARKER_COLORS.forEach((color, i) => {
-      g.roundRect(125 + i * 25, 197, 18, 12, 2);
-      g.fill(color);
-    });
+    // Pins at the parchment corners.
+    for (const [px, py] of [[12, 38], [314, 38], [12, 188], [314, 188]]) {
+      g.rect(px, py, 5, 5);
+      g.fill(0x9b2c2c);
+    }
   }, []);
 
   const modeInfo = MODE_INFO[mode];
@@ -99,13 +97,13 @@ function WhiteboardFrame({
       {/* Header - rendered at 2x for sharpness */}
       <pixiContainer x={165} y={22} scale={0.5}>
         <pixiText
-          text={`${modeInfo.icon} ${modeInfo.name}`}
+          text={modeInfo.name}
           anchor={0.5}
           style={{
             fontFamily: '"Courier New", monospace',
             fontSize: 24,
             fontWeight: "bold",
-            fill: "#ffffff",
+            fill: "#f1e3c2",
           }}
           resolution={2}
         />
@@ -120,7 +118,7 @@ function WhiteboardFrame({
             draw={(g: Graphics) => {
               g.clear();
               g.circle(0, 0, i === mode ? 4 : 2);
-              g.fill(i === mode ? 0x3b82f6 : 0x9ca3af);
+              g.fill(i === mode ? 0x9b2c2c : 0x8a7a5e);
             }}
           />
         ))}
