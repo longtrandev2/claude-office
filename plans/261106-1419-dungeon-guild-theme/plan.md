@@ -48,8 +48,7 @@ P1 → (P3 ∥ P4 ∥ P5) → P6 → P7; P8 interleaved. P2 dropped.
 - Supplement packs for furniture — user downloads (itch.io blocks automation); candidates in phase-01.
 
 ## Known bugs
-- **Vietnamese/non-ASCII text corrupted on Windows (pre-existing upstream bug).** (1) Hook read stdin with cp1252 → FIXED 2026-11-06 (`hooks/.../main.py` decodes UTF-8; verified hook POST body correct). (2) Backend still stores mojibake (e.g. "làm" → "lÃ m") although the POSTed JSON is correct — root cause not found yet (not request parsing). Repro: pipe `{"session_id":"x","prompt":"làm tiếp"}` (UTF-8) into `claude-office-hook user_prompt_submit`, then GET `/api/v1/sessions/x/replay`. Also causes `UnicodeEncodeError` on WS broadcast for older corrupted events. Fix before P7.
-
+- ~~Vietnamese text corrupted on Windows~~ FIXED 2026-11-06 (a5353ff): Claude Code on Windows writes hook stdin in the ANSI code page (Latin-1 letters raw, other characters JSON-escaped). Hook decodes UTF-8, then falls back to the system code page. Backend WebSocket sends use ASCII-escaped JSON, so old mangled text (lone surrogates) no longer freezes a session. Replay API may still return 500 for sessions holding old mangled events (low priority).
 - **AI summaries fail on Windows** (`NotImplementedError` from asyncio subprocess under uvicorn `--reload` selector loop) — pre-existing; header still shows "AI ON". Fix with a Proactor loop or running the CLI via a thread.
 - Pending discussion (2026-11-06): "Dungeon = Codebase" concept (descending levels built from repo folders, heroes go to the file they touch, monsters spawn where errors occur) — to discuss with user before writing phase 9.
 
