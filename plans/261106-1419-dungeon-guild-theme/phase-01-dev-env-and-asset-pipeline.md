@@ -4,7 +4,7 @@
 - [plan.md](plan.md) · upstream README · `docs/guides/quickstart.md` · `.claude/skills/office-sprite/SKILL.md`
 
 ## Overview
-- Priority: P0 (blocks everything) · Status: pending
+- Priority: P0 (blocks everything) · Status: done (2026-11-06)
 - Get backend+frontend running on Windows without make/tmux; acquire 0x72 DungeonTileset II + supplements; build sprite atlas pipeline.
 
 ## Key Insights
@@ -46,7 +46,7 @@ Supplement priority: (1) other CC0 packs with matching 16px top-down style (e.g.
 
 ## Supplement packs (downloaded 2026-11-06 into gitignored `assets-src/dungeon/`)
 1. [DungeonTileset II Extended v1.1 (Niji)](https://nijikokun.itch.io/dungeontileset-ii-extended) — CC0 (per itch page). Single 1024×1024 sheet + .ase + palette, **no tile list** → slice by grid/manual coords in P4. Contents to inspect.
-2. [Dungeon Tileset V1 (jojomod)](https://jojomod.itch.io/dungeon-tileset-v1) — **license NOT in zip, user to confirm on page**. Individual PNGs (~16px). Useful: `blacksmith` (anvil station), `table/monk_desk_*` (desks), animated `candle_holder`, `candleabra_vertical`, `candle_wall_vertical`, `Globe` (Cartographer), `ink_feather` (Scribe), chests (red/bulby/truth, open anims), barrel/crate (idle + explode anims → error FX), doors, jail cell, pots, flowers. Ignore `Weapon/` (modern guns — off-theme).
+2. [Dungeon Tileset V1 (jojomod)](https://jojomod.itch.io/dungeon-tileset-v1) — CC0 (confirmed by user from itch page). Individual PNGs (~16px). Useful: `blacksmith` (anvil station), `table/monk_desk_*` (desks), animated `candle_holder`, `candleabra_vertical`, `candle_wall_vertical`, `Globe` (Cartographer), `ink_feather` (Scribe), chests (red/bulby/truth, open anims), barrel/crate (idle + explode anims → error FX), doors, jail cell, pots, flowers. Ignore `Weapon/` (modern guns — off-theme).
 3. ~~Faultbox Interior~~ — not free, skipped.
 - Fallback if needed: [Moonlight Dungeon 16x16](https://aleovera.itch.io/moonlight-dungeon) — CC0, torch + stairs.
 - Still uncovered: owl, quest board, portal, bookshelf, cauldron → code-drawn (Pixi Graphics) or AI-generated + palette-snapped.
@@ -57,7 +57,7 @@ Supplement priority: (1) other CC0 packs with matching 16px top-down style (e.g.
 - [x] Hooks firing from Claude Code (live ClaudeKit session visible in `/api/v1/sessions`)
 - [x] Simulation scenario sends events (session `sim_session_123` created)
 - [x] 0x72 downloaded, license verified (CC0)
-- [ ] Supplement packs downloaded & licensed (user)
+- [x] Supplement packs downloaded & licensed (Niji CC0, jojomod CC0; Faultbox skipped — paid)
 - [x] Atlas build script + generated atlas (370 frames, 67 animations)
 - [x] CREDITS.md + windows-dev-setup.md
 
