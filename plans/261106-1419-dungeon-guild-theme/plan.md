@@ -43,4 +43,7 @@ P1 → P2 → (P3 ∥ P4 ∥ P5) → P6 → P7. P3 independent once theme string
 
 ## Unresolved questions
 - 0x72 license/contents not verified yet (itch.io blocks automated fetch) — verify on download (P1).
-- Theme default: dungeon on first launch, or keep office default + toggle?
+
+## Decisions
+- 2026-11-06: theme is user-selectable in Settings (office ↔ dungeon); assumed default = dungeon in this fork (confirm with user).
+- 2026-11-06: uv required on host even with Docker — hooks install via `uv tool install` (`hooks/install.sh:118`).
