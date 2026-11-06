@@ -41,6 +41,7 @@ export const DUNGEON_PROP_NAMES = [
   "globe",
   "blacksmith-anvil",
   "wooden-desk",
+  "ink-feather",
 ] as const;
 export type DungeonPropName = (typeof DUNGEON_PROP_NAMES)[number];
 

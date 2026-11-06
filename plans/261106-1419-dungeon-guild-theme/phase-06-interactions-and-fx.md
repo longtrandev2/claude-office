@@ -48,7 +48,7 @@
 - [ ] Hand-off & return
 - [ ] Class work loops
 - [x] Chest meter + compaction (`TreasureChestContextMeter.tsx` replaces trash can: closed <35%, ajar <70%, open ≥70%, spilling coins ≥90%; stomp squish/shake kept)
-- [ ] Owl courier
+- [x] Report produced → scribe's desk: parchment scroll unrolls with ink lines (PrinterStation reskin; owl idea dropped — no owl sprite in the CC0 family)
 - [ ] Error slime + permission bubble — BLOCKED on a real error signal: installed hooks (9 events) emit no tool-failure event; verify Claude Code `PostToolUseFailure` (or tool_response error fields) and map it in hooks before adding monsters (anti-slop: no signal, no monster)
 
 ## Success Criteria
