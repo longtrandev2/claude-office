@@ -93,6 +93,9 @@ export default function V2TestPage(): React.ReactNode {
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  // Scene-only mode: side panels hidden, the pixel scene fills the window.
+  const sceneOnly = usePreferencesStore((s) => s.sceneOnly);
+  const setSceneOnly = usePreferencesStore((s) => s.setSceneOnly);
   const [settingsInitialTab, setSettingsInitialTab] = useState<
     "general" | "building"
   >("general");
@@ -446,6 +449,8 @@ export default function V2TestPage(): React.ReactNode {
             onToggleDebug={handleToggleDebug}
             onOpenSettings={() => setIsSettingsModalOpen(true)}
             onOpenHelp={() => setIsHelpModalOpen(true)}
+            sceneOnly={sceneOnly}
+            onToggleSceneOnly={() => void setSceneOnly(!sceneOnly)}
           />
         )}
 
@@ -496,18 +501,20 @@ export default function V2TestPage(): React.ReactNode {
             Single View (default, original layout)
         ---------------------------------------------------------------- */
         <div className="flex-grow flex gap-2 overflow-hidden min-h-0">
-          <SessionSidebar
-            sessions={sessions}
-            sessionsLoading={sessionsLoading}
-            sessionId={sessionId}
-            isCollapsed={leftSidebarCollapsed}
-            onToggleCollapsed={() =>
-              setLeftSidebarCollapsed(!leftSidebarCollapsed)
-            }
-            onSessionSelect={handleSessionSelect}
-            onDeleteSession={setSessionPendingDelete}
-            onRenameSession={handleRenameSession}
-          />
+          {!sceneOnly && (
+            <SessionSidebar
+              sessions={sessions}
+              sessionsLoading={sessionsLoading}
+              sessionId={sessionId}
+              isCollapsed={leftSidebarCollapsed}
+              onToggleCollapsed={() =>
+                setLeftSidebarCollapsed(!leftSidebarCollapsed)
+              }
+              onSessionSelect={handleSessionSelect}
+              onDeleteSession={setSessionPendingDelete}
+              onRenameSession={handleRenameSession}
+            />
+          )}
 
           <div
             data-tour-id="game-canvas"
@@ -516,7 +523,7 @@ export default function V2TestPage(): React.ReactNode {
             <OfficeGame />
           </div>
 
-          <RightSidebar />
+          {!sceneOnly && <RightSidebar />}
         </div>
       ) : view === "command" ? (
         /* ----------------------------------------------------------------

@@ -16,6 +16,8 @@ export interface PreferencesState {
   clockFormat: ClockFormat;
   autoFollowNewSessions: boolean;
   language: Locale;
+  /** Hide the side panels so the pixel scene fills the window. */
+  sceneOnly: boolean;
   isLoaded: boolean;
 
   // Attention settings
@@ -34,6 +36,7 @@ export interface PreferencesState {
   setClockFormat: (format: ClockFormat) => Promise<void>;
   setAutoFollowNewSessions: (enabled: boolean) => Promise<void>;
   setLanguage: (language: Locale) => Promise<void>;
+  setSceneOnly: (enabled: boolean) => Promise<void>;
   cycleClockMode: () => Promise<void>;
   setCommandBarEnabled: (enabled: boolean) => Promise<void>;
   setClickToFocusEnabled: (enabled: boolean) => Promise<void>;
@@ -101,6 +104,7 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
   clockFormat: DEFAULT_CLOCK_FORMAT,
   autoFollowNewSessions: DEFAULT_AUTO_FOLLOW_NEW_SESSIONS,
   language: DEFAULT_LANGUAGE,
+  sceneOnly: false,
   commandBarEnabled: DEFAULT_COMMAND_BAR_ENABLED,
   clickToFocusEnabled: DEFAULT_CLICK_TO_FOCUS_ENABLED,
   toastFilterPermission: DEFAULT_TOAST_FILTER_PERMISSION,
@@ -134,6 +138,7 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
           : DEFAULT_CLOCK_FORMAT,
       autoFollowNewSessions,
       language: isLocale(language) ? language : DEFAULT_LANGUAGE,
+      sceneOnly: prefs.sceneOnly === "true",
       commandBarEnabled: prefs.commandBarEnabled !== "false",
       clickToFocusEnabled: prefs.clickToFocusEnabled !== "false",
       toastFilterPermission: prefs.toastFilterPermission !== "false",
@@ -168,6 +173,11 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
   setLanguage: async (language) => {
     set({ language });
     await setPreference("language", language);
+  },
+
+  setSceneOnly: async (enabled) => {
+    set({ sceneOnly: enabled });
+    await setPreference("sceneOnly", String(enabled));
   },
 
   cycleClockMode: async () => {

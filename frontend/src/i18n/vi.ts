@@ -288,6 +288,10 @@ const vi: Record<TranslationKey, string> = {
   // Hall tally board (tool uses since compaction)
   "hall.tally.title": "Phép đã dùng",
   "hall.tally.subtitle": "từ lần nghỉ trước",
+
+  // Scene-only mode toggle
+  "header.sceneOnly": "CHỈ CẢNH",
+  "header.showPanels": "HIỆN BẢNG",
 };
 
 export default vi;

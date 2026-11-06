@@ -277,6 +277,10 @@ const en = {
   // Hall tally board (tool uses since compaction)
   "hall.tally.title": "Spells cast",
   "hall.tally.subtitle": "since last rest",
+
+  // Scene-only mode toggle
+  "header.sceneOnly": "SCENE ONLY",
+  "header.showPanels": "SHOW PANELS",
 } as const;
 
 export type TranslationKey = keyof typeof en;

@@ -172,9 +172,12 @@ function AgentSpriteComponent({
     const canvas = document.querySelector(".pixi-canvas-container canvas");
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const scale = rect.width / 1280; // CANVAS_WIDTH = 1280
-    const screenX = rect.left + position.x * scale;
-    const screenY = rect.top + position.y * scale;
+    // The canvas is letterboxed (object-fit: contain, centred) inside its box.
+    const scale = Math.min(rect.width / 1280, rect.height / 1024); // CANVAS 1280x1024
+    const offsetX = (rect.width - 1280 * scale) / 2;
+    const offsetY = (rect.height - 1024 * scale) / 2;
+    const screenX = rect.left + offsetX + position.x * scale;
+    const screenY = rect.top + offsetY + position.y * scale;
     openFocusPopup(id, screenX, screenY);
   }, [clickToFocusEnabled, id, position.x, position.y, openFocusPopup]);
 

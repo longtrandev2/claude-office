@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, HelpCircle, Settings, Bell, LayoutGrid } from "lucide-react";
+import { Activity, HelpCircle, Settings, Bell, LayoutGrid, Maximize2, Minimize2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useAttentionStore, selectUnreadCount } from "@/stores/attentionStore";
@@ -22,6 +22,9 @@ interface HeaderControlsProps {
   onToggleDebug: () => void;
   onOpenSettings: () => void;
   onOpenHelp: () => void;
+  /** Scene-only mode (side panels hidden). */
+  sceneOnly: boolean;
+  onToggleSceneOnly: () => void;
 }
 
 // ============================================================================
@@ -46,6 +49,8 @@ export function HeaderControls({
   onClearDB,
   onToggleDebug,
   onOpenSettings,
+  sceneOnly,
+  onToggleSceneOnly,
   onOpenHelp,
 }: HeaderControlsProps): React.ReactNode {
   const { t } = useTranslation();
@@ -84,6 +89,15 @@ export function HeaderControls({
           {t("header.commandCenter")}
         </button>
       )}
+
+      <button
+        onClick={onToggleSceneOnly}
+        aria-pressed={sceneOnly}
+        className="flex items-center gap-2 px-3 py-1.5 bg-slate-500/10 hover:bg-slate-500/20 text-slate-400 border border-slate-500/30 rounded text-xs font-bold transition-colors"
+      >
+        {sceneOnly ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+        {sceneOnly ? t("header.showPanels") : t("header.sceneOnly")}
+      </button>
 
       <button
         onClick={onOpenSettings}

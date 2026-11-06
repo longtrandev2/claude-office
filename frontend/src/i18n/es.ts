@@ -279,6 +279,10 @@ const es: Record<TranslationKey, string> = {
   // Hall tally board (tool uses since compaction)
   "hall.tally.title": "Hechizos lanzados",
   "hall.tally.subtitle": "desde el último descanso",
+
+  // Scene-only mode toggle
+  "header.sceneOnly": "SOLO ESCENA",
+  "header.showPanels": "MOSTRAR PANELES",
 };
 
 export default es;

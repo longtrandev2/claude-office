@@ -279,6 +279,10 @@ const ptBR: Record<TranslationKey, string> = {
   // Hall tally board (tool uses since compaction)
   "hall.tally.title": "Feitiços lançados",
   "hall.tally.subtitle": "desde o último descanso",
+
+  // Scene-only mode toggle
+  "header.sceneOnly": "SÓ CENA",
+  "header.showPanels": "MOSTRAR PAINÉIS",
 };
 
 export default ptBR;

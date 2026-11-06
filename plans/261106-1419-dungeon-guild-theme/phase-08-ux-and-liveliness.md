@@ -48,6 +48,9 @@
 7. Quest log filters, replay controls, reduced-motion.
 
 ## Todo List
+- [x] Scene-only mode (header SCENE ONLY / SHOW PANELS, persisted pref `sceneOnly`, default off) + canvas centred (object-position center, click mapping fixed for letterbox)
+- [x] Readability pass 1: bigger bubble/label/marquee/chest text, Markdown stripped from bubbles
+- [ ] Pixel camera (integer zoom, follow-cam) — scene is still minified by CSS contain
 - [ ] Render layers + y-sort
 - [ ] Sprite animation support
 - [ ] Pixel camera + follow-cam
