@@ -26,14 +26,14 @@
 1. Quest board frame + 5 key mode skins.
 2. Guild Hall skin for Command Center.
 3. Small props renames (hero of the week, tavern sign).
-4. Run full checks; add tests for class registry, event→visual map, theme manifest parity (office vs dungeon slots).
+4. Run full checks; add tests for class registry, event→visual map, dungeon atlas frame names used in code exist in the atlas.
 5. Screenshots/GIF; README fork section; CREDITS check.
 
 ## Todo List
 - [ ] Quest board frame + key modes
 - [ ] Guild Hall skin
 - [ ] Minor prop renames
-- [ ] Unit tests (registry, visual map, manifest)
+- [ ] Unit tests (class registry, visual map, atlas frame names)
 - [ ] Full checks green
 - [ ] README/CHANGELOG/screenshots
 
