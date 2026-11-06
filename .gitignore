@@ -113,3 +113,6 @@ frontend/public/sprites/paid/
 .superpowers
 docs/superpowers
 .cc2cc-session-id
+
+# Raw third-party asset packs (license-gated; see plans/261106-1419-dungeon-guild-theme)
+assets-src/

@@ -21,11 +21,15 @@
 | fullstack-developer | Blacksmith Warrior | dwarf | hammer, anvil |
 | debugger | Monster Hunter | lizard | daggers |
 | tester | Shield Knight | knight | shield |
-| code-reviewer | Inquisitor/Cleric | wizard (white palette) or supplement | tome |
-| docs-manager | Scribe | supplement / recolor | quill |
+| code-reviewer | Inquisitor | angel | golden sword / tome |
+| docs-manager | Scribe | doc | quill |
 | git-manager | Courier/Merchant | dwarf (recolor) | backpack |
-| brainstormer | Oracle | wizard (purple) | crystal ball |
+| brainstormer | Oracle | orc_shaman | crystal ball |
+| debugger (alt) | Monster Hunter | lizard | knife ×2 |
+| ui-ux-designer | Enchanter | pumpkin_dude or wizzard_f | green staff |
 | unknown | Novice Adventurer | random hero | — |
+- Pack names: `wizzard_*` (double z). Heroes 16×28 → scale ×2 (32×56) or ×3 (48×84); pick in P5 vs current agent box ~60×75 (integer scale only).
+- Monsters reserved for FX: slug/swampy = error slime, chest_mimic = fun error variant, imp/goblin = bug critters.
 - Variety: m/f variants, palette-swap shader/tint per instance, fantasy name generator (seeded by agent id), level badge (tool calls → XP).
 
 ## Architecture

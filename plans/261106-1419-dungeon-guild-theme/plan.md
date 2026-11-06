@@ -42,7 +42,8 @@ P1 → P2 → (P3 ∥ P4 ∥ P5) → P6 → P7. P3 independent once theme string
 - Every asset: license verified + listed in `frontend/public/themes/dungeon/CREDITS.md`.
 
 ## Unresolved questions
-- 0x72 license/contents not verified yet (itch.io blocks automated fetch) — verify on download (P1).
+- 0x72 contents verified (see phase-01); **license not in zip** — user to confirm on itch page. Until then `assets-src/` is gitignored.
+- Supplement packs for furniture (tables, bookshelf, anvil, torches, quest board, portal, owl) — user downloads (itch.io blocks automation).
 
 ## Decisions
 - 2026-11-06: theme is user-selectable in Settings (office ↔ dungeon); assumed default = dungeon in this fork (confirm with user).

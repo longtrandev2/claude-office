@@ -9,8 +9,15 @@
 
 ## Key Insights
 - No make/uv/bun/tmux/ImageMagick locally; node 24, python 3.14, docker present. Backend needs Python 3.13+ (3.14 OK) + uv.
-- 0x72 DungeonTileset II (from memory, VERIFY): CC0, 16×16 tiles, heroes knight/wizard/elf/dwarf/lizard (m/f) with idle 4f + run 4f + hit 1f; monsters (goblin, imp, skeleton, orc, slime-like, demon, necromancer…); separate weapon sprites; animated chests, flasks, coins, spikes, fountains. Ships a tile-list text with sprite coordinates.
-- Likely gaps: ranger/rogue/cleric/scribe/merchant looks, owl, quest board, portal, anvil, bookshelf, cauldron, torches/banners.
+- 0x72 DungeonTileset II v1.7 — VERIFIED from zip (`assets-src/dungeon/0x72_DungeonTilesetII_v1.7.zip`):
+  - Heroes (m/f each): knight, wizzard (sic), elf, dwarf, lizard — 16×28 px, idle 4f + run 4f + hit 1f, face right.
+  - NPC/monsters: angel, doc, pumpkin_dude, goblin, imp, chort, wogol, skelet, masked_orc, orc_warrior, orc_shaman, necromancer, ogre, big_demon, zombies, slug/swampy/muddy (slime-like).
+  - 27 weapons (bow, red/green magic staff, hammer, big_hammer, knife, mace, swords, axes, spear…).
+  - Props: chests empty/full/mimic (open anim), flasks ×8, coin anim, crate, skull, doors, levers, buttons, banners ×4 colors, wall fountains (anim), columns, hole, UI hearts.
+  - Atlases: floor 16×16, walls low 16×16 / high 16×32 (Godot 3×3 minimal autotile); `tile_list_v1.7` = `name x y w h` (370 lines) → atlas script input.
+  - **License NOT in zip** (README only covers tiling) → must confirm on itch page before committing assets to public fork.
+- Gaps (no furniture at all): tables/stools, bookshelf, anvil, cauldron, torches, quest board, portal/stairs, owl, window, hourglass, candles → supplement packs required.
+- macOS junk (`__MACOSX/`, `.DS_Store`) in zip → skip in atlas script.
 
 ## Requirements
 - Functional: `npm`-based dev start for frontend; `uv run` backend; hooks installed for Claude Code on Windows.
