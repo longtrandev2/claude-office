@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 from enum import Enum, auto
 from typing import Any, cast
 
+from app.core.explored_map import ExploredMap
 from app.core.path_utils import compress_path, compress_paths_in_text, truncate_long_words
 from app.core.quotes import get_random_job_completion_quote
 from app.core.summary_service import get_summary_service
@@ -249,6 +250,15 @@ def _handle_pre_tool_use(sm: "StateMachine", event: AnyEvent) -> None:
         sm.elevator_state = ElevatorState.ARRIVING
     else:
         agent_id = event.data.agent_id or "main"
+
+        # Phase 9: remember which repo folder this tool touched (fog of war map).
+        sm.explored.record_tool(
+            tool_name,
+            event.data.tool_input,
+            getattr(event.data, "project_dir", None) or getattr(event.data, "working_dir", None),
+            agent_id,
+            event.timestamp,
+        )
 
         bubble = sm.tool_to_thought(event)
         if agent_id == "main":
@@ -579,6 +589,8 @@ class StateMachine:
     handin_queue: list[str] = field(default_factory=_empty_str_list)
     history: list[HistoryEntry] = field(default_factory=_empty_history_list)
     todos: list[TodoItem] = field(default_factory=_empty_todo_list)
+    # Phase 9: repo folders agents touched this session (dungeon fog of war).
+    explored: ExploredMap = field(default_factory=ExploredMap)
     token_tracker: TokenTracker = field(default_factory=TokenTracker)
     tool_uses_since_compaction: int = 0
     print_report: bool = False
@@ -714,6 +726,7 @@ class StateMachine:
             conversation=self.conversation.copy(),
             floor_id=self.floor_id,
             room_id=self.room_id,
+            explored_map=self.explored.to_levels(),
         )
 
     def remove_agent(self, agent_id: str) -> None:

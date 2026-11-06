@@ -4,7 +4,7 @@
 - [plan.md](plan.md) · [phase-08](phase-08-ux-and-liveliness.md) (pixel camera, HTML text overlay) · hook tool inputs carry file paths (`hooks/.../event_mapper.py`) · `backend/app/core/{state_machine,floor_config}.py` · `frontend/src/dungeon/*`
 
 ## Overview
-- Priority: P1 (next after P6) · Status: concept decided 2026-11-06, not started · Size: XL (3 milestones)
+- Priority: P1 (next after P6) · Status: M1 done 2026-11-06; M2 next · Size: XL (3 milestones)
 - The Guild Hall is the surface (orchestration). Below it, the dungeon IS the repo: heroes go down to the folder of the file they are reading/editing; rooms appear only once explored.
 
 ## Decisions (user, 2026-11-06)
@@ -31,7 +31,7 @@
 - Privacy: paths stay local (LOCALHOST_ONLY); never send file contents.
 
 ## Todo List
-- [ ] M1 explored-map data + tests
+- [x] M1 explored-map data + tests (`backend/app/core/explored_map.py`, `models/explored_map.py`, GameState.exploredMap, TS types; verified live: `.claude` level with `rules`/`skills` rooms from real Read/Grep)
 - [ ] M2 cross-section view + camera + HTML text overlay
 - [ ] M3 descent behaviour, ghost marker, loot
 - [ ] Monsters (blocked on error signal)

@@ -53,7 +53,8 @@ Pick another port (example: 8765) and point both producers/consumers at it:
 export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
 # Reuse the hooks' key so it stays stable across --reload restarts
 export CLAUDE_OFFICE_API_KEY=$(grep '^CLAUDE_OFFICE_API_KEY=' ~/.claude/claude-office-config.env | cut -d= -f2- | tr -d '"')
-cd backend && uv run uvicorn app.main:app --reload --reload-dir app --host 127.0.0.1 --port 8765
+# No --reload on Windows: WatchFiles reloads can hang and keep serving old code.
+cd backend && uv run uvicorn app.main:app --host 127.0.0.1 --port 8765
 
 # terminal 2 — frontend
 cd frontend && npm run dev
