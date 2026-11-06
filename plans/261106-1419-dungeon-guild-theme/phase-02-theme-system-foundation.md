@@ -1,4 +1,6 @@
-# Phase 02 — Theme system foundation
+# Phase 02 — Theme system foundation (SUPERSEDED)
+
+> 2026-11-06: built (commit 7ec5e50) then reverted the same day — user dropped the office look; dungeon is the only theme. Kept for history. Reusable bits in git history: `DungeonThemePreviewCanvas` (canvas drawing from the 0x72 sheet), pixel outline styles.
 
 ## Context Links
 - [plan.md](plan.md) · `frontend/src/hooks/useOfficeTextures.ts` · `frontend/src/stores/` (Zustand slices) · `backend/app/api/routes/preferences.py`

@@ -35,7 +35,7 @@
 ## Architecture
 - `frontend/src/systems/render-layers.ts`, `pixel-camera.ts`, `idle-behavior-scheduler.ts`
 - `frontend/src/components/game/hero-detail-card.tsx`, `hero-hover-tooltip.tsx`
-- Theme-agnostic where possible (office theme benefits too); themed visuals via manifest.
+- Built directly for the dungeon look (single theme).
 
 ## Implementation Steps
 1. Render layers + y-sort (with P4).

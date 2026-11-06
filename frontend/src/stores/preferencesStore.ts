@@ -3,8 +3,6 @@
 import { create } from "zustand";
 import { isLocale, type Locale } from "@/i18n";
 import { apiFetch } from "@/utils/api";
-import { DEFAULT_THEME_ID, isThemeId } from "@/themes/theme-registry";
-import type { ThemeId } from "@/themes/theme-types";
 
 // ============================================================================
 // TYPES
@@ -18,10 +16,6 @@ export interface PreferencesState {
   clockFormat: ClockFormat;
   autoFollowNewSessions: boolean;
   language: Locale;
-  /** Active visual theme. */
-  theme: ThemeId;
-  /** False until the user has picked a theme once (drives the entry menu). */
-  themeChosen: boolean;
   isLoaded: boolean;
 
   // Attention settings
@@ -40,7 +34,6 @@ export interface PreferencesState {
   setClockFormat: (format: ClockFormat) => Promise<void>;
   setAutoFollowNewSessions: (enabled: boolean) => Promise<void>;
   setLanguage: (language: Locale) => Promise<void>;
-  setTheme: (theme: ThemeId) => Promise<void>;
   cycleClockMode: () => Promise<void>;
   setCommandBarEnabled: (enabled: boolean) => Promise<void>;
   setClickToFocusEnabled: (enabled: boolean) => Promise<void>;
@@ -108,8 +101,6 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
   clockFormat: DEFAULT_CLOCK_FORMAT,
   autoFollowNewSessions: DEFAULT_AUTO_FOLLOW_NEW_SESSIONS,
   language: DEFAULT_LANGUAGE,
-  theme: DEFAULT_THEME_ID,
-  themeChosen: false,
   commandBarEnabled: DEFAULT_COMMAND_BAR_ENABLED,
   clickToFocusEnabled: DEFAULT_CLICK_TO_FOCUS_ENABLED,
   toastFilterPermission: DEFAULT_TOAST_FILTER_PERMISSION,
@@ -143,8 +134,6 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
           : DEFAULT_CLOCK_FORMAT,
       autoFollowNewSessions,
       language: isLocale(language) ? language : DEFAULT_LANGUAGE,
-      theme: isThemeId(prefs.theme) ? prefs.theme : DEFAULT_THEME_ID,
-      themeChosen: isThemeId(prefs.theme),
       commandBarEnabled: prefs.commandBarEnabled !== "false",
       clickToFocusEnabled: prefs.clickToFocusEnabled !== "false",
       toastFilterPermission: prefs.toastFilterPermission !== "false",
@@ -179,11 +168,6 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
   setLanguage: async (language) => {
     set({ language });
     await setPreference("language", language);
-  },
-
-  setTheme: async (theme) => {
-    set({ theme, themeChosen: true });
-    await setPreference("theme", theme);
   },
 
   cycleClockMode: async () => {
@@ -264,8 +248,6 @@ export const selectAutoFollowNewSessions = (state: PreferencesState) =>
   state.autoFollowNewSessions;
 export const selectLanguage = (state: PreferencesState) => state.language;
 export const selectIsLoaded = (state: PreferencesState) => state.isLoaded;
-export const selectTheme = (state: PreferencesState) => state.theme;
-export const selectThemeChosen = (state: PreferencesState) => state.themeChosen;
 export const selectCommandBarEnabled = (state: PreferencesState) =>
   state.commandBarEnabled;
 export const selectClickToFocusEnabled = (state: PreferencesState) =>

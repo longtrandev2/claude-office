@@ -284,22 +284,6 @@ const es: Record<TranslationKey, string> = {
   "settings.filterError": "Errores y paradas",
   "settings.filterTaskComplete": "Tareas completadas",
   "settings.filterArrival": "Llegadas de agentes",
-
-  // Theme picker / theme names
-  "header.theme": "TEMA",
-  "settings.theme": "Tema",
-  "theme.picker.title": "¿Dónde trabajarán tus agentes?",
-  "theme.picker.subtitle": "Los mismos agentes en vivo, otro mundo. Puedes cambiarlo cuando quieras desde la cabecera.",
-  "theme.picker.enter": "Entrar a {name}",
-  "theme.picker.keyboardHint": "Flechas para elegir, Enter para empezar",
-  "theme.picker.current": "Actual",
-  "theme.office.name": "Oficina",
-  "theme.office.description": "La oficina abierta original. El jefe dirige desde el escritorio grande; los subagentes trabajan en sus puestos.",
-  "theme.dungeon.name": "Gremio de la Mazmorra",
-  "theme.dungeon.description": "Un gremio de aventureros bajo tierra. El Maestro del Gremio reparte misiones; los subagentes llegan como magos, herreros, caballeros y exploradores.",
-  "theme.office.previewAlt": "La oficina original: el escritorio del jefe, los puestos, la pizarra y la ventana a la ciudad",
-  "theme.dungeon.previewAlt": "Una sala de gremio de piedra con estandartes y una fuente; el Maestro del Gremio y tres aventureros",
-  "theme.dungeon.earlyPreview": "Vista previa: la sala aún se está amueblando, así que quedan algunas piezas de oficina por ahora.",
 };
 
 export default es;

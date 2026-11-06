@@ -13,13 +13,13 @@
 
 ## Requirements
 - `vi` selectable in language setting; no missing keys (type-checked against `en`).
-- Theme strings under namespace e.g. `theme.dungeon.*`; office theme uses existing keys.
+- Dungeon wording replaces office wording in existing keys where the concept is the same (boss → Guild Master); new keys only for new concepts.
 - Quotes per theme × locale: accept-quest / turn-in / idle / error lines, fantasy flavored, ≥15 each.
 
 ## Architecture
 - `frontend/src/i18n/vi.ts` (mirrors `en.ts` shape)
-- `frontend/src/themes/dungeon/i18n/dungeon-strings-{en,es,pt-BR,vi}.ts` merged into locale at load
-- `frontend/src/themes/dungeon/dungeon-quotes.ts` keyed by locale
+- `frontend/src/dungeon/i18n/dungeon-strings-{en,es,pt-BR,vi}.ts` merged into locale at load
+- `frontend/src/dungeon/dungeon-quotes.ts` keyed by locale
 
 ## Related Code Files
 - Create: files above · Modify: `i18n/index.ts` (register vi + theme namespace), quotes consumer, backend `quotes.py` only if bubbles source from backend

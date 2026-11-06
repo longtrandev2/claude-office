@@ -12,7 +12,7 @@
 - Pack heroes: idle 4f, run 4f, hit 1f, face right only → flip X for left; weapons are separate sprites → attach & animate in code.
 - `agent_type` available on subagent_start events.
 
-## Requirements — class map (configurable in manifest)
+## Requirements — class map (configurable in class registry)
 | agent_type | Class | Base sprite (0x72, verify) | Prop/weapon |
 |---|---|---|---|
 | main | Guild Master | knight (gold tint) | banner/sword, war table |
@@ -33,13 +33,13 @@
 - Variety: m/f variants, palette-swap shader/tint per instance, fantasy name generator (seeded by agent id), level badge (tool calls → XP).
 
 ## Architecture
-- `themes/dungeon/components/animated-hero-sprite.tsx` — PixiJS AnimatedSprite from atlas; states idle/run/work/hit; flip by velocity.
-- `themes/dungeon/dungeon-class-registry.ts` — agent_type → {sprite, weapon, station, colors, i18n key}.
-- `themes/dungeon/hero-variety.ts` — seeded variant, name, level calc.
-- Agent renderer chosen by theme slot (`agent`, `boss`).
+- `frontend/src/dungeon/components/animated-hero-sprite.tsx` — PixiJS AnimatedSprite from atlas; states idle/run/work/hit; flip by velocity.
+- `frontend/src/dungeon/dungeon-class-registry.ts` — agent_type → {sprite, weapon, station, colors, i18n key}.
+- `frontend/src/dungeon/hero-variety.ts` — seeded variant, name, level calc.
+- `AgentSprite`/`BossSprite` render the animated heroes directly (capsule kept only as load-failure fallback).
 
 ## Related Code Files
-- Create: above · Modify: `AgentSprite.tsx`/`BossSprite.tsx` call sites → ThemedSlot; manifest
+- Create: above · Modify: `AgentSprite.tsx`, `BossSprite.tsx` (render heroes directly)
 
 ## Implementation Steps
 1. AnimatedHeroSprite with idle/run from atlas; integer positions; flip.
@@ -59,7 +59,7 @@
 - [ ] Variety (variants, names, levels)
 
 ## Success Criteria
-- Simulation with mixed agent_types shows correct classes, smooth walk/idle, no capsule fallback in dungeon theme.
+- Simulation with mixed agent_types shows correct classes, smooth walk/idle, no capsules.
 
 ## Risk Assessment
 - Missing class looks → recolor/kitbash before AI-generation.

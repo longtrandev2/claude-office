@@ -74,4 +74,4 @@ Supplement priority: (1) other CC0 packs with matching 16px top-down style (e.g.
 - Don't commit `backend/.env` (OAuth token).
 
 ## Next Steps
-- Phase 02 consumes atlas paths via theme manifest.
+- Phases 04/05 load the atlas directly (`/themes/dungeon/dungeon-tileset.json`).

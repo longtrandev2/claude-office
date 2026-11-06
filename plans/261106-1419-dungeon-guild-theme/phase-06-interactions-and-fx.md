@@ -29,11 +29,11 @@
 | main idle (waiting user) | Guild Master sits at war table, zzz |
 
 ## Architecture
-- `themes/dungeon/fx/` — `particle-burst.ts`, `floating-icon.ts`, `carried-item.ts` (item follows hand-off path), `slime-critter.ts`
-- `themes/dungeon/dungeon-event-visual-map.ts` — declarative event/tool → FX table (DRY, easy to extend)
+- `frontend/src/dungeon/fx/` — `particle-burst.ts`, `floating-icon.ts`, `carried-item.ts` (item follows hand-off path), `slime-critter.ts`
+- `frontend/src/dungeon/dungeon-event-visual-map.ts` — declarative event/tool → FX table (DRY, easy to extend)
 
 ## Related Code Files
-- Create: above + `guild-chest-context-meter.tsx`, `owl-courier-report.tsx` · Modify: manifest slots
+- Create: above + `guild-chest-context-meter.tsx`, `owl-courier-report.tsx` · Modify: `TrashCanSprite`, `PrinterStation`, `AgentStatus` (replace in place)
 
 ## Implementation Steps
 1. Tiny FX toolkit (pooled particles, tweens) — no new deps unless pixi particle lib clearly simpler.

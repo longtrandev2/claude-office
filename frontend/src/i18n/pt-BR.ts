@@ -284,22 +284,6 @@ const ptBR: Record<TranslationKey, string> = {
   "settings.filterError": "Erros e paradas",
   "settings.filterTaskComplete": "Tarefas concluídas",
   "settings.filterArrival": "Chegadas de agentes",
-
-  // Theme picker / theme names
-  "header.theme": "TEMA",
-  "settings.theme": "Tema",
-  "theme.picker.title": "Onde seus agentes vão trabalhar?",
-  "theme.picker.subtitle": "Os mesmos agentes ao vivo, outro mundo. Você pode trocar a qualquer momento pelo cabeçalho.",
-  "theme.picker.enter": "Entrar em {name}",
-  "theme.picker.keyboardHint": "Setas para escolher, Enter para começar",
-  "theme.picker.current": "Atual",
-  "theme.office.name": "Escritório",
-  "theme.office.description": "O escritório aberto original. O chefe comanda da mesa grande; os subagentes trabalham em suas estações.",
-  "theme.dungeon.name": "Guilda da Masmorra",
-  "theme.dungeon.description": "Uma guilda de aventureiros no subsolo. O Mestre da Guilda distribui missões; os subagentes chegam como magos, ferreiros, cavaleiros e batedores.",
-  "theme.office.previewAlt": "O escritório original: a mesa do chefe, as estações, o quadro e a janela para a cidade",
-  "theme.dungeon.previewAlt": "Um salão de guilda de pedra com estandartes e uma fonte; o Mestre da Guilda e três aventureiros",
-  "theme.dungeon.earlyPreview": "Prévia: o salão ainda está sendo mobiliado, então algumas peças do escritório continuam por enquanto.",
 };
 
 export default ptBR;

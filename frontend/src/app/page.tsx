@@ -39,7 +39,6 @@ import {
 } from "@/components/layout/StatusToast";
 import Modal from "@/components/overlay/Modal";
 import SettingsModal from "@/components/overlay/SettingsModal";
-import ThemePickerMenu from "@/components/overlay/theme-picker/ThemePickerMenu";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { ViewTransition } from "@/components/navigation/ViewTransition";
 import { BuildingView } from "@/components/views/BuildingView";
@@ -94,7 +93,6 @@ export default function V2TestPage(): React.ReactNode {
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const [settingsInitialTab, setSettingsInitialTab] = useState<
     "general" | "building"
   >("general");
@@ -221,12 +219,6 @@ export default function V2TestPage(): React.ReactNode {
   useEffect(() => {
     loadPreferences();
   }, [loadPreferences]);
-
-  // First launch: once preferences are loaded and no theme was ever picked,
-  // the theme picker stays open until the user chooses where their agents work.
-  const preferencesLoaded = usePreferencesStore((s) => s.isLoaded);
-  const themeChosen = usePreferencesStore((s) => s.themeChosen);
-  const showThemeMenu = isThemeMenuOpen || (preferencesLoaded && !themeChosen);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -365,10 +357,6 @@ export default function V2TestPage(): React.ReactNode {
         </div>
       </Modal>
 
-      <ThemePickerMenu
-        isOpen={showThemeMenu}
-        onClose={() => setIsThemeMenuOpen(false)}
-      />
       <SettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
@@ -456,7 +444,6 @@ export default function V2TestPage(): React.ReactNode {
             onToggleDebug={handleToggleDebug}
             onOpenSettings={() => setIsSettingsModalOpen(true)}
             onOpenHelp={() => setIsHelpModalOpen(true)}
-            onOpenThemeMenu={() => setIsThemeMenuOpen(true)}
           />
         )}
 

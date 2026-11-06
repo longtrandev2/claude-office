@@ -7,8 +7,6 @@
 
 import { useState, useEffect } from "react";
 import { Assets, Texture } from "pixi.js";
-import { usePreferencesStore } from "@/stores/preferencesStore";
-import { resolveTexturePaths } from "@/themes/theme-registry";
 
 export interface OfficeTextures {
   // Floor
@@ -54,8 +52,33 @@ interface UseOfficeTexturesResult {
   loaded: boolean;
 }
 
-// Texture paths live in the theme manifests (src/themes); the office theme is the
-// baseline and other themes override individual slots.
+const TEXTURE_PATHS: Record<keyof OfficeTextures, string> = {
+  floorTile: "/sprites/floor-tile.png",
+  bossRug: "/sprites/boss-rug.png",
+  waterCooler: "/sprites/watercooler.png",
+  coffeeMachine: "/sprites/coffee-machine.png",
+  plant: "/sprites/plant.png",
+  chair: "/sprites/chair.png",
+  desk: "/sprites/desk.png",
+  keyboard: "/sprites/keyboard_back.png",
+  monitor: "/sprites/monitor_back.png",
+  phone: "/sprites/phone.png",
+  printer: "/sprites/old-printer.png",
+  elevatorFrame: "/sprites/elevator_frame.png",
+  elevatorDoor: "/sprites/elevator_door.png",
+  wallOutlet: "/sprites/wall-outlet.png",
+  employeeOfMonth: "/sprites/employee-of-month.png",
+  headset: "/sprites/headset_small.png",
+  sunglasses: "/sprites/sunglasses.png",
+  coffeeMug: "/sprites/coffee-mug.png",
+  stapler: "/sprites/stapler.png",
+  deskLamp: "/sprites/desk-lamp.png",
+  penHolder: "/sprites/pen-holder.png",
+  magic8Ball: "/sprites/magic-8-ball.png",
+  rubiksCube: "/sprites/rubiks-cube.png",
+  rubberDuck: "/sprites/rubber-duck.png",
+  thermos: "/sprites/thermos.png",
+};
 
 const EMPTY_TEXTURES: OfficeTextures = {
   floorTile: null,
@@ -86,23 +109,18 @@ const EMPTY_TEXTURES: OfficeTextures = {
 };
 
 /**
- * Hook to load all office sprite textures for the active theme.
+ * Hook to load all office sprite textures.
  * Returns textures object and loaded state.
  */
 export function useOfficeTextures(): UseOfficeTexturesResult {
-  const theme = usePreferencesStore((s) => s.theme);
   const [textures, setTextures] = useState<OfficeTextures>(EMPTY_TEXTURES);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    // Ignore results of a load that a newer theme switch has superseded.
-    let cancelled = false;
-    const texturePaths = resolveTexturePaths(theme);
-
     const loadTextures = async () => {
       try {
-        const keys = Object.keys(texturePaths) as (keyof OfficeTextures)[];
-        const paths = keys.map((key) => texturePaths[key]);
+        const keys = Object.keys(TEXTURE_PATHS) as (keyof OfficeTextures)[];
+        const paths = keys.map((key) => TEXTURE_PATHS[key]);
 
         const loadedTextures = await Promise.all(
           paths.map((path) => Assets.load(path)),
@@ -116,20 +134,16 @@ export function useOfficeTextures(): UseOfficeTexturesResult {
           {} as Record<keyof OfficeTextures, Texture>,
         );
 
-        if (cancelled) return;
         setTextures(textureMap as OfficeTextures);
         setLoaded(true);
       } catch {
         // Still mark as loaded to show fallback graphics
-        if (!cancelled) setLoaded(true);
+        setLoaded(true);
       }
     };
 
     loadTextures();
-    return () => {
-      cancelled = true;
-    };
-  }, [theme]);
+  }, []);
 
   return { textures, loaded };
 }

@@ -17,10 +17,10 @@
 - All tests green: `make checkall` equivalent on Windows (backend pytest/ruff/pyright, frontend lint/typecheck/test).
 
 ## Architecture
-- `themes/dungeon/components/quest-board-frame.tsx`, `guild-hall-command-center-skin.tsx`
+- `frontend/src/dungeon/components/quest-board-frame.tsx`, `guild-hall-command-center-skin.tsx`
 
 ## Related Code Files
-- Create: above · Modify: whiteboard container (frame slot), README (fork section + screenshots), CHANGELOG
+- Create: above · Modify: whiteboard container, README (fork section + screenshots), CHANGELOG
 
 ## Implementation Steps
 1. Quest board frame + 5 key mode skins.

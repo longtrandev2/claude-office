@@ -25,11 +25,11 @@
 | floors (multi-floor building) | dungeon depths B1, B2… labels |
 
 ## Architecture
-- `frontend/src/themes/dungeon/components/` — `dungeon-background.tsx`, `dungeon-portal-stairs.tsx`, `dungeon-window.tsx`, `torch-light-effect.tsx` (Graphics + blend for flicker)
-- Registered via ThemedSlot (P2).
+- `frontend/src/dungeon/components/` — `dungeon-background.tsx`, `dungeon-portal-stairs.tsx`, `dungeon-window.tsx`, `torch-light-effect.tsx` (Graphics + blend for flicker)
+- Replace office components in place (OfficeBackground, Elevator, CityWindow, …); no slot/manifest layer.
 
 ## Related Code Files
-- Create: components above · Modify: `dungeon-theme-manifest.ts`
+- Create: components above · Modify: `OfficeBackground`, `Elevator`, `CityWindow`, `DeskGrid`, `WallClock`, `useOfficeTextures` (dungeon atlas)
 
 ## Implementation Steps
 1. Tile background from atlas (random floor variants seeded, deterministic).
@@ -46,7 +46,7 @@
 - [ ] Depth naming
 
 ## Success Criteria
-- Simulation scenario renders full dungeon room, 60fps, no layout/pathing regressions; office theme unaffected.
+- Simulation scenario renders full dungeon room, 60fps, no layout/pathing regressions.
 
 ## Risk Assessment
 - Lighting overlay cost → single overlay container, no per-frame filters; profile with many agents.

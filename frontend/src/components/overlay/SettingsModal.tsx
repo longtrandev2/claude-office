@@ -10,8 +10,6 @@ import {
 import { useTranslation } from "@/hooks/useTranslation";
 import { locales, type Locale } from "@/i18n";
 import { BuildingTab } from "@/components/settings/BuildingTab";
-import { getThemeManifest } from "@/themes/theme-registry";
-import { THEME_IDS } from "@/themes/theme-types";
 
 // ============================================================================
 // TYPES
@@ -99,8 +97,6 @@ export default function SettingsModal({
   const setClockFormat = usePreferencesStore((s) => s.setClockFormat);
   const language = usePreferencesStore((s) => s.language);
   const setLanguage = usePreferencesStore((s) => s.setLanguage);
-  const theme = usePreferencesStore((s) => s.theme);
-  const setTheme = usePreferencesStore((s) => s.setTheme);
   const setAutoFollowNewSessions = usePreferencesStore(
     (s) => s.setAutoFollowNewSessions,
   );
@@ -253,50 +249,6 @@ export default function SettingsModal({
                   </button>
                 ),
               )}
-            </div>
-          </div>
-
-          {/* Theme */}
-          <div>
-            <label className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-3">
-              {t("settings.theme")}
-            </label>
-            <div
-              className="flex gap-3"
-              role="radiogroup"
-              aria-label={t("settings.theme")}
-            >
-              {THEME_IDS.map((id, idx) => (
-                <button
-                  key={id}
-                  type="button"
-                  role="radio"
-                  aria-checked={theme === id}
-                  tabIndex={theme === id ? 0 : -1}
-                  onClick={() => void setTheme(id)}
-                  onKeyDown={(e) => {
-                    let next: number | null = null;
-                    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-                      next = (idx + 1) % THEME_IDS.length;
-                    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-                      next = (idx - 1 + THEME_IDS.length) % THEME_IDS.length;
-                    }
-                    if (next !== null) {
-                      e.preventDefault();
-                      void setTheme(THEME_IDS[next]);
-                      const parent = e.currentTarget.parentElement;
-                      if (parent) (parent.children[next] as HTMLElement)?.focus();
-                    }
-                  }}
-                  className={`flex-1 px-4 py-3 rounded-lg border text-sm font-bold transition-colors focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 outline-none ${
-                    theme === id
-                      ? "bg-purple-500/20 border-purple-500 text-purple-300"
-                      : "bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600"
-                  }`}
-                >
-                  {t(getThemeManifest(id).nameKey)}
-                </button>
-              ))}
             </div>
           </div>
 

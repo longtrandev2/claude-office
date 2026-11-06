@@ -282,22 +282,6 @@ const en = {
   "settings.filterError": "Errors and stops",
   "settings.filterTaskComplete": "Task completions",
   "settings.filterArrival": "Agent arrivals",
-
-  // Theme picker / theme names
-  "header.theme": "THEME",
-  "settings.theme": "Theme",
-  "theme.picker.title": "Where should your agents work?",
-  "theme.picker.subtitle": "Same live agents, a different world. You can switch any time from the header.",
-  "theme.picker.enter": "Enter {name}",
-  "theme.picker.keyboardHint": "Arrow keys to choose, Enter to start",
-  "theme.picker.current": "Current",
-  "theme.office.name": "Office",
-  "theme.office.description": "The original open-plan office. The boss runs the floor from the big desk; subagents work at their own stations.",
-  "theme.dungeon.name": "Dungeon Guild",
-  "theme.dungeon.description": "An adventurers' guild below ground. The Guild Master hands out quests; subagents arrive as mages, smiths, knights and scouts.",
-  "theme.office.previewAlt": "The original office: the boss's desk, employee stations, whiteboard and city window",
-  "theme.dungeon.previewAlt": "A stone guild hall with banners and a running fountain; the Guild Master and three adventurers",
-  "theme.dungeon.earlyPreview": "Early preview: the hall is still being furnished, so some office pieces remain for now.",
 } as const;
 
 export type TranslationKey = keyof typeof en;
