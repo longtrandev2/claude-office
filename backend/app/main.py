@@ -1,6 +1,7 @@
 import asyncio
 import contextlib
 import importlib
+import json
 import logging
 import os
 from collections.abc import AsyncGenerator
@@ -174,7 +175,23 @@ async def _idle_eviction_loop(
         evict_logger.info("Idle eviction loop stopped")
 
 
+class AsciiJSONResponse(JSONResponse):
+    """JSON responses with every non-ASCII character escaped.
+
+    Text stored before the Windows hook-encoding fix can contain lone
+    surrogates; the default UTF-8 encoding raises on them and turns whole
+    session endpoints into 500s. Escaped JSON always encodes and parses to the
+    same values in the browser.
+    """
+
+    def render(self, content: object) -> bytes:
+        return json.dumps(
+            content, ensure_ascii=True, allow_nan=False, separators=(",", ":")
+        ).encode("ascii")
+
+
 app = FastAPI(
+    default_response_class=AsciiJSONResponse,
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",

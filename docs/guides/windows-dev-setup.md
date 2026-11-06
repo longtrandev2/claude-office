@@ -48,15 +48,18 @@ Pick another port (example: 8765) and point both producers/consumers at it:
 ## 5. Run (two terminals)
 
 ```bash
-# terminal 1 — backend
+# terminal 1 — backend (UTF-8 mode is required on Windows: without it the
+# logger crashes on Vietnamese/non-ASCII text and requests fail with 500)
+export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
+# Reuse the hooks' key so it stays stable across --reload restarts
+export CLAUDE_OFFICE_API_KEY=$(grep '^CLAUDE_OFFICE_API_KEY=' ~/.claude/claude-office-config.env | cut -d= -f2- | tr -d '"')
 cd backend && uv run uvicorn app.main:app --reload --reload-dir app --host 127.0.0.1 --port 8765
 
 # terminal 2 — frontend
 cd frontend && npm run dev
 ```
 
-Open the `http://localhost:3000/?token=…` URL printed by the backend at startup
-(the API key is delivered only via that launch URL).
+Open `http://localhost:3000/?token=<CLAUDE_OFFICE_API_KEY>` (the same key as above).
 
 ## 6. Simulate events (no real agent needed)
 
