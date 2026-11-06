@@ -10,9 +10,12 @@ import type { DungeonAtlas } from "./dungeon-atlas";
 import {
   DUNGEON_SCALE,
   FLOOR_VARIANT_CHANCE,
+  HALL_AMBIENT_DARKNESS,
   HALL_CARPET,
   HALL_FLOOR_DECOR,
   HALL_HEIGHT,
+  HALL_LIGHTS,
+  HALL_LIT_ZONE_FACTOR,
   HALL_TILE,
   HALL_WALL_DECOR,
   HALL_WALL_HEIGHT,
@@ -116,6 +119,51 @@ function paintDecor(ctx: Ctx, atlas: DungeonAtlas, decor: HallDecor[]): void {
   [...decor].sort((a, b) => a.y - b.y).forEach((d) => drawSprite(ctx, atlas, d.sprite, d.x, d.y));
 }
 
+/** Stepped edge vignette bands (px from edge → extra darkness). */
+const EDGE_VIGNETTE = [
+  { inset: 0, alpha: 0.18 },
+  { inset: 2 * HALL_TILE, alpha: 0.1 },
+];
+/** Lit-zone cut-out steps: radius fraction → how much darkness is removed. */
+const LIT_ZONE_STEPS = [
+  { r: 1, cut: 0.3 },
+  { r: 0.7, cut: 0.35 },
+  { r: 0.45, cut: 0.45 },
+];
+
+/**
+ * Ambient darkness baked into the hall (not over the heroes, so they stay
+ * readable). Lit zones around each real light source are cut out in hard
+ * steps, and the room edges get a stepped vignette.
+ */
+function paintAmbientDarkness(ctx: Ctx): void {
+  const shade = document.createElement("canvas");
+  shade.width = HALL_WIDTH;
+  shade.height = HALL_HEIGHT;
+  const s = shade.getContext("2d");
+  if (!s) return;
+  s.fillStyle = HALL_AMBIENT_DARKNESS;
+  s.fillRect(0, 0, HALL_WIDTH, HALL_HEIGHT);
+  for (const band of EDGE_VIGNETTE) {
+    const w = HALL_TILE + band.inset;
+    s.fillStyle = `rgba(4, 2, 10, ${band.alpha})`;
+    s.fillRect(0, 0, w, HALL_HEIGHT);
+    s.fillRect(HALL_WIDTH - w, 0, w, HALL_HEIGHT);
+    s.fillRect(0, HALL_HEIGHT - w, HALL_WIDTH, w);
+  }
+  s.globalCompositeOperation = "destination-out";
+  for (const light of HALL_LIGHTS) {
+    for (const step of LIT_ZONE_STEPS) {
+      const r = Math.round((light.radius * HALL_LIT_ZONE_FACTOR * step.r) / DUNGEON_SCALE) * DUNGEON_SCALE;
+      s.fillStyle = `rgba(0, 0, 0, ${step.cut})`;
+      s.beginPath();
+      s.arc(light.x, light.y, r, 0, Math.PI * 2);
+      s.fill();
+    }
+  }
+  ctx.drawImage(shade, 0, 0);
+}
+
 /** Compose the full static hall. Throws if a referenced sprite is missing. */
 export function composeDungeonHallCanvas(atlas: DungeonAtlas): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
@@ -132,5 +180,6 @@ export function composeDungeonHallCanvas(atlas: DungeonAtlas): HTMLCanvasElement
   paintSideWalls(ctx, atlas);
   paintDecor(ctx, atlas, HALL_WALL_DECOR);
   paintDecor(ctx, atlas, HALL_FLOOR_DECOR);
+  paintAmbientDarkness(ctx);
   return canvas;
 }

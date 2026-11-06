@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { DUNGEON_PROP_NAMES } from "@/dungeon/dungeon-atlas";
 import {
+  HALL_ANIMATED_DECOR,
   HALL_FLOOR_DECOR,
   HALL_HEIGHT,
   HALL_WALL_DECOR,
@@ -23,6 +24,7 @@ describe("dungeon hall layout", () => {
   it("references only sprites that exist in the atlas or prop set", () => {
     const missing = [...HALL_WALL_DECOR, ...HALL_FLOOR_DECOR]
       .map((d) => d.sprite)
+      .concat(HALL_ANIMATED_DECOR.flatMap((d) => d.frames))
       .concat(COMPOSER_SPRITES)
       .filter((name) =>
         name.startsWith("prop:")

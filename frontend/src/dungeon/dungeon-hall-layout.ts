@@ -69,9 +69,78 @@ export const HALL_FLOOR_DECOR: HallDecor[] = [
   { sprite: "crate", x: 1150, y: 948 },
   { sprite: "flask_big_red", x: 1110, y: 975 },
   { sprite: "skull", x: 190, y: 985 },
+  // Standing candles flanking the Guild Master's war table (light sources).
+  { sprite: "prop:standing-candle-f0", x: 470, y: 838 },
+  { sprite: "prop:standing-candle-f0", x: 777, y: 838 },
 ];
 
 /** Chance a back-wall brick tile is swapped for a damaged variant. */
 export const WALL_DAMAGE_CHANCE = 0.06;
 /** Chance a floor tile uses a cracked variant instead of plain stone. */
 export const FLOOR_VARIANT_CHANCE = 0.04;
+
+/** Animated sprites drawn over the baked hall (frame lists cycle in place). */
+export interface HallAnimatedDecor {
+  /** Atlas frame names or "prop:" images, in playback order. */
+  frames: string[];
+  x: number;
+  y: number;
+  /** Milliseconds per frame. */
+  frameMs: number;
+}
+
+const CANDLE_FRAMES = ["prop:wall-candle-f0", "prop:wall-candle-f1", "prop:wall-candle-f2"];
+const STANDING_CANDLE_FRAMES = [0, 1, 2, 3].map((i) => `prop:standing-candle-f${i}`);
+const standingCandles = () => HALL_FLOOR_DECOR.filter((d) => d.sprite === "prop:standing-candle-f0");
+const fountainFrames = (part: "mid" | "basin") =>
+  [0, 1, 2].map((i) => `wall_fountain_${part}_red_anim_f${i}`);
+
+/** Must sit exactly on the static copies baked into the background. */
+export const HALL_ANIMATED_DECOR: HallAnimatedDecor[] = [
+  { frames: fountainFrames("mid"), x: 425, y: 106, frameMs: 160 },
+  { frames: fountainFrames("basin"), x: 425, y: 154, frameMs: 160 },
+  ...HALL_WALL_DECOR.filter((d) => d.sprite === "prop:wall-candle-f0").map((d, i) => ({
+    frames: CANDLE_FRAMES,
+    x: d.x,
+    y: d.y,
+    frameMs: 120 + i * 17, // slightly different rates so candles never sync
+  })),
+  ...standingCandles().map((d, i) => ({
+    frames: STANDING_CANDLE_FRAMES,
+    x: d.x,
+    y: d.y,
+    frameMs: 140 + i * 23,
+  })),
+];
+
+/** A warm light pool around a real light source (no source, no light). */
+export interface HallLight {
+  x: number;
+  y: number;
+  radius: number;
+  color: number;
+}
+
+const CANDLE_FLAME_OFFSET = { x: 3 * DUNGEON_SCALE, y: 2 * DUNGEON_SCALE };
+
+export const HALL_LIGHTS: HallLight[] = [
+  // Fountain: hot red-orange glow around the basin.
+  { x: 449, y: 178, radius: 96, color: 0xff6a3d },
+  ...HALL_WALL_DECOR.filter((d) => d.sprite === "prop:wall-candle-f0").map((d) => ({
+    x: d.x + CANDLE_FLAME_OFFSET.x,
+    y: d.y + CANDLE_FLAME_OFFSET.y,
+    radius: 84,
+    color: 0xffb35c,
+  })),
+  ...standingCandles().map((d) => ({
+    x: d.x + 5 * DUNGEON_SCALE,
+    y: d.y + 3 * DUNGEON_SCALE,
+    radius: 120,
+    color: 0xffb35c,
+  })),
+];
+
+/** Ambient darkness over the hall (lit pools are cut out around HALL_LIGHTS). */
+export const HALL_AMBIENT_DARKNESS = "rgba(10, 7, 18, 0.46)";
+/** How far beyond a light's radius its baked lit zone reaches. */
+export const HALL_LIT_ZONE_FACTOR = 1.5;

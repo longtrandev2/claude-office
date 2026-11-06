@@ -89,6 +89,7 @@ import {
 import { ZoomControls } from "./ZoomControls";
 import { LoadingScreen } from "./LoadingScreen";
 import { DungeonHallBackground } from "./DungeonHallBackground";
+import { DungeonHallAmbience } from "./DungeonHallAmbience";
 
 // Register PixiJS components
 extend({ Container, Text, Graphics, Sprite });
@@ -555,6 +556,9 @@ export function OfficeGame(): ReactNode {
                     isCompacting={isCompacting}
                     isStomping={compactionAnimation.isStomping}
                   />
+
+                  {/* Guild Hall ambience: candle/fountain frames + flickering light pools */}
+                  <DungeonHallAmbience />
 
                   {/* Debug overlays */}
                   {debugMode && (

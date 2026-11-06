@@ -19,6 +19,7 @@
 - Idle behavior scheduler as a new non-blocking agent sub-state (wander, visit barrel/fountain, chat in pairs) — never interferes with work states.
 
 **UX (information)**
+- **Scene-only mode** (user request 2026-11-06): setting + header toggle (+ shortcut) that hides sessions/git/party/events panels and lets the pixel scene fill the window; default = full layout. Persist as a preference.
 - Click hero → detail card: class, task, current tool + target file, elapsed time, tool count/level, last 5 actions; "follow" toggle.
 - Hover tooltip: name + current action.
 - Tool icons above heads (book=Read, quill=Edit, rune=Bash, orb=Web) instead of long text; full text in card.
