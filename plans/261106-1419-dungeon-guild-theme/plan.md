@@ -23,7 +23,7 @@ Multi-language (en/es/pt-BR/vi). Control features (hook two-way "A", Agent SDK "
 | # | Phase | Size | Status |
 |---|---|---|---|
 | 1 | [Dev env + asset sourcing & atlas pipeline](phase-01-dev-env-and-asset-pipeline.md) | M | done |
-| 2 | [Theme system foundation](phase-02-theme-system-foundation.md) | M | pending |
+| 2 | [Theme system foundation](phase-02-theme-system-foundation.md) | M | done (ThemedSlot → P4) |
 | 3 | [i18n: vi + dungeon strings all languages](phase-03-i18n-multilanguage-dungeon-strings.md) | S | pending |
 | 4 | [Dungeon environment](phase-04-dungeon-environment.md) | M | pending |
 | 5 | [Animated characters & classes](phase-05-animated-characters-and-classes.md) | L | pending |

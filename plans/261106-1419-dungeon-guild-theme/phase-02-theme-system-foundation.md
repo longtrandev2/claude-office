@@ -4,7 +4,7 @@
 - [plan.md](plan.md) · `frontend/src/hooks/useOfficeTextures.ts` · `frontend/src/stores/` (Zustand slices) · `backend/app/api/routes/preferences.py`
 
 ## Overview
-- Priority: P0 · Status: pending
+- Priority: P0 · Status: done 2026-11-06 (ThemedSlot deferred to P4 — YAGNI until first themed component)
 - Introduce selectable themes (`office`, `dungeon`) so all visuals/strings resolve through a theme manifest. No visual change yet besides toggle.
 
 ## Key Insights
@@ -43,12 +43,13 @@ Component slot pattern: `<ThemedSlot name="printer" fallback={PrinterStation} />
 6. Dungeon manifest skeleton (falls back to office assets until P4/P5).
 
 ## Todo List
-- [ ] ThemeManifest type + registry
-- [ ] Office manifest (parity)
-- [ ] Theme-aware texture loading
-- [ ] ThemedSlot + OfficeGame wiring
-- [ ] Settings selector persisted
-- [ ] Dungeon manifest skeleton
+- [x] ThemeManifest type + registry (`frontend/src/themes/`)
+- [x] Office manifest (parity, test-enforced)
+- [x] Theme-aware texture loading (`useOfficeTextures`, reloads on switch)
+- [ ] ThemedSlot + OfficeGame wiring → moved to P4
+- [x] Settings selector persisted (pref key `theme`)
+- [x] Dungeon manifest skeleton
+- [x] Entry menu theme picker (first launch + header THEME button), live canvas preview from 0x72 sheet, taste-skill inspected at 1440/768/390
 
 ## Success Criteria
 - Toggle switches theme id persistently; office renders identically; `npm test` + frontend lint/typecheck green.

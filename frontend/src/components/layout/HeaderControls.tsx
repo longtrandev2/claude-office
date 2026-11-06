@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, HelpCircle, Settings, Bell, LayoutGrid } from "lucide-react";
+import { Activity, HelpCircle, Settings, Bell, LayoutGrid, Palette } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useAttentionStore, selectUnreadCount } from "@/stores/attentionStore";
@@ -22,6 +22,8 @@ interface HeaderControlsProps {
   onToggleDebug: () => void;
   onOpenSettings: () => void;
   onOpenHelp: () => void;
+  /** Opens the theme picker menu. */
+  onOpenThemeMenu: () => void;
 }
 
 // ============================================================================
@@ -46,6 +48,7 @@ export function HeaderControls({
   onClearDB,
   onToggleDebug,
   onOpenSettings,
+  onOpenThemeMenu,
   onOpenHelp,
 }: HeaderControlsProps): React.ReactNode {
   const { t } = useTranslation();
@@ -84,6 +87,14 @@ export function HeaderControls({
           {t("header.commandCenter")}
         </button>
       )}
+
+      <button
+        onClick={onOpenThemeMenu}
+        className="flex items-center gap-2 px-3 py-1.5 bg-slate-500/10 hover:bg-slate-500/20 text-slate-400 border border-slate-500/30 rounded text-xs font-bold transition-colors"
+      >
+        <Palette size={14} />
+        {t("header.theme")}
+      </button>
 
       <button
         onClick={onOpenSettings}
