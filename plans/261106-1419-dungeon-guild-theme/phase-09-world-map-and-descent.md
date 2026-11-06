@@ -1,4 +1,6 @@
-# Phase 09 — World map & the descent
+# Phase 09 — World map & the descent (DRAFT — concept under discussion)
+
+> 2026-11-06: user rejected "Forge = code" zones. Leading idea to discuss: **Dungeon = Codebase** — the Guild Hall is the surface (orchestration); descending levels are generated from the repo's folders, heroes walk to the file they read/edit (hook sends file paths), monsters spawn in the room of the file where an error happened. Rewrite this phase after that discussion.
 
 ## Context Links
 - [plan.md](plan.md) · `frontend/src/constants/canvas.ts` · `frontend/src/systems/{navigationGrid,queuePositions,pathfinding}.ts` · `backend/app/core/{state_machine,floor_config,office_layout}.py` · building/floor views (`components/views`, navigationStore)
