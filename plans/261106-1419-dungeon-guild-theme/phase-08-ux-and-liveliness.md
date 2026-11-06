@@ -51,6 +51,8 @@
 - [x] Scene-only mode (header SCENE ONLY / SHOW PANELS, persisted pref `sceneOnly`, default off) + canvas centred (object-position center, click mapping fixed for letterbox)
 - [x] Readability pass 1: bigger bubble/label/marquee/chest text, Markdown stripped from bubbles
 - [ ] Pixel camera (integer zoom, follow-cam) — scene is still minified by CSS contain
+  - User feedback 2026-11-06 (1917x876 screen, scene-only): still hard to read. Causes: 5:4 world (1280x1024) on a ~2.2:1 viewport → height-bound at ~0.78x, about half the width empty; all text drawn inside the Pixi canvas and minified with it.
+  - Fix together with the world decision (P9 "Dungeon = Codebase"): world/camera that fills the width (wider hall or pannable camera), integer zoom levels, and in-scene text (bubbles, names, marquee, chest %) rendered as a crisp HTML/DOM overlay or pixel font at integer scale instead of minified canvas text.
 - [ ] Render layers + y-sort
 - [ ] Sprite animation support
 - [ ] Pixel camera + follow-cam
