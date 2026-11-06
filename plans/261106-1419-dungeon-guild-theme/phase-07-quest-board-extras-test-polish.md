@@ -30,6 +30,7 @@
 5. Screenshots/GIF; README fork section; CREDITS check.
 
 ## Todo List
+- [ ] Backend locale: read saved `language` pref → localized Guild Master STOP line (`quotes.py`, 4 locales) + AI summary prompt answers in that language (deferred from P3, 2026-11-06)
 - [ ] Quest board frame + key modes
 - [ ] Guild Hall skin
 - [ ] Minor prop renames
