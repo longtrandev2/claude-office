@@ -42,7 +42,7 @@
 - [x] Floor + walls (static hall baked to one nearest-sampled texture: `frontend/src/dungeon/compose-dungeon-hall-canvas.ts`, layout data in `dungeon-hall-layout.ts`, `DungeonHallBackground.tsx`; crimson centre carpet, stepped wall darkness, columns, banners, fountain, candles, corner clutter; office decor removed: city window, outlet, cooler, coffee, plant, rug)
 - [x] **User review of static hall screenshot** (gate) — approved 2026-11-06
 - [x] Torches + lighting (baked ambient darkness + stepped lit zones + edge vignette; `DungeonHallAmbience.tsx`: candle/fountain frame cycling, flickering additive light pools; standing candles flank the Guild Master; heroes not darkened for readability; reduced-motion = still)
-- [ ] Portal/stairs
+- [x] Portal/stairs (Elevator.tsx → stone door-frame arch + arcane veil: opaque pulsing when closed, thin shimmer when open; rune gem teal/red; teal light pool; engine API unchanged)
 - [ ] Window, clock, decor
 - [ ] Depth naming
 

@@ -392,12 +392,10 @@ export function OfficeGame(): ReactNode {
                     printerTexture={textures.printer}
                   />
 
-                  {/* Elevator with animated doors and agents inside */}
+                  {/* Guild portal (engine: elevator) with agents stepping through */}
                   <Elevator
                     isOpen={isElevatorOpen}
                     agents={agents}
-                    frameTexture={textures.elevatorFrame}
-                    doorTexture={textures.elevatorDoor}
                     headsetTexture={textures.headset}
                     sunglassesTexture={textures.sunglasses}
                   />

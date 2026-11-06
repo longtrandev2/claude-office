@@ -124,6 +124,8 @@ export interface HallLight {
 const CANDLE_FLAME_OFFSET = { x: 3 * DUNGEON_SCALE, y: 2 * DUNGEON_SCALE };
 
 export const HALL_LIGHTS: HallLight[] = [
+  // Portal (old elevator spot): cold arcane glow spilling onto the floor.
+  { x: 86, y: 214, radius: 88, color: 0x5fc1b5 },
   // Fountain: hot red-orange glow around the basin.
   { x: 449, y: 178, radius: 96, color: 0xff6a3d },
   ...HALL_WALL_DECOR.filter((d) => d.sprite === "prop:wall-candle-f0").map((d) => ({

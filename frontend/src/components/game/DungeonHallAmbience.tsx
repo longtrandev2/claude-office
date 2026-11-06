@@ -11,8 +11,9 @@
  */
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTick } from "@pixi/react";
-import { Graphics, Rectangle, Sprite, Texture } from "pixi.js";
+import { Graphics, Sprite, Texture } from "pixi.js";
 import { loadDungeonAtlas, type DungeonAtlas } from "@/dungeon/dungeon-atlas";
+import { getDungeonTexture } from "@/dungeon/dungeon-pixi-textures";
 import {
   DUNGEON_SCALE,
   HALL_ANIMATED_DECOR,
@@ -24,26 +25,10 @@ import {
 const LIGHT_RINGS = [1, 0.74, 0.5, 0.28];
 const LIGHT_RING_ALPHA = 0.055;
 
-/** Build nearest-sampled Pixi textures for every frame name used here. */
+/** Textures for every frame name used by the animated decor. */
 function buildFrameTextures(atlas: DungeonAtlas): Map<string, Texture> {
-  const sheet = Texture.from(atlas.image).source;
-  sheet.scaleMode = "nearest";
-  const textures = new Map<string, Texture>();
-  for (const decor of HALL_ANIMATED_DECOR) {
-    for (const name of decor.frames) {
-      if (textures.has(name)) continue;
-      if (name.startsWith("prop:")) {
-        const tex = Texture.from(atlas.props[name.slice(5)]);
-        tex.source.scaleMode = "nearest";
-        textures.set(name, tex);
-      } else {
-        const f = atlas.frames[name];
-        if (!f) throw new Error(`Unknown atlas frame "${name}"`);
-        textures.set(name, new Texture({ source: sheet, frame: new Rectangle(f.x, f.y, f.w, f.h) }));
-      }
-    }
-  }
-  return textures;
+  const names = new Set(HALL_ANIMATED_DECOR.flatMap((d) => d.frames));
+  return new Map([...names].map((n) => [n, getDungeonTexture(atlas, n)]));
 }
 
 function drawLightPool(g: Graphics, light: HallLight): void {
