@@ -100,7 +100,7 @@ function TreasureChestContextMeterComponent({
     () =>
       new TextStyle({
         fontFamily: "monospace",
-        fontSize: 22,
+        fontSize: 28,
         fontWeight: "bold",
         fill: fillColor(contextUtilization),
         align: "center",
@@ -112,7 +112,7 @@ function TreasureChestContextMeterComponent({
     () =>
       new TextStyle({
         fontFamily: "monospace",
-        fontSize: 16,
+        fontSize: 20,
         fill: isCompacting ? 0xff6b4a : 0x9a8f7a,
         align: "center",
         stroke: { width: 3, color: 0x000000 },
@@ -144,11 +144,11 @@ function TreasureChestContextMeterComponent({
             scale={DUNGEON_SCALE}
           />
         ))}
-      <pixiText text={`${percentage}%`} anchor={0.5} y={38} scale={0.5} style={percentStyle} />
+      <pixiText text={`${percentage}%`} anchor={0.5} y={40} scale={0.5} style={percentStyle} />
       <pixiText
         text={isCompacting ? "compacting..." : "context"}
         anchor={0.5}
-        y={47}
+        y={52}
         scale={0.5}
         style={labelStyle}
       />

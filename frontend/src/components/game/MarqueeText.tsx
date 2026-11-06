@@ -45,10 +45,10 @@ export function MarqueeText({
     .replace(/\s+/g, " ")
     .trim();
 
-  // Estimate text width (approx 5.5px per char at fontSize 9)
-  const estimatedTextWidth = normalizedText.length * 5.5;
+  // Estimate text width (approx 6.8px per char at fontSize 11)
+  const estimatedTextWidth = normalizedText.length * 6.8;
   const shouldScroll = estimatedTextWidth > width - 16;
-  const panelHeight = 14;
+  const panelHeight = 17;
   const innerWidth = width - 8; // Padding on each side
 
   // Scroll animation
@@ -152,7 +152,7 @@ export function MarqueeText({
           anchor={{ x: shouldScroll ? 0 : 0.5, y: 0.5 }}
           style={{
             fontFamily: '"Courier New", monospace',
-            fontSize: 18,
+            fontSize: 22,
             fill: color,
             fontWeight: "bold",
           }}

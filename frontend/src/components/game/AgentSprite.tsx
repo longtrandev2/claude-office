@@ -70,28 +70,28 @@ function Bubble({ content, yOffset }: BubbleProps): ReactNode {
   const badgeRadius = 16; // Radius of the circular badge
 
   // Calculate bubble dimensions (at display scale) - icon is outside bubble now
-  const charWidth = 7.5;
-  const paddingH = 30;
-  const maxW = 220;
+  const charWidth = 10;
+  const paddingH = 36;
+  const maxW = 300;
   const rawWidth = text.length * charWidth + paddingH;
   const bWidth = Math.min(maxW, Math.max(80, rawWidth));
   const capacity = (bWidth - paddingH) / charWidth;
   const lines = Math.max(1, Math.ceil(text.length / capacity));
-  const bHeight = 35 + lines * 14;
+  const bHeight = 40 + lines * 18;
 
   // Text style at 2x for sharp rendering
   const textStyle = useMemo<Partial<TextStyle>>(
     () => ({
       fontFamily:
         '"Courier New", Courier, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", monospace',
-      fontSize: 20,
+      fontSize: 26,
       fill: "#000000",
       fontWeight: "bold",
       wordWrap: true,
-      wordWrapWidth: (bWidth - 30) * 2,
+      wordWrapWidth: (bWidth - 36) * 2,
       breakWords: true,
       align: "left",
-      lineHeight: 28,
+      lineHeight: 36,
       stroke: { width: 0, color: 0x000000 },
     }),
     [bWidth],
@@ -126,7 +126,7 @@ function Bubble({ content, yOffset }: BubbleProps): ReactNode {
         </pixiContainer>
       )}
       {/* Text rendered at 2x and scaled down for sharpness */}
-      <pixiContainer x={-bWidth / 2 + 15} y={-bHeight / 2} scale={0.5}>
+      <pixiContainer x={-bWidth / 2 + 18} y={-bHeight / 2} scale={0.5}>
         <pixiText
           text={text}
           anchor={{ x: 0, y: 0.5 }}
@@ -209,7 +209,7 @@ function AgentSpriteComponent({
             anchor={0.5}
             style={{
               fontFamily: "monospace",
-              fontSize: 24,
+              fontSize: 30,
               fill: 0xffffff,
               fontWeight: "bold",
               stroke: { width: 4, color: 0x000000 },
@@ -244,7 +244,7 @@ function AgentLabelComponent({ name, position }: AgentLabelProps): ReactNode {
         anchor={0.5}
         style={{
           fontFamily: "monospace",
-          fontSize: 24,
+          fontSize: 30,
           fill: 0xffffff,
           fontWeight: "bold",
           stroke: { width: 4, color: 0x000000 },
