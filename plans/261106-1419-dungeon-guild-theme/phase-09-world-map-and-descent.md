@@ -1,32 +1,37 @@
-# Phase 09 — World map & the descent (DRAFT — concept under discussion)
-
-> 2026-11-06: user rejected "Forge = code" zones. Leading idea to discuss: **Dungeon = Codebase** — the Guild Hall is the surface (orchestration); descending levels are generated from the repo's folders, heroes walk to the file they read/edit (hook sends file paths), monsters spawn in the room of the file where an error happened. Rewrite this phase after that discussion.
+# Phase 09 — Dungeon = Codebase (world map & the descent)
 
 ## Context Links
-- [plan.md](plan.md) · `frontend/src/constants/canvas.ts` · `frontend/src/systems/{navigationGrid,queuePositions,pathfinding}.ts` · `backend/app/core/{state_machine,floor_config,office_layout}.py` · building/floor views (`components/views`, navigationStore)
+- [plan.md](plan.md) · [phase-08](phase-08-ux-and-liveliness.md) (pixel camera, HTML text overlay) · hook tool inputs carry file paths (`hooks/.../event_mapper.py`) · `backend/app/core/{state_machine,floor_config}.py` · `frontend/src/dungeon/*`
 
 ## Overview
-- Priority: P2 (after P5 + P6 are stable) · Status: pending · Size: XL
-- User requests (2026-11-06): the world is more than one fixed room, and you can **go down into the dungeon**.
+- Priority: P1 (next after P6) · Status: concept decided 2026-11-06, not started · Size: XL (3 milestones)
+- The Guild Hall is the surface (orchestration). Below it, the dungeon IS the repo: heroes go down to the folder of the file they are reading/editing; rooms appear only once explored.
+
+## Decisions (user, 2026-11-06)
+- **Map = A**: level = top-level folder (`frontend/` → B1, `backend/` → B2 …); room = 2nd-level folder; files = spots inside a room.
+- **View = X**: one vertical cross-section — hall on top, levels stacked below; camera pans vertically; each level is a wide strip so wide screens are filled (also fixes the small-text problem with P8 camera + HTML text overlay).
+- **Fog of war**: only paths touched this session are shown (honest, compact, scales to huge repos).
+- **Guild Master stays in the hall** at the war table; a ghost marker shows which room the main agent is working in. Subagents walk down and back.
 
 ## Requirements
-**Zones around the Guild Hall (one world, camera pans)**
-- Guild Hall (centre): Guild Master, portal, quest board.
-- Library (research/docs: Read, Grep, WebSearch), Forge (Edit/Write/Bash), War Room (planner/brainstormer), Training Grounds (tester/debugger; error monsters live here).
-- Heroes take the quest in the hall, then walk through corridors to the zone of their class / current tool.
+- Path → (level, room): relative to project root; Windows/Unix separators; outside-repo paths ignored; per-level cap ~6–8 most active rooms, rest grouped as "deeper tunnels".
+- Per room: tool-category counts (read/search/write/bash/web), last visitor, last activity time, error count (when an error signal exists).
+- Hero movement: go down via the stairs when a tool targets a file in another room; hysteresis (stay N seconds before moving again) so rapid Grep/Read bursts don't jitter; return to hall on hand-off/finish carrying loot to the chest.
+- Monsters spawn in the room of the failing file — only once a real tool-failure hook signal is verified (Claude Code `PostToolUseFailure` or equivalent). No signal, no monster.
+- Lighting: deeper levels darker; explored rooms lit by torches, unexplored stay in fog.
 
-**The descent**
-- A stairway in the hall leads down: B1, B2, … are deeper levels (reuse the existing multi-floor building model: floor = dungeon level, building view = cross-section of the descent).
-- Ideas to evaluate: deeper level = another project/session group (existing floor mapping); long-running background tasks "descend" to a lower level and return with loot when done; level depth darkens the lighting.
-- Transition: heroes walk onto the stairs and fade down; level switch animates as a descent.
+## Milestones
+- **M1 — Explored-map data (S/M)**: backend aggregates a per-session explored tree from tool inputs (file_path, path, glob roots); sent in session state; unit tests for path → (level, room) mapping and caps. Optional: show as a list in the Party panel.
+- **M2 — Cross-section view (L)**: render levels/rooms with the baked-canvas approach (reuse hall composer), fog, stairs, vertical camera with integer zoom (P8), crisp HTML text overlay.
+- **M3 — Descent behaviour (L)**: heroes route hall ↔ stairs ↔ room with hysteresis; Guild Master ghost marker; loot carried back; monsters when error signal exists.
 
-## Key Risks
-- World size, nav grid (fixed 40×32), desk/queue positions are hard-coded on both frontend and backend (`DESKS_PER_ROW`, MIN_DESK_COUNT) → introduce a world/zone config first, keep the hall as zone 0 so existing flows keep working.
-- Needs the P8 pixel camera (pan/follow) before zones are usable.
+## Risks
+- Engine positions (desks, queues, nav grid 40×32) are hall-only → dungeon levels need their own nav grids or simple scripted paths (prefer scripted: corridors are linear).
+- Backend `DESKS_PER_ROW`/`MIN_DESK_COUNT` coupling stays hall-only; dungeon positions are frontend-derived from the explored tree.
+- Privacy: paths stay local (LOCALHOST_ONLY); never send file contents.
 
 ## Todo List
-- [ ] World/zone config + bigger nav grid
-- [ ] Corridors + zone backgrounds (baked like the hall)
-- [ ] Zone routing by class/tool
-- [ ] Stairs + descent transition, levels = floors
-- [ ] Depth lighting
+- [ ] M1 explored-map data + tests
+- [ ] M2 cross-section view + camera + HTML text overlay
+- [ ] M3 descent behaviour, ghost marker, loot
+- [ ] Monsters (blocked on error signal)
