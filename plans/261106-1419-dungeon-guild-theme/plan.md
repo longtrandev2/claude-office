@@ -30,7 +30,7 @@ Multi-language (en/es/pt-BR/vi). Control features (hook two-way "A", Agent SDK "
 | 6 | [Interactions & FX](phase-06-interactions-and-fx.md) | L | pending |
 | 7 | [Quest board, extras, test & polish](phase-07-quest-board-extras-test-polish.md) | M | pending |
 | 8 | [UX & liveliness (engine extensions)](phase-08-ux-and-liveliness.md) | L | pending — interleaved with P4–P7 |
-| 9 | [Dungeon = Codebase (descent)](phase-09-world-map-and-descent.md) | XL | concept decided — next after P6 |
+| 9 | [Task zones: forge, meeting room, library, dungeon below](phase-09-world-map-and-descent.md) | XL | concept corrected 2026-11-08 (zones by task, not codebase) — needs rewrite |
 
 **MVP cut** (if token budget tight): P1 → P3 → P4 (floor/walls only) → P5 (Guild Master + 3 classes + Novice fallback).
 
@@ -50,7 +50,7 @@ P1 → (P3 ∥ P4 ∥ P5) → P6 → P7; P8 interleaved. P2 dropped.
 ## Known bugs
 - ~~Vietnamese text corrupted on Windows~~ FIXED 2026-11-06 (a5353ff): Claude Code on Windows writes hook stdin in the ANSI code page (Latin-1 letters raw, other characters JSON-escaped). Hook decodes UTF-8, then falls back to the system code page. Backend WebSocket sends use ASCII-escaped JSON, so old mangled text (lone surrogates) no longer freezes a session. Replay API may still return 500 for sessions holding old mangled events (low priority).
 - **AI summaries fail on Windows** (`NotImplementedError` from asyncio subprocess under uvicorn `--reload` selector loop) — pre-existing; header still shows "AI ON". Fix with a Proactor loop or running the CLI via a thread.
-- 2026-11-06: "Dungeon = Codebase" decided — level = top folder, vertical cross-section, fog of war, Guild Master stays in hall (see phase-09).
+- 2026-11-08: SUPERSEDED — user meant zones by task kind (hybrid rule; hall + wings + dungeon below). Earlier note: 2026-11-06 "Dungeon = Codebase" decided — level = top folder, vertical cross-section, fog of war, Guild Master stays in hall (see phase-09).
 
 ## Decisions
 - 2026-11-06: user — UI/UX may diverge freely from upstream; be creative, lively, on-vibe; use FE/UI-UX skills (ui-ux-pro-max, design-taste-frontend). App chrome redesign belongs to P8.

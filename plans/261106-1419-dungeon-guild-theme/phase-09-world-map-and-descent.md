@@ -1,3 +1,12 @@
+# Phase 09 — Task zones (forge, meeting room, library, dungeon below)
+
+> **2026-11-08 correction from user:** the dungeon is NOT the codebase. Zones follow the KIND OF TASK an agent is doing, and heroes walk to that zone to work.
+> Decisions: **zone rule = hybrid** (agent type sets the home zone; the current tool can pull the hero elsewhere for a while), **layout = Guild Hall in the middle + surface wings (forge, meeting room/war room, library, review chamber, tavern) + the monster dungeon downstairs** (scroll/pan down to descend; debugging/testing happens there).
+> Zone map (draft): Forge = write/edit code (fullstack-developer; Edit/Write) · Dungeon below = debug/test/fix (debugger, tester; Bash test/build; error monsters live here) · Meeting room = plan/brainstorm (planner, brainstormer; TodoWrite/Task) · Library = research/read (researcher, Explore; Read/Grep/WebSearch) · Review chamber = code-reviewer · Tavern = idle/finished.
+> The codebase-based work below (M1 explored-map data, M2 "Into the code" strip, commits 4209d7b/22483db) is superseded as the main dungeon; fate (keep as small info panel / remove / keep for now) still to decide with the user.
+
+---
+
 # Phase 09 — Dungeon = Codebase (world map & the descent)
 
 ## Context Links
