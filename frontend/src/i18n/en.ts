@@ -281,11 +281,6 @@ const en = {
   // Scene-only mode toggle
   "header.sceneOnly": "SCENE ONLY",
   "header.showPanels": "SHOW PANELS",
-
-  // Phase 9: descent into the codebase
-  "descent.title": "Into the code",
-  "descent.empty": "No rooms explored yet. The dungeon reveals itself as agents read and edit files.",
-  "descent.hiddenRooms": "+{count} deeper tunnels",
 } as const;
 
 export type TranslationKey = keyof typeof en;

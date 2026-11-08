@@ -39,7 +39,6 @@ import {
 } from "@/components/layout/StatusToast";
 import Modal from "@/components/overlay/Modal";
 import SettingsModal from "@/components/overlay/SettingsModal";
-import { DungeonDescent } from "@/components/game/DungeonDescent";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { ViewTransition } from "@/components/navigation/ViewTransition";
 import { BuildingView } from "@/components/views/BuildingView";
@@ -519,13 +518,9 @@ export default function V2TestPage(): React.ReactNode {
 
           <div
             data-tour-id="game-canvas"
-            className="flex-grow border border-slate-800 rounded-lg shadow-2xl bg-slate-900 overflow-y-auto relative"
+            className="flex-grow border border-slate-800 rounded-lg shadow-2xl bg-slate-900 overflow-hidden relative"
           >
-            {/* Guild Hall on top; scrolling down descends into the codebase (phase 9). */}
-            <div className="h-full">
-              <OfficeGame />
-            </div>
-            <DungeonDescent />
+            <OfficeGame />
           </div>
 
           {!sceneOnly && <RightSidebar />}

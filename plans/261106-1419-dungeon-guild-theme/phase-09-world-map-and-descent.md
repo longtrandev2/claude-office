@@ -1,47 +1,48 @@
 # Phase 09 — Task zones (forge, meeting room, library, dungeon below)
 
-> **2026-11-08 correction from user:** the dungeon is NOT the codebase. Zones follow the KIND OF TASK an agent is doing, and heroes walk to that zone to work.
-> Decisions: **zone rule = hybrid** (agent type sets the home zone; the current tool can pull the hero elsewhere for a while), **layout = Guild Hall in the middle + surface wings (forge, meeting room/war room, library, review chamber, tavern) + the monster dungeon downstairs** (scroll/pan down to descend; debugging/testing happens there).
-> Zone map (draft): Forge = write/edit code (fullstack-developer; Edit/Write) · Dungeon below = debug/test/fix (debugger, tester; Bash test/build; error monsters live here) · Meeting room = plan/brainstorm (planner, brainstormer; TodoWrite/Task) · Library = research/read (researcher, Explore; Read/Grep/WebSearch) · Review chamber = code-reviewer · Tavern = idle/finished.
-> The codebase-based work below (M1 explored-map data, M2 "Into the code" strip, commits 4209d7b/22483db) is superseded as the main dungeon; fate (keep as small info panel / remove / keep for now) still to decide with the user.
-
----
-
-# Phase 09 — Dungeon = Codebase (world map & the descent)
-
 ## Context Links
-- [plan.md](plan.md) · [phase-08](phase-08-ux-and-liveliness.md) (pixel camera, HTML text overlay) · hook tool inputs carry file paths (`hooks/.../event_mapper.py`) · `backend/app/core/{state_machine,floor_config}.py` · `frontend/src/dungeon/*`
+- [plan.md](plan.md) · [phase-08](phase-08-ux-and-liveliness.md) (pixel camera, HTML text overlay) · [phase-06](phase-06-interactions-and-fx.md) (tool categories, monsters)
+- Engine: `frontend/src/constants/canvas.ts`, `frontend/src/systems/{navigationGrid,queuePositions,pathfinding}.ts`, `frontend/src/machines/*`
+- Signals: `agentType` on agents (P5), tool category from bubble icon (`frontend/src/dungeon/tool-activity.ts`)
 
 ## Overview
-- Priority: P1 (next after P6) · Status: M1 done; M2 first cut done 2026-11-06 · Size: XL (3 milestones)
-- The Guild Hall is the surface (orchestration). Below it, the dungeon IS the repo: heroes go down to the folder of the file they are reading/editing; rooms appear only once explored.
+- Priority: P1 (next) · Status: concept decided 2026-11-08, not started · Size: XL
+- Zones follow the KIND OF TASK an agent is doing; heroes walk to that zone to work. (An earlier "dungeon = codebase" attempt was reverted on 2026-11-08 at the user's request.)
 
-## Decisions (user, 2026-11-06)
-- **Map = A**: level = top-level folder (`frontend/` → B1, `backend/` → B2 …); room = 2nd-level folder; files = spots inside a room.
-- **View = X**: one vertical cross-section — hall on top, levels stacked below; camera pans vertically; each level is a wide strip so wide screens are filled (also fixes the small-text problem with P8 camera + HTML text overlay).
-- **Fog of war**: only paths touched this session are shown (honest, compact, scales to huge repos).
-- **Guild Master stays in the hall** at the war table; a ghost marker shows which room the main agent is working in. Subagents walk down and back.
+## Decisions (user, 2026-11-08)
+- **Zone rule = hybrid**: agent type sets the home zone; the current tool can pull the hero to another zone for a while, then it returns home.
+- **Layout = Guild Hall in the middle + surface wings + monster dungeon downstairs** (scroll/pan down to descend).
+
+## Zone map (draft — confirm names/art with user)
+| Zone | Work | Home for (agent type) | Pulled in by (tool) |
+|---|---|---|---|
+| Guild Hall (centre) | orchestration, hand-offs | main agent (Guild Master) | Task/Agent |
+| Forge | write/edit code | fullstack-developer, code-simplifier | Edit, Write, MultiEdit |
+| Meeting room / war room | plan, brainstorm | planner, brainstormer, project-manager | TodoWrite |
+| Library | research, read, search | researcher, Explore, docs-manager | Read, Grep, Glob, WebSearch, WebFetch |
+| Review chamber | code review | code-reviewer | — |
+| Dungeon (below) | debug, test, fix; monsters live here | debugger, tester | Bash test/build commands |
+| Tavern | idle / finished / waiting | anyone idle | — |
 
 ## Requirements
-- Path → (level, room): relative to project root; Windows/Unix separators; outside-repo paths ignored; per-level cap ~6–8 most active rooms, rest grouped as "deeper tunnels".
-- Per room: tool-category counts (read/search/write/bash/web), last visitor, last activity time, error count (when an error signal exists).
-- Hero movement: go down via the stairs when a tool targets a file in another room; hysteresis (stay N seconds before moving again) so rapid Grep/Read bursts don't jitter; return to hall on hand-off/finish carrying loot to the chest.
-- Monsters spawn in the room of the failing file — only once a real tool-failure hook signal is verified (Claude Code `PostToolUseFailure` or equivalent). No signal, no monster.
-- Lighting: deeper levels darker; explored rooms lit by torches, unexplored stay in fog.
+- Routing: target zone = tool zone while a tool of that category is active (hold ≥ ~5 s, hysteresis so bursts don't jitter), else home zone; idle → tavern.
+- Each zone has stations (reuse `DungeonStations` style) and zone-specific props from the CC0 packs (anvil/blacksmith for forge, globe/war table for meeting room, books/scrolls for library, crates/cells for dungeon).
+- Dungeon below: reached by stairs from the hall; darker lighting; error monsters spawn here once a real tool-failure hook signal exists (no signal, no monster).
+- Readability: wider world fills wide screens; in-scene text as crisp HTML overlay; integer zoom (from P8).
+- Multi-session unchanged: each session has its own world; Sessions list / Command Center switch between them.
 
 ## Milestones
-- **M1 — Explored-map data (S/M)**: backend aggregates a per-session explored tree from tool inputs (file_path, path, glob roots); sent in session state; unit tests for path → (level, room) mapping and caps. Optional: show as a list in the Party panel.
-- **M2 — Cross-section view (L)**: render levels/rooms with the baked-canvas approach (reuse hall composer), fog, stairs, vertical camera with integer zoom (P8), crisp HTML text overlay.
-- **M3 — Descent behaviour (L)**: heroes route hall ↔ stairs ↔ room with hysteresis; Guild Master ghost marker; loot carried back; monsters when error signal exists.
+- **M1 World & camera (L)**: bigger world (hall centre + wings + dungeon below), pixel camera with integer zoom + pan, HTML text overlay. Keep the hall's existing coordinates as one region so current flows keep working.
+- **M2 Zones & stations (M)**: bake each zone like the hall (composer + layout data), stations per zone, lighting.
+- **M3 Routing (L)**: zone choice (hybrid rule) + walking between zones via doors/stairs; nav grid extended or scripted corridor paths; Guild Master stays in the hall.
+- **M4 Dungeon life (M)**: monsters (after error signal is verified), tavern idle behaviour, polish.
 
 ## Risks
-- Engine positions (desks, queues, nav grid 40×32) are hall-only → dungeon levels need their own nav grids or simple scripted paths (prefer scripted: corridors are linear).
-- Backend `DESKS_PER_ROW`/`MIN_DESK_COUNT` coupling stays hall-only; dungeon positions are frontend-derived from the explored tree.
-- Privacy: paths stay local (LOCALHOST_ONLY); never send file contents.
+- Nav grid (40x32), desk/queue positions are hall-only and partly mirrored in the backend (`DESKS_PER_ROW`, `MIN_DESK_COUNT`) → treat the hall as region 0; new zones get their own positions (frontend-only).
+- Agent state machines assume desk seating → add zone stations without breaking arrival/departure queues; extend tests first.
 
 ## Todo List
-- [x] M1 explored-map data + tests (`backend/app/core/explored_map.py`, `models/explored_map.py`, GameState.exploredMap, TS types; verified live: `.claude` level with `rules`/`skills` rooms from real Read/Grep)
-- [~] M2 cross-section view: first cut done — `DungeonDescent.tsx` under the hall in a scrollable centre panel (scroll down = descend): level strips (parchment B-plaque, darker per depth), chambers with atlas stone floor, pixel tool icons + counts, recent files, torch outline when active <60s, "+N deeper tunnels"; all HTML so text is crisp; fed by `exploredMapStore` from WS state.
-- [ ] M2 remaining: stairs linking hall ↔ B1, corridors between levels, fog visuals for unexplored, pixel camera (integer zoom) for the hall part
-- [ ] M3 descent behaviour, ghost marker, loot
-- [ ] Monsters (blocked on error signal)
+- [ ] M1 world & camera
+- [ ] M2 zones & stations
+- [ ] M3 routing (hybrid)
+- [ ] M4 dungeon life

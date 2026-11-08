@@ -6,7 +6,6 @@ from pydantic.alias_generators import to_camel
 
 from app.models.agents import Agent, Boss, OfficeState
 from app.models.common import TodoItem
-from app.models.explored_map import ExploredLevel
 
 __all__ = [
     "ConversationEntry",
@@ -157,5 +156,3 @@ class GameState(BaseModel):
     )
     floor_id: str | None = None
     room_id: str | None = None
-    # Phase 9: repo levels/rooms agents touched this session (fog of war).
-    explored_map: list[ExploredLevel] = Field(default_factory=lambda: cast(list[ExploredLevel], []))

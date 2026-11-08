@@ -283,11 +283,6 @@ const es: Record<TranslationKey, string> = {
   // Scene-only mode toggle
   "header.sceneOnly": "SOLO ESCENA",
   "header.showPanels": "MOSTRAR PANELES",
-
-  // Phase 9: descent into the codebase
-  "descent.title": "Hacia el código",
-  "descent.empty": "Aún no hay salas exploradas. La mazmorra se revela a medida que los agentes leen y editan archivos.",
-  "descent.hiddenRooms": "+{count} túneles más profundos",
 };
 
 export default es;

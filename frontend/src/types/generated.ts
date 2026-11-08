@@ -482,28 +482,6 @@ export interface ClaudeOfficeBackendTypes {
  * This interface was referenced by `ClaudeOfficeBackendTypes`'s JSON-Schema
  * via the `definition` "Agent".
  */
-/**
- * Phase 9: a second-level repo folder agents touched this session.
- */
-export interface ExploredRoom {
-  name: string;
-  counts?: Record<string, number>;
-  visits?: number;
-  lastAgentId?: string | null;
-  lastSeen?: string | null;
-  files?: string[];
-  [k: string]: unknown;
-}
-/**
- * Phase 9: a top-level repo folder (dungeon level) with its explored rooms.
- */
-export interface ExploredLevel {
-  name: string;
-  visits?: number;
-  rooms?: ExploredRoom[];
-  hiddenRooms?: number;
-  [k: string]: unknown;
-}
 export interface Agent {
   id: Id;
   nativeId?: Nativeid;
@@ -845,7 +823,6 @@ export interface GameState {
   conversation?: Conversation;
   floorId?: Floorid;
   roomId?: Roomid;
-  exploredMap?: ExploredLevel[];
   [k: string]: unknown;
 }
 /**

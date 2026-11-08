@@ -37,7 +37,6 @@ from app.models.events import (  # noqa: E402  # type: ignore[import]
     TaskEventData,
     ToolEventData,
 )
-from app.models.explored_map import ExploredLevel, ExploredRoom  # noqa: E402  # type: ignore[import]
 from app.models.git import (  # noqa: E402  # type: ignore[import]
     ChangedFile,
     Commit,
@@ -90,8 +89,6 @@ MODELS = [
     NewsItem,
     WhiteboardData,
     Session,
-    ExploredRoom,
-    ExploredLevel,
     GameState,
     ChangedFile,
     Commit,

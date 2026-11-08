@@ -22,6 +22,7 @@ from starlette.websockets import WebSocketState
 logger = logging.getLogger(__name__)
 
 
+
 async def send_json_ascii(websocket: "WebSocket", message: Any) -> None:
     """Send JSON with every non-ASCII character escaped.
 
