@@ -28,6 +28,12 @@
 - Session replay speed controls (backend `/sessions/{id}/replay` exists).
 - Accessibility: reduced-motion setting (disables flicker/particles), color-blind-safe status cues (shape + color).
 
+**Sound (user request 2026-11-08)** — signal-bound only, pick whichever source sounds better (CC0 packs such as Kenney RPG/UI audio, or Web Audio 8-bit synthesis); verify licence per pack.
+- Needs-you (permission / waiting for input): guild bell — ON by default (most useful when the tab is in the background).
+- Guild Master turn done: coin into the chest · subagent arrives/leaves: portal whoosh · error (once a real failure signal exists): slime squish.
+- Optional ambience (off by default): torch crackle, low dungeon wind.
+- Settings: master volume, per-sound toggles, header mute button; cooldown per sound (no spam); start after the first user click (browser autoplay rule); respect reduced-motion/quiet preferences.
+
 **Liveliness**
 - Reactions: party cheer when subagent completes, Guild Master nods on hand-in, level-up burst.
 - Ambient: rats/bats wandering, dust motes, flickering lights, banner sway; day/night tint from real clock.
@@ -58,6 +64,7 @@
 - [ ] Pixel camera + follow-cam
 - [ ] Detail card + tooltip + tool icons
 - [ ] Attention + notifications
+- [ ] Sound: bell (default on), coin, portal, slime (after error signal), optional ambience; volume/mute settings
 - [ ] Idle behaviors, reactions, ambient
 - [ ] Quest log filters, replay speed, reduced-motion
 

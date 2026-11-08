@@ -45,6 +45,10 @@ Pick another port (example: 8765) and point both producers/consumers at it:
   ```
   Also set `CLAUDE_OFFICE_STRIP_PREFIXES` to your project root prefix, e.g. `"D--Project-AgentWork-,D--Project-"`.
 
+## Quick start
+
+Double-click `start-agentdungeon.cmd` in the repo root: it opens the backend and frontend in two PowerShell windows (UTF-8 mode, stable key, no reload) and then opens the browser already signed in. Close those two windows to stop.
+
 ## 5. Run (two terminals)
 
 ```bash
