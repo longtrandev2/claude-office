@@ -190,6 +190,16 @@ const ptBR: Record<TranslationKey, string> = {
   "zoom.out": "Diminuir zoom",
   "zoom.reset": "Resetar zoom",
 
+  // World zones (AgentDungeon phase 9)
+  "zone.guildHall": "Salão da Guilda",
+  "zone.library": "Biblioteca",
+  "zone.forge": "Forja",
+  "zone.warRoom": "Sala de Guerra",
+  "zone.reviewChamber": "Câmara de Revisão",
+  "zone.tavern": "Taverna",
+  "zone.dungeon": "Masmorra",
+  "zone.navigation": "Salas",
+
   // Mobile
   "mobile.menu": "Menu",
   "mobile.agentActivity": "Atividade dos Agentes",

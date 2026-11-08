@@ -190,6 +190,16 @@ const es: Record<TranslationKey, string> = {
   "zoom.out": "Alejar",
   "zoom.reset": "Restablecer zoom",
 
+  // World zones (AgentDungeon phase 9)
+  "zone.guildHall": "Salón del Gremio",
+  "zone.library": "Biblioteca",
+  "zone.forge": "Forja",
+  "zone.warRoom": "Sala de Guerra",
+  "zone.reviewChamber": "Cámara de Revisión",
+  "zone.tavern": "Taberna",
+  "zone.dungeon": "Mazmorra",
+  "zone.navigation": "Salas",
+
   // Mobile
   "mobile.menu": "Menú",
   "mobile.agentActivity": "Actividad de agentes",

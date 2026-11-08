@@ -187,6 +187,16 @@ const en = {
   "zoom.out": "Zoom out",
   "zoom.reset": "Reset zoom",
 
+  // World zones (AgentDungeon phase 9)
+  "zone.guildHall": "Guild Hall",
+  "zone.library": "Library",
+  "zone.forge": "Forge",
+  "zone.warRoom": "War Room",
+  "zone.reviewChamber": "Review Chamber",
+  "zone.tavern": "Tavern",
+  "zone.dungeon": "Dungeon",
+  "zone.navigation": "Rooms",
+
   // Mobile
   "mobile.menu": "Menu",
   "mobile.agentActivity": "Agent Activity",

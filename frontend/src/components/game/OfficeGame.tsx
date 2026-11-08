@@ -20,12 +20,10 @@ import {
   Application as PixiApplication,
 } from "pixi.js";
 import { useMemo, useEffect, useRef, useCallback, type ReactNode } from "react";
-import {
-  TransformWrapper,
-  TransformComponent,
-  type ReactZoomPanPinchRef,
-} from "react-zoom-pan-pinch";
 import { useShallow } from "zustand/react/shallow";
+import { useCameraStore } from "@/stores/cameraStore";
+import { cameraTransform } from "@/systems/pixelCamera";
+import { usePixelCameraInput } from "@/hooks/usePixelCameraInput";
 import { performSoftReset, getHmrVersion } from "@/systems/hmrCleanup";
 
 import {
@@ -61,12 +59,8 @@ import {
   DESKS_PER_ROW,
   MIN_DESK_COUNT,
 } from "@/constants/positions";
-import {
-  AgentSprite,
-  AgentLabel,
-  Bubble as AgentBubble,
-} from "./AgentSprite";
-import { BossSprite, BossBubble, MobileBoss } from "./BossSprite";
+import { AgentSprite } from "./AgentSprite";
+import { BossSprite, MobileBoss } from "./BossSprite";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { LOBBY_FLOOR_ID } from "@/types/navigation";
 import { ELEVATOR_POSITION, isInElevatorZone } from "@/systems/queuePositions";
@@ -82,6 +76,10 @@ import { ZoomControls } from "./ZoomControls";
 import { LoadingScreen } from "./LoadingScreen";
 import { DungeonHallBackground } from "./DungeonHallBackground";
 import { DungeonHallAmbience } from "./DungeonHallAmbience";
+import { DungeonWorldZones } from "./DungeonWorldZones";
+import { DungeonZoneStations } from "./DungeonZoneStations";
+import { SceneTextOverlay } from "./SceneTextOverlay";
+import { ZoneNavigationHints } from "./ZoneNavigationHints";
 
 // Register PixiJS components
 extend({ Container, Text, Graphics, Sprite });
@@ -168,7 +166,18 @@ export function OfficeGame(): ReactNode {
   // Track PixiJS app for cleanup
   const appRef = useRef<PixiApplication | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const transformRef = useRef<ReactZoomPanPinchRef>(null);
+
+  // Pixel camera: integer zoom + pan over the whole world (hall + zones)
+  usePixelCameraInput(containerRef, appRef);
+  const cameraView = useCameraStore((s) => s.view);
+  const cameraViewport = useCameraStore((s) => s.viewport);
+  const worldTransform = useMemo(
+    () =>
+      cameraView && cameraViewport
+        ? cameraTransform(cameraView, cameraViewport)
+        : { x: 0, y: 0, scale: 1 },
+    [cameraView, cameraViewport],
+  );
 
   // HMR version for forcing remount
   const hmrVersion = getHmrVersion();
@@ -285,62 +294,46 @@ export function OfficeGame(): ReactNode {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [debugMode]);
 
-  // Reset pan/zoom only on actual window resize — NOT on container reflows.
-  // ResizeObserver was causing progressive canvas drift because the event log
-  // and sidebar content changes triggered micro-resizes on every update.
-  useEffect(() => {
-    const handleResize = () => transformRef.current?.resetTransform(0);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
-    <div ref={containerRef} className="w-full h-full overflow-hidden relative">
-      <TransformWrapper
-        ref={transformRef}
-        initialScale={1}
-        minScale={1}
-        maxScale={3}
-        centerZoomedOut={false}
-        limitToBounds={false}
-        wheel={{ step: 0.1 }}
-        pinch={{ step: 5 }}
-        doubleClick={{ mode: "reset" }}
-        onTransform={(ref, state) => {
-          // Auto-reset pan offset when zooming back out to 1:1
-          if (
-            state.scale <= 1 &&
-            (state.positionX !== 0 || state.positionY !== 0)
-          ) {
-            ref.resetTransform(0);
-          }
+    <div
+      ref={containerRef}
+      className="dungeon-scene w-full h-full overflow-hidden relative cursor-grab active:cursor-grabbing"
+    >
+      <ZoomControls />
+      {spritesLoaded && <ZoneNavigationHints />}
+      {spritesLoaded && (
+        <SceneTextOverlay bossAway={compactionAnimation.phase !== "idle"} />
+      )}
+      <Application
+        key={`pixi-app-${hmrVersion}`}
+        width={cameraViewport?.width ?? CANVAS_WIDTH}
+        height={cameraViewport?.height ?? CANVAS_HEIGHT}
+        backgroundColor={BACKGROUND_COLOR}
+        autoDensity={true}
+        roundPixels={true}
+        resolution={
+          typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1
+        }
+        onInit={(app) => {
+          appRef.current = app;
         }}
       >
-        <ZoomControls />
-        <TransformComponent
-          wrapperClass="w-full h-full"
-          contentClass="w-full h-full"
+        {/* World container: the pixel camera moves and scales everything below */}
+        <pixiContainer
+          x={worldTransform.x}
+          y={worldTransform.y}
+          scale={worldTransform.scale}
         >
-          <div className="pixi-canvas-container w-full h-full">
-            <Application
-              key={`pixi-app-${hmrVersion}`}
-              width={CANVAS_WIDTH}
-              height={CANVAS_HEIGHT}
-              backgroundColor={BACKGROUND_COLOR}
-              autoDensity={true}
-              resolution={
-                typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1
-              }
-              onInit={(app) => {
-                appRef.current = app;
-              }}
-            >
               {/* Loading screen - shown while sprites are loading */}
               {!spritesLoaded && <LoadingScreen />}
 
               {/* Office content - hidden while loading */}
               {spritesLoaded && (
                 <>
+                  {/* Task-zone rooms around the hall (wings, tavern, dungeon) */}
+                  <DungeonWorldZones />
+                  <DungeonZoneStations />
+
                   {/* Guild Hall: walls, floor, carpet, decoration (one baked texture) */}
                   <DungeonHallBackground />
 
@@ -489,34 +482,6 @@ export function OfficeGame(): ReactNode {
                     />
                   )}
 
-                  {/* Debug mode indicator */}
-                  {debugMode && (
-                    <pixiText
-                      text="DEBUG MODE (D=toggle, P=paths, Q=queue, L=labels, O=obstacles, T=time)"
-                      x={10}
-                      y={10}
-                      style={{
-                        fontSize: 12,
-                        fill: 0x00ff00,
-                        fontFamily: "monospace",
-                      }}
-                    />
-                  )}
-
-                  {/* Labels Layer - rendered on top of most things */}
-                  {Array.from(agents.values())
-                    .filter(
-                      (agent) =>
-                        agent.name && !isInElevatorZone(agent.currentPosition),
-                    )
-                    .map((agent) => (
-                      <AgentLabel
-                        key={`label-${agent.id}`}
-                        name={agent.name!}
-                        position={agent.currentPosition}
-                      />
-                    ))}
-
                   {/* Character Type Overlays - crown/badge/dot per agent type */}
                   {Array.from(agents.values())
                     .filter(
@@ -585,36 +550,26 @@ export function OfficeGame(): ReactNode {
                       </pixiContainer>
                     ))}
 
-                  {/* Bubbles Layer - rendered on top of everything */}
-                  {Array.from(agents.values())
-                    .filter(
-                      (agent) =>
-                        agent.bubble.content &&
-                        !isInElevatorZone(agent.currentPosition),
-                    )
-                    .map((agent) => (
-                      <pixiContainer
-                        key={`bubble-${agent.id}`}
-                        x={agent.currentPosition.x}
-                        y={agent.currentPosition.y}
-                      >
-                        <AgentBubble
-                          content={agent.bubble.content!}
-                          yOffset={-80}
-                        />
-                      </pixiContainer>
-                    ))}
-                  {boss.bubble.content && (
-                    <pixiContainer x={boss.position.x} y={boss.position.y}>
-                      <BossBubble content={boss.bubble.content} yOffset={-80} />
-                    </pixiContainer>
-                  )}
                 </>
               )}
-            </Application>
-          </div>
-        </TransformComponent>
-      </TransformWrapper>
+        </pixiContainer>
+
+        {/* Screen-space debug banner (not moved by the camera) */}
+        {/* Debug mode indicator */}
+        {debugMode && (
+          <pixiText
+            text="DEBUG MODE (D=toggle, P=paths, Q=queue, L=labels, O=obstacles, T=time)"
+            x={10}
+            y={10}
+            style={{
+              fontSize: 12,
+              fill: 0x00ff00,
+              fontFamily: "monospace",
+            }}
+          />
+        )}
+
+      </Application>
     </div>
   );
 }

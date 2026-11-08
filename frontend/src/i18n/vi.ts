@@ -192,6 +192,16 @@ const vi: Record<TranslationKey, string> = {
   "zoom.out": "Thu nhỏ",
   "zoom.reset": "Đặt lại thu phóng",
 
+  // World zones (AgentDungeon phase 9)
+  "zone.guildHall": "Sảnh Bang Hội",
+  "zone.library": "Thư viện",
+  "zone.forge": "Lò rèn",
+  "zone.warRoom": "Phòng chiến lược",
+  "zone.reviewChamber": "Phòng thẩm định",
+  "zone.tavern": "Quán rượu",
+  "zone.dungeon": "Hầm ngục",
+  "zone.navigation": "Các phòng",
+
   // Mobile
   "mobile.menu": "Menu",
   "mobile.agentActivity": "Hoạt động agent",

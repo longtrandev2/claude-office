@@ -21,6 +21,7 @@ import { heroBaseForAgent, heroClassForAgentType } from "@/dungeon/hero-class-re
 import { HeroSprite } from "./HeroSprite";
 import { HeroActivityIndicator } from "./HeroActivityIndicator";
 import { toolCategoryFromBubbleIcon } from "@/dungeon/tool-activity";
+import { cameraJustDragged, worldToClient } from "@/stores/cameraStore";
 
 // ============================================================================
 // TYPES
@@ -168,17 +169,11 @@ function AgentSpriteComponent({
 
   // Click handler for focus popup
   const handlePointerTap = useCallback(() => {
-    if (!clickToFocusEnabled) return;
-    const canvas = document.querySelector(".pixi-canvas-container canvas");
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    // The canvas is letterboxed (object-fit: contain, centred) inside its box.
-    const scale = Math.min(rect.width / 1280, rect.height / 1024); // CANVAS 1280x1024
-    const offsetX = (rect.width - 1280 * scale) / 2;
-    const offsetY = (rect.height - 1024 * scale) / 2;
-    const screenX = rect.left + offsetX + position.x * scale;
-    const screenY = rect.top + offsetY + position.y * scale;
-    openFocusPopup(id, screenX, screenY);
+    // A drag-pan that ends over a hero is not a click.
+    if (!clickToFocusEnabled || cameraJustDragged()) return;
+    const at = worldToClient({ x: position.x, y: position.y });
+    if (!at) return;
+    openFocusPopup(id, at.x, at.y);
   }, [clickToFocusEnabled, id, position.x, position.y, openFocusPopup]);
 
   // Bubble offset for capsule rendering

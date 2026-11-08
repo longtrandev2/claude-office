@@ -1,7 +1,7 @@
 /**
  * DungeonHallAmbience
  *
- * The living layer over the baked Guild Hall: candle flames and fountain water
+ * The living layer over the baked Guild Hall and the task-zone rooms: candle flames and fountain water
  * cycling their frames, and warm light pools that flicker around those real
  * sources. Light pools are drawn as stepped rings (pixel-art banding, not a
  * smooth gradient) with additive blending.
@@ -14,12 +14,11 @@ import { useTick } from "@pixi/react";
 import { Graphics, Sprite, Texture } from "pixi.js";
 import { loadDungeonAtlas, type DungeonAtlas } from "@/dungeon/dungeon-atlas";
 import { getDungeonTexture } from "@/dungeon/dungeon-pixi-textures";
+import { DUNGEON_SCALE, type HallLight } from "@/dungeon/dungeon-hall-layout";
 import {
-  DUNGEON_SCALE,
-  HALL_ANIMATED_DECOR,
-  HALL_LIGHTS,
-  type HallLight,
-} from "@/dungeon/dungeon-hall-layout";
+  WORLD_ANIMATED_DECOR as HALL_ANIMATED_DECOR,
+  WORLD_LIGHTS as HALL_LIGHTS,
+} from "@/dungeon/world-ambience-layout";
 
 /** Ring steps from outer to inner; each adds a little more light. */
 const LIGHT_RINGS = [1, 0.74, 0.5, 0.28];

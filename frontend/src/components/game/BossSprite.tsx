@@ -173,7 +173,6 @@ function BossSpriteComponent({
   isTyping = false,
   isAway = false,
 }: BossSpriteProps): ReactNode {
-  const { t } = useTranslation();
   const bubbleOffset = -80;
 
   return (
@@ -196,12 +195,7 @@ function BossSpriteComponent({
       {/* War table - in front of the Guild Master */}
       <GuildWarTable />
 
-      {/* Title label - hidden when away from the table */}
-      {!isAway && (
-        <pixiContainer y={-52} scale={0.5}>
-          <pixiText text={t("attention.popup.boss")} anchor={0.5} style={LABEL_STYLE} resolution={2} />
-        </pixiContainer>
-      )}
+      {/* Title label: drawn as HTML by SceneTextOverlay (crisp at every zoom) */}
 
       {/* Task marquee on desk - scrolling user prompt */}
       {currentTask && (

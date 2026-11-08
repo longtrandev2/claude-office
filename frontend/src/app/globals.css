@@ -99,6 +99,124 @@ body {
     object-position: center;
   }
 
+  /* AgentDungeon world view: the Pixi canvas fills its box 1:1 (pixel camera
+     does the scaling), so no CSS stretching or letterboxing here. */
+  .dungeon-scene canvas {
+    display: block;
+    image-rendering: pixelated;
+    touch-action: none;
+  }
+
+  /* In-scene HTML text over the canvas (SceneTextOverlay). Hard pixel edges:
+     square corners, 2px borders, offset shadows without blur. */
+  .scene-text-overlay {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+    font-family: var(--font-mono), monospace;
+  }
+  .scene-name,
+  .scene-zone-plate,
+  .scene-bubble {
+    position: absolute;
+    white-space: nowrap;
+  }
+  .scene-name {
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #f4ead6;
+    text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000;
+  }
+  .scene-zone-plate {
+    transform: translate(-50%, 0);
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #d8c08a;
+    background: rgba(14, 9, 20, 0.82);
+    border: 2px solid #4a3828;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.55);
+  }
+  .scene-bubble {
+    transform: translate(0, -100%);
+    max-width: 240px;
+    padding: 5px 8px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #2a1c12;
+    background: #eadcbc;
+    border: 2px solid #2a1c12;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+  }
+  /* Thought (tool use, thinking): dimmer parchment, dashed edge. */
+  .scene-bubble--thought {
+    background: #d6c8a6;
+    border-style: dashed;
+    font-style: italic;
+  }
+  /* Stepped pixel tail pointing down-left at the speaker. */
+  .scene-bubble::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    bottom: -8px;
+    width: 8px;
+    height: 6px;
+    background: #2a1c12;
+    clip-path: polygon(0 0, 100% 0, 25% 100%, 0 100%);
+  }
+
+  /* Room signposts at the scene edges (ZoneNavigationHints). Same stone
+     plate look as the zone name plates; the only clickable overlay text. */
+  .zone-hints {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 6;
+    font-family: var(--font-mono), monospace;
+  }
+  .zone-hint {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 9px;
+    pointer-events: auto;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d8c08a;
+    background: rgba(14, 9, 20, 0.85);
+    border: 2px solid #4a3828;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.55);
+    cursor: pointer;
+  }
+  .zone-hint:hover,
+  .zone-hint:focus-visible {
+    color: #fff1cf;
+    border-color: #b8892f;
+    outline: none;
+  }
+  .zone-hint__arrow {
+    font-size: 14px;
+    line-height: 1;
+    color: #b8892f;
+  }
+  .zone-hint--left { left: 10px; top: 50%; transform: translateY(-50%); }
+  .zone-hint--right { right: 10px; top: 50%; transform: translateY(-50%); }
+  .zone-hint--up { top: 10px; left: 50%; transform: translateX(-50%); }
+  .zone-hint--down { bottom: 10px; left: 50%; transform: translateX(-50%); }
+
   /* Custom Scrollbar Theme */
   ::-webkit-scrollbar {
     width: 8px;
