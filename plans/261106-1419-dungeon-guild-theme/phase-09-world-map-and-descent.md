@@ -6,7 +6,7 @@
 - Signals: `agentType` on agents (P5), tool category from bubble icon (`frontend/src/dungeon/tool-activity.ts`)
 
 ## Overview
-- Priority: P1 (next) · Status: concept decided 2026-11-08, not started · Size: XL
+- Priority: P1 (next) · Status: M1 + M2 done 2026-11-08 (awaiting user review), M3 next · Size: XL
 - Zones follow the KIND OF TASK an agent is doing; heroes walk to that zone to work. (An earlier "dungeon = codebase" attempt was reverted on 2026-11-08 at the user's request.)
 
 ## Decisions (user, 2026-11-08)
@@ -42,7 +42,16 @@
 - Agent state machines assume desk seating → add zone stations without breaking arrival/departure queues; extend tests first.
 
 ## Todo List
-- [ ] M1 world & camera
-- [ ] M2 zones & stations
+- [x] M1 world & camera (2026-11-08)
+  - World: hall stays at origin (engine coords unchanged); Library/Forge left wing (x −768..0), War Room/Review Chamber right wing (x 1280..2048), Tavern + Dungeon lower level (y 1024..1792). Data in `frontend/src/dungeon/dungeon-world-layout.ts`; rooms baked by `compose-dungeon-zone-room-canvas.ts` (empty shells, no lights yet).
+  - Pixel camera: `systems/pixelCamera.ts` + `stores/cameraStore.ts` + `hooks/usePixelCameraInput.ts`; integer device-px-per-art-px zoom 1–6, default frames the hall (2× on 1917x876 → hall + both wings fill the width), wheel zoom at cursor, drag pan, double-click / `Home` reset, `+`/`-`, arrow keys jump to the neighbouring room and frame it (user request 2026-11-08; `dungeon/world-zone-navigation.ts`). react-zoom-pan-pinch removed from the game view (Command Center still uses it).
+  - HTML overlay `components/game/SceneTextOverlay.tsx`: zone plates, hero names, Guild Master title, bubbles (parchment, no emoji badge — the pixel tool icon above the head already shows the tool).
+  - Still canvas text: desk task marquee, chest %, teammate nameplates, elevator floor sign → move to overlay in M2 if still hard to read.
+- [x] M2 zones & stations (2026-11-08)
+  - Furnishing data `frontend/src/dungeon/zone-room-decor-layouts.ts` (room-local), world offsets in `world-ambience-layout.ts`; baked by `compose-dungeon-zone-room-canvas.ts`; animated torches/candles + light pools share `DungeonHallAmbience`; stations drawn by `DungeonZoneStations.tsx` (same table as hall).
+  - Library: 3 shelves with painted book spines (banner palette), beige rug, quill/globe stations, candles. Forge: Niji lava furnace, weapons on wall, barrel/crate, hammer/sword/axe/knife stations, torch. War Room: red/blue banners, red rug, quill/globe/coin, torch. Review Chamber: glowing truth chest, blue rug, quill/flask, candles. Tavern: wine cabinets, barrels, 6 tables with drinks/coins, torches. Dungeon: stairs from the hall, 4 jail cells, lever/bomb/button test benches, sparse torches.
+  - Room signposts at the scene edges (arrow + room name, clickable) and arrow keys jump rooms (edge-based neighbours, min 2x when framing a room).
+  - New CC0 props cropped from jojomod + Niji (see CREDITS.md); `blacksmith-anvil` renamed `three-tier-shelf` (it is a shelf).
+  - Heroes still never leave the hall (routing = M3).
 - [ ] M3 routing (hybrid)
 - [ ] M4 dungeon life
