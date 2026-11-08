@@ -188,6 +188,29 @@ export function paintShelfBooks(ctx: Ctx, x: number, y: number, rand: () => numb
   }
 }
 
+/** A two-tile opening in a side wall; y = top of the gap (on a wall tile row). */
+export interface RoomDoorway {
+  side: "left" | "right";
+  y: number;
+}
+
+/** Replace side-wall edge tiles with floor so the wall reads as open. */
+export function paintDoorways(ctx: Ctx, atlas: DungeonAtlas, room: RoomShape, doorways: RoomDoorway[]): void {
+  for (const d of doorways) {
+    const x = d.side === "left" ? 0 : room.width - HALL_TILE;
+    for (let row = 0; row < 2; row++) drawSprite(ctx, atlas, "floor_1", x, d.y + row * HALL_TILE);
+  }
+}
+
+/** Stairs cut down through the back wall (from the room above) onto the floor. */
+export function paintStairwell(ctx: Ctx, atlas: DungeonAtlas, room: RoomShape, x: number): void {
+  for (let y = 0; y < room.wallHeight + HALL_TILE; y += HALL_TILE) drawSprite(ctx, atlas, "floor_stairs", x, y);
+  // Side shadows so the shaft reads as cut into the wall.
+  ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+  ctx.fillRect(x - DUNGEON_SCALE, 0, DUNGEON_SCALE, room.wallHeight);
+  ctx.fillRect(x + HALL_TILE, 0, DUNGEON_SCALE, room.wallHeight);
+}
+
 /** Draw decoration top-to-bottom so lower (nearer) items overlap higher ones. */
 export function paintDecor(ctx: Ctx, atlas: DungeonAtlas, decor: RoomDecor[]): void {
   [...decor].sort((a, b) => a.y - b.y).forEach((d) => drawSprite(ctx, atlas, d.sprite, d.x, d.y));

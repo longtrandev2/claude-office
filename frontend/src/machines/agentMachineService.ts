@@ -8,6 +8,7 @@
  * Position calculations are delegated to {@link positionHelpers}.
  */
 
+import { holdDepartureUntilHome, resetZoneExcursions } from "@/systems/zoneExcursions";
 import { createActor, type ActorRefFrom } from "xstate";
 import {
   createAgentMachine,
@@ -166,6 +167,11 @@ class AgentMachineService implements AnimationListener {
     if (!managed) {
       return;
     }
+    // Hero is working in another room: walk it back to its desk first
+    // (the departure walk only knows the hall grid).
+    if (holdDepartureUntilHome(agentId, () => this.triggerDeparture(agentId))) {
+      return;
+    }
     this.pendingDepartures.delete(agentId);
     managed.actor.send({ type: "REMOVE" });
   }
@@ -284,6 +290,8 @@ class AgentMachineService implements AnimationListener {
     this.pendingDepartures.clear();
     this.deferred = [];
     this.flushScheduled = false;
+    // Heroes away in task rooms belong to the old session/state too.
+    resetZoneExcursions();
   }
 
   // ==========================================================================

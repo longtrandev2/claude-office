@@ -6,7 +6,7 @@
 - Signals: `agentType` on agents (P5), tool category from bubble icon (`frontend/src/dungeon/tool-activity.ts`)
 
 ## Overview
-- Priority: P1 (next) · Status: M1 + M2 done 2026-11-08 (awaiting user review), M3 next · Size: XL
+- Priority: P1 (next) · Status: M1–M3 done 2026-11-08, M4 next · Size: XL
 - Zones follow the KIND OF TASK an agent is doing; heroes walk to that zone to work. (An earlier "dungeon = codebase" attempt was reverted on 2026-11-08 at the user's request.)
 
 ## Decisions (user, 2026-11-08)
@@ -52,6 +52,9 @@
   - Library: 3 shelves with painted book spines (banner palette), beige rug, quill/globe stations, candles. Forge: Niji lava furnace, weapons on wall, barrel/crate, hammer/sword/axe/knife stations, torch. War Room: red/blue banners, red rug, quill/globe/coin, torch. Review Chamber: glowing truth chest, blue rug, quill/flask, candles. Tavern: wine cabinets, barrels, 6 tables with drinks/coins, torches. Dungeon: stairs from the hall, 4 jail cells, lever/bomb/button test benches, sparse torches.
   - Room signposts at the scene edges (arrow + room name, clickable) and arrow keys jump rooms (edge-based neighbours, min 2x when framing a room).
   - New CC0 props cropped from jojomod + Niji (see CREDITS.md); `blacksmith-anvil` renamed `three-tier-shelf` (it is a shelf).
-  - Heroes still never leave the hall (routing = M3).
-- [ ] M3 routing (hybrid)
+- [x] M3 routing (hybrid) (2026-11-08)
+  - Rule (`frontend/src/dungeon/zone-routing.ts`): agent type → home room (fullstack-developer/code-simplifier → Forge; planner/brainstormer/project-manager → War Room; researcher/Explore/docs-manager → Library; code-reviewer → Review Chamber; debugger/tester → Dungeon; others stay in the hall); current tool pulls (Edit/Write → Forge, Read/Grep/Glob/Web → Library, Bash → Dungeon, Task → hall) for 5 s after last seen; target must be stable 1.5 s; min stay 4 s; backend "waiting" ≥ 15 s → Tavern. Guild Master never leaves.
+  - Movement (`frontend/src/systems/zoneExcursions.ts`, 250 ms tick): only in machine phase "idle"; hall part via engine A* to a hall door, then fixed corridor (side doorways y 400/820, stairwell at hall x 1136 → dungeon, tavern via dungeon); heroes approach stations from above. Desk stays reserved. Machines unchanged; `triggerDeparture` waits until an away hero is back at its desk.
+  - Doorways painted in hall + wing side walls; dungeon stairwell cut through its back wall.
+  - Verified live with `scripts/simulate_events.py complex` (Edit → Forge, Read → Library, pytest → Dungeon, return before report). Note: the sim needs `CLAUDE_OFFICE_API_URL=http://localhost:8765/api/v1/events` (full path).
 - [ ] M4 dungeon life

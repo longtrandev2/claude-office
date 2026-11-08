@@ -11,6 +11,7 @@ import {
   FLOOR_VARIANT_CHANCE,
   HALL_AMBIENT_DARKNESS,
   HALL_CARPET,
+  HALL_DOORWAYS,
   HALL_FLOOR_DECOR,
   HALL_HEIGHT,
   HALL_LIGHTS,
@@ -26,6 +27,7 @@ import {
   paintAmbientDarkness,
   paintBackWall,
   paintDecor,
+  paintDoorways,
   paintFloor,
   paintRug,
   paintSideWalls,
@@ -57,6 +59,7 @@ export function composeDungeonHallCanvas(atlas: DungeonAtlas): HTMLCanvasElement
   paintFloor(ctx, atlas, rand, HALL_SHAPE, FLOOR_VARIANT_CHANCE);
   paintCarpet(ctx);
   paintSideWalls(ctx, atlas, HALL_SHAPE);
+  paintDoorways(ctx, atlas, HALL_SHAPE, HALL_DOORWAYS);
   paintDecor(ctx, atlas, HALL_WALL_DECOR);
   paintDecor(ctx, atlas, HALL_FLOOR_DECOR);
   paintAmbientDarkness(ctx, HALL_SHAPE, HALL_AMBIENT_DARKNESS, HALL_LIGHTS, HALL_LIT_ZONE_FACTOR);

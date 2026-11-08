@@ -24,6 +24,10 @@ import { useShallow } from "zustand/react/shallow";
 import { useCameraStore } from "@/stores/cameraStore";
 import { cameraTransform } from "@/systems/pixelCamera";
 import { usePixelCameraInput } from "@/hooks/usePixelCameraInput";
+import { tickZoneExcursions } from "@/systems/zoneExcursions";
+
+/** How often heroes re-check which room they should work in. */
+const ZONE_ROUTING_TICK_MS = 250;
 import { performSoftReset, getHmrVersion } from "@/systems/hmrCleanup";
 
 import {
@@ -196,6 +200,12 @@ export function OfficeGame(): ReactNode {
     return () => unwireGameRuntime();
   }, []);
 
+  // Phase 9 M3: heroes walk to the room that fits their work, and back.
+  useEffect(() => {
+    const timer = window.setInterval(() => tickZoneExcursions(), ZONE_ROUTING_TICK_MS);
+    return () => window.clearInterval(timer);
+  }, []);
+
   // Cleanup on unmount (HMR or navigation)
   useEffect(() => {
     return () => {
@@ -332,7 +342,6 @@ export function OfficeGame(): ReactNode {
                 <>
                   {/* Task-zone rooms around the hall (wings, tavern, dungeon) */}
                   <DungeonWorldZones />
-                  <DungeonZoneStations />
 
                   {/* Guild Hall: walls, floor, carpet, decoration (one baked texture) */}
                   <DungeonHallBackground />
@@ -418,6 +427,9 @@ export function OfficeGame(): ReactNode {
                         </pixiContainer>
                       ))}
                   </pixiContainer>
+
+                  {/* Task-zone stations (drawn over heroes, like the hall tables) */}
+                  <DungeonZoneStations />
 
                   {/* Adventurer stations (tables + one item each, task marquee) */}
                   <DungeonStations

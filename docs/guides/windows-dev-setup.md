@@ -69,7 +69,7 @@ Open `http://localhost:3000/?token=<CLAUDE_OFFICE_API_KEY>` (the same key as abo
 ## 6. Simulate events (no real agent needed)
 
 ```bash
-CLAUDE_OFFICE_API_URL=http://localhost:8765 uv run --project backend python scripts/simulate_events.py
+CLAUDE_OFFICE_API_URL=http://localhost:8765/api/v1/events uv run --project backend python scripts/simulate_events.py
 ```
 
 ## 7. Rebuild dungeon theme atlas

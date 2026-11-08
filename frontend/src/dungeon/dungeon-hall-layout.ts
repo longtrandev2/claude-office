@@ -67,14 +67,26 @@ export const HALL_FLOOR_DECOR: HallDecor[] = [
   { sprite: "prop:barrel", x: 1150, y: 268 },
   { sprite: "crate", x: 1222, y: 318 },
   { sprite: "skull", x: 30, y: 640 },
-  { sprite: "skull", x: 1228, y: 760 },
+  { sprite: "skull", x: 1228, y: 870 },
   { sprite: "prop:barrel", x: 1200, y: 930 },
   { sprite: "crate", x: 1150, y: 948 },
-  { sprite: "flask_big_red", x: 1110, y: 975 },
+  { sprite: "flask_big_red", x: 1062, y: 975 },
   { sprite: "skull", x: 190, y: 985 },
   // Standing candles flanking the Guild Master's war table (light sources).
   { sprite: "prop:standing-candle-f0", x: 470, y: 838 },
   { sprite: "prop:standing-candle-f0", x: 777, y: 838 },
+];
+
+/**
+ * Openings in the hall's side walls (phase 9 routing): top of a two-tile gap,
+ * on the wall tile rows (250 + 48k). Left: Library (y 400) and Forge (y 820);
+ * right: War Room and Review Chamber.
+ */
+export const HALL_DOORWAYS: { side: "left" | "right"; y: number }[] = [
+  { side: "left", y: 346 },
+  { side: "left", y: 730 },
+  { side: "right", y: 346 },
+  { side: "right", y: 730 },
 ];
 
 /** Chance a back-wall brick tile is swapped for a damaged variant. */

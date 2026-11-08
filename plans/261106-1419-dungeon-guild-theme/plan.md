@@ -30,7 +30,7 @@ Multi-language (en/es/pt-BR/vi). Control features (hook two-way "A", Agent SDK "
 | 6 | [Interactions & FX](phase-06-interactions-and-fx.md) | L | pending |
 | 7 | [Quest board, extras, test & polish](phase-07-quest-board-extras-test-polish.md) | M | pending |
 | 8 | [UX & liveliness (engine extensions)](phase-08-ux-and-liveliness.md) | L | pending — interleaved with P4–P7 |
-| 9 | [Task zones: forge, meeting room, library, dungeon below](phase-09-world-map-and-descent.md) | XL | M1 world + camera done 2026-11-08 — **M2 next** |
+| 9 | [Task zones: forge, meeting room, library, dungeon below](phase-09-world-map-and-descent.md) | XL | M1–M3 done 2026-11-08 (world/camera, zone rooms, routing) — **M4 next** |
 
 **MVP cut** (if token budget tight): P1 → P3 → P4 (floor/walls only) → P5 (Guild Master + 3 classes + Novice fallback).
 

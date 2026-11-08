@@ -8,14 +8,14 @@
  * - War Room (plan/brainstorm): guild banners, red rug, plans and coin
  * - Review Chamber (code review): the glowing truth chest, blue banners
  * - Tavern (idle/done): wine cabinets, barrels, drinks on the tables
- * - Dungeon (debug/test): stairs down from the hall, cells, levers and bombs
+ * - Dungeon (debug/test): stairwell from the hall, cells, levers and bombs
  *
  * Lights only sit on real sources (candle, torch, furnace, chest glow).
  * Stations are where heroes will work once routing lands (M3); they use the
  * same table as the hall so a station reads the same everywhere.
  */
 import type { HallAnimatedDecor, HallDecor, HallLight } from "./dungeon-hall-layout";
-import type { RoomRug } from "./dungeon-room-painter";
+import type { RoomDoorway, RoomRug } from "./dungeon-room-painter";
 import type { ZoneId } from "./dungeon-world-layout";
 
 /** A hero work spot: hero origin (like a hall desk) + the item on its table. */
@@ -35,6 +35,10 @@ export interface ZoneRoomDecor {
   animated: HallAnimatedDecor[];
   lights: HallLight[];
   stations: ZoneStation[];
+  /** Side-wall openings heroes walk through (see zone-routing.ts). */
+  doorways: RoomDoorway[];
+  /** Stairs down through the back wall at this x (dungeon only). */
+  stairwellX?: number;
 }
 
 const WALL_CANDLE = ["prop:wall-candle-f0", "prop:wall-candle-f1", "prop:wall-candle-f2"];
@@ -95,6 +99,7 @@ export const ZONE_ROOM_DECOR: Partial<Record<ZoneId, ZoneRoomDecor>> = {
     lights: libraryCandles.map((c) => c.light),
     // Notes from reading, globes for web scrying.
     stations: wingStations(["prop:ink-feather", "prop:globe", "prop:globe", "prop:ink-feather"]),
+    doorways: [{ side: "right", y: 336 }],
   },
 
   forge: {
@@ -114,6 +119,7 @@ export const ZONE_ROOM_DECOR: Partial<Record<ZoneId, ZoneRoomDecor>> = {
     animated: [forgeTorch.animated],
     lights: [{ x: 384, y: 108, radius: 150, color: FURNACE_LIGHT }, forgeTorch.light],
     stations: wingStations(["weapon_hammer", "weapon_regular_sword", "weapon_axe", "weapon_knife"]),
+    doorways: [{ side: "right", y: 240 }],
   },
 
   "war-room": {
@@ -129,6 +135,7 @@ export const ZONE_ROOM_DECOR: Partial<Record<ZoneId, ZoneRoomDecor>> = {
     lights: [warRoomTorch.light],
     // Plans being written, the map of the campaign, the budget.
     stations: wingStations(["prop:ink-feather", "prop:globe", "coin_anim_f0", "prop:ink-feather"]),
+    doorways: [{ side: "left", y: 336 }],
   },
 
   "review-chamber": {
@@ -142,6 +149,7 @@ export const ZONE_ROOM_DECOR: Partial<Record<ZoneId, ZoneRoomDecor>> = {
     animated: reviewCandles.map((c) => c.animated),
     lights: [{ x: 385, y: 120, radius: 72, color: CHEST_GLOW }, ...reviewCandles.map((c) => c.light)],
     stations: wingStations(["prop:ink-feather", "flask_blue", "flask_blue", "prop:ink-feather"]),
+    doorways: [{ side: "left", y: 240 }],
   },
 
   tavern: {
@@ -165,20 +173,19 @@ export const ZONE_ROOM_DECOR: Partial<Record<ZoneId, ZoneRoomDecor>> = {
       { x: 384, y: 500, item: "flask_red" },
       { x: 576, y: 500, item: "coin_anim_f0" },
     ],
+    doorways: [{ side: "right", y: 192 }],
   },
 
   dungeon: {
     rugs: [],
     bookShelves: [],
     decor: [
-      // Stairs down from the Guild Hall (just below the hall's centre aisle).
-      { sprite: "floor_stairs", x: 615, y: 147 },
       { sprite: "crate", x: 60, y: 78 },
       { sprite: "crate", x: 108, y: 90 },
-      { sprite: "prop:jail-cell", x: 1104, y: 39 },
-      { sprite: "prop:jail-cell", x: 1224, y: 39 },
-      { sprite: "prop:jail-cell", x: 1344, y: 39 },
-      { sprite: "prop:jail-cell", x: 1464, y: 39 },
+      { sprite: "prop:jail-cell", x: 1200, y: 39 },
+      { sprite: "prop:jail-cell", x: 1320, y: 39 },
+      { sprite: "prop:jail-cell", x: 1440, y: 39 },
+      { sprite: "prop:jail-cell", x: 1560, y: 39 },
       { sprite: "hole", x: 1608, y: 498 },
       { sprite: "skull", x: 1212, y: 300 },
       { sprite: "skull", x: 1830, y: 612 },
@@ -195,5 +202,8 @@ export const ZONE_ROOM_DECOR: Partial<Record<ZoneId, ZoneRoomDecor>> = {
       { x: 492, y: 540, item: "bomb_f0" },
       { x: 684, y: 540, item: "button_red_up" },
     ],
+    doorways: [{ side: "left", y: 192 }],
+    // Stairs down from the Guild Hall's bottom-right corner (hall x 1136).
+    stairwellX: 1112,
   },
 };

@@ -14,10 +14,12 @@ import {
   paintAmbientDarkness,
   paintBackWall,
   paintDecor,
+  paintDoorways,
   paintFloor,
   paintRug,
   paintShelfBooks,
   paintSideWalls,
+  paintStairwell,
   type RoomShape,
 } from "./dungeon-room-painter";
 import type { WorldZone } from "./dungeon-world-layout";
@@ -39,6 +41,8 @@ export function composeDungeonZoneRoomCanvas(atlas: DungeonAtlas, zone: WorldZon
   room?.rugs.forEach((rug) => paintRug(ctx, rug));
   paintSideWalls(ctx, atlas, shape);
   if (room) {
+    paintDoorways(ctx, atlas, shape, room.doorways);
+    if (room.stairwellX !== undefined) paintStairwell(ctx, atlas, shape, room.stairwellX);
     paintDecor(ctx, atlas, [
       ...room.bookShelves.map((s) => ({ sprite: SHELF, ...s })),
       ...room.decor,
